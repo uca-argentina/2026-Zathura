@@ -4,3 +4,7 @@ Class {
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
+
+{ #category : 'tests' }
+Dummy2Test >> testDummy2 [
+]
