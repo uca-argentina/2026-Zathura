@@ -21,7 +21,7 @@ self assert: (aRollResult = expectedResult)
 HardcodeDiceTest >> test002WhenTheExpectedResultIsLessThanOneThenTheHardcodedDiceCannotBeCreated [
 
 |  expectedResult  |
-expectedResult := -1.
+expectedResult := 0.
 self should: [ HardcodeDice with: expectedResult. ]
 raise: Error
 withExceptionDo: [ :anError | self assert: anError messageText equals: 'The expected result should be one or higher' ].
