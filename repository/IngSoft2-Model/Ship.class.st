@@ -9,6 +9,11 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'instance creation' }
+Ship class >> knownBy: anId [ 
+	^(self new) initializeWith: anId.
+]
+
 { #category : 'initialization' }
 Ship >> id [
 	^ id
