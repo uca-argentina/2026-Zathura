@@ -4,3 +4,25 @@ Class {
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
+
+{ #category : 'tests' }
+HardcodeDiceTest >> test001WhenAHardcodedDiceIsRolledThenTheResultIsTheExpectedResult [
+
+| aRollResult expectedResult aHardcodeDice |
+expectedResult := 3.
+aHardcodeDice := HardcodeDice with: expectedResult.
+aRollResult := aHardcodeDice roll.
+
+
+self assert: (aRollResult = expectedResult)
+]
+
+{ #category : 'tests' }
+HardcodeDiceTest >> test002WhenTheExpectedResultIsLessThanOneThenTheHardcodedDiceCannotBeCreated [
+
+|  expectedResult  |
+expectedResult := -1.
+self should: [ HardcodeDice with: expectedResult. ]
+raise: Error
+withExceptionDo: [ :anError | self assert: anError messageText equals: 'The expected result should be one or higher' ].
+]
