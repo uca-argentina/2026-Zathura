@@ -2,7 +2,8 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'numSquares'
+		'numSquares',
+		'ships'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -15,12 +16,23 @@ Board class >> withSize: aSize [
 	^(self new) initializeWithSize: aSize.
 ]
 
+{ #category : 'accessing' }
+Board >> addShip: aShip [ 
+	ships add: aShip
+]
+
 { #category : 'instance creation' }
 Board >> initializeWithSize: aSize [ 
+	ships:= OrderedCollection new. 
    numSquares := aSize.
 ]
 
 { #category : 'accessing' }
 Board >> numSquares [
     ^ numSquares
+]
+
+{ #category : 'accessing' }
+Board >> numberShips [
+	 ^ships size.
 ]

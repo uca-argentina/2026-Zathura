@@ -22,3 +22,13 @@ BoardTest >> test002WhenBoardIsCreatedWithSizeLessOrEqualToZeroThenShouldThrowEr
 BoardTest >> test003WhenBoardIsCreatedWithFloatSizeThenShouldThrowError [
     self should: [ Board withSize: 3.5 ] raise: Error.
 ]
+
+{ #category : 'tests' }
+BoardTest >> test004WhenShipsAreAddedToTheBoardThenTheBoardsNumberOfShipsIncreasesAccordingly [
+    |aBoard|
+		aBoard:= Board withSize: 10.
+		aBoard addShip: (Ship knownBy: 1).
+		aBoard addShip: (Ship knownBy: 2).
+		aBoard addShip: (Ship knownBy: 3).
+		self assert: aBoard numberShips equals: 3.
+]
