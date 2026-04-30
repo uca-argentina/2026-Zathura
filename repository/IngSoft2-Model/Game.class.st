@@ -15,8 +15,13 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-Game class >> with: aSize and: aNumberOfShips [ 
-	^ (self new) initializeWith:aSize and:aNumberOfShips.
+Game class >> with: aSize and: aNumberOfShips and: aHardcodedDice [ 
+
+		
+	| aCollectionOfShips |
+	aCollectionOfShips:=OrderedCollection new.
+	1 to: aNumberOfShips do: [ :i | aCollectionOfShips add: Ship new ].
+	^(self new) initializeWith: aSize and:aCollectionOfShips and:aHardcodedDice 
 ]
 
 { #category : 'accessing' }
@@ -25,13 +30,12 @@ Game >> ended [
 ]
 
 { #category : 'accessing' }
-Game >> initializeWith: aSize and: aNumberOfShips and: aHardcodedDice [ 
-	numberOfShips := aNumberOfShips.
+Game >> initializeWith: aSize and: aCollectionOfShips and: aHardcodedDice [ 
+	numberOfShips := aCollectionOfShips size.
 	size := aSize.
 	dice := aHardcodedDice.
 	
-	ships := OrderedCollection new.
-	1 to: numberOfShips do: [ :i | ships add: Ship new ].
+	ships := aCollectionOfShips.
 	currentShipIndex := 1.
 ]
 
@@ -46,8 +50,8 @@ Game >> playTurn [
 	ship := ships at: currentShipIndex.
 	ship moveBy: dice roll.
 	
-	currentShipIndex := currentShipIndex + 1.
-	currentShipIndex > ships size ifTrue: [ currentShipIndex := 1 ].
+	currentShipIndex := (currentShipIndex \\ numberOfShips) +1.
+	"currentShipIndex > ships size ifTrue: [ currentShipIndex := 1 ]."
 ]
 
 { #category : 'accessing' }
@@ -57,5 +61,7 @@ Game >> ships [
 
 { #category : 'accessing' }
 Game >> standings [
-	^ positions .
+	| positionCollection|
+	positionCollection:=ships collect:[:aShip| aShip position].
+	^ positionCollection.
 ]

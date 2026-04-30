@@ -8,6 +8,12 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'instance creation' }
+HardcodedDice class >> with: anExpectedResult [ 
+	(anExpectedResult <1)ifTrue: [ Error signal:'The expected result should be one or higher' ].
+	^ (self new) initializeWith: anExpectedResult.
+]
+
 { #category : 'initialization' }
 HardcodedDice >> initializeWith: anExpectedResult [
 	expectedResult := anExpectedResult.
