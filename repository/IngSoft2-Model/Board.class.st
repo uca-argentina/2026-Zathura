@@ -36,3 +36,8 @@ Board >> numSquares [
 Board >> numberShips [
 	 ^ships size.
 ]
+
+{ #category : 'accessing' }
+Board >> winner: aShip [ 
+	^ (aShip position >= numSquares).
+]
