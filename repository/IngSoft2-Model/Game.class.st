@@ -4,24 +4,22 @@ Class {
 	#instVars : [
 		'size',
 		'numberOfShips',
-		'position',
-		'dice',
-		'positions',
 		'currentShipIndex',
-		'ships'
+		'ships',
+		'dices'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-Game class >> with: aSize and: aNumberOfShips and: aHardcodedDice [ 
+Game class >> with: aSize and: aNumberOfShips and: aDiceCollection [ 
 
 		
 	| aCollectionOfShips |
 	aCollectionOfShips:=OrderedCollection new.
 	1 to: aNumberOfShips do: [ :i | aCollectionOfShips add: Ship new ].
-	^(self new) initializeWith: aSize and:aCollectionOfShips and:aHardcodedDice 
+	^(self new) initializeWith: aSize and:aCollectionOfShips and:aDiceCollection 
 ]
 
 { #category : 'accessing' }
@@ -30,10 +28,10 @@ Game >> ended [
 ]
 
 { #category : 'accessing' }
-Game >> initializeWith: aSize and: aCollectionOfShips and: aHardcodedDice [ 
+Game >> initializeWith: aSize and: aCollectionOfShips and: aDiceCollection [ 
 	numberOfShips := aCollectionOfShips size.
 	size := aSize.
-	dice := aHardcodedDice.
+	dices := aDiceCollection.
 	
 	ships := aCollectionOfShips.
 	currentShipIndex := 1.
@@ -46,9 +44,10 @@ Game >> numberOfSquares [
 
 { #category : 'as yet unclassified' }
 Game >> playTurn [
-	| ship |
+	| ship totalRoll |
 	ship := ships at: currentShipIndex.
-	ship moveBy: dice roll.
+	totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
+	ship moveBy: totalRoll.
 	
 	currentShipIndex := (currentShipIndex \\ numberOfShips) +1.
 	"currentShipIndex > ships size ifTrue: [ currentShipIndex := 1 ]."
