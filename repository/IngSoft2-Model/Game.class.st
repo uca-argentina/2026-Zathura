@@ -15,9 +15,12 @@ Class {
 
 { #category : 'as yet unclassified' }
 Game class >> with: aSize and: aNumberOfShips and: aDiceCollection [ 
-
-		
 	| aCollectionOfShips |
+	
+	(aNumberOfShips <2)ifTrue: [ Error signal: 'There must be at least two ships'].
+	aDiceCollection isEmpty ifTrue: [ Error signal: 'There must be at least one dice'].
+	(aSize <1)ifTrue: [ Error signal: 'Board cannot be nil or size be zero'].
+	
 	aCollectionOfShips:=OrderedCollection new.
 	1 to: aNumberOfShips do: [ :i | aCollectionOfShips add: Ship new ].
 	^(self new) initializeWith: aSize and:aCollectionOfShips and:aDiceCollection 
@@ -43,7 +46,7 @@ Game >> numberOfSquares [
 	^size.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 Game >> playTurn [
 	| ship totalRoll |
 	
@@ -67,6 +70,15 @@ Game >> ships [
 { #category : 'accessing' }
 Game >> standings [
 	| positionCollection|
-	positionCollection:=ships collect:[:aShip| aShip position].
-	^ positionCollection.
+	positionCollection:= Dictionary new.
+	ships keysAndValuesDo: [ :index :aShip | positionCollection at: index put: aShip position ].
+    ^ positionCollection values asOrderedCollection.
+]
+
+{ #category : 'accessing' }
+Game >> winner [
+	|maxPosition|
+	self ended ifFalse: [ Error signal: 'Game is not over yet' ].
+	maxPosition := self standings max.
+    ^ self standings indexOf: maxPosition.
 ]

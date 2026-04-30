@@ -11,7 +11,7 @@ GameTest >> test001WhenAGameIsCreatedThenItCanBePlayed [
 	| aGame aSize aDice aDiceCollection aNumberOfShips |
 	aSize:=10.
 	aDice := HardcodedDice with: 1.
-	aNumberOfShips:=1.
+	aNumberOfShips:=2.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aSize and: aNumberOfShips and: aDiceCollection.
 	self deny: (aGame ended )
@@ -23,7 +23,7 @@ GameTest >> test002WhenAGameIsCreatedWithXNumberSquaresThenItsNumberOfSquaresIsX
 	| aGame aSize aDice aDiceCollection aNumberOfShips |
 	aSize:=10.
 	aDice := HardcodedDice with: 1.
-	aNumberOfShips:=1.
+	aNumberOfShips:=2.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aSize and: aNumberOfShips and: aDiceCollection.
 	self assert: aGame numberOfSquares equals: aSize 
@@ -33,7 +33,7 @@ GameTest >> test002WhenAGameIsCreatedWithXNumberSquaresThenItsNumberOfSquaresIsX
 GameTest >> test003WhenAGameWithOnePlayerIsCreatedThenThePlayerStartsAt1 [
 	
 	| aGame aSize aNumberOfShips aDice aDiceCollection |
-	aNumberOfShips := 1.
+	aNumberOfShips := 2.
 	aSize:=10.
 	aDice := HardcodedDice with: 1.
 	aDiceCollection:=(OrderedCollection with: aDice).
@@ -45,7 +45,7 @@ GameTest >> test003WhenAGameWithOnePlayerIsCreatedThenThePlayerStartsAt1 [
 GameTest >> test004WhenATurnIsPlayedThenTheFirstShipMovesAccordingly [
 	
 	| aGame aSize aNumberOfShips aDice aDiceCollection |
-	aNumberOfShips := 1.
+	aNumberOfShips := 2.
 	aSize:=10.
 	aDice := HardcodedDice with: 1.
 	aDiceCollection:=(OrderedCollection with: aDice).
@@ -58,7 +58,7 @@ GameTest >> test004WhenATurnIsPlayedThenTheFirstShipMovesAccordingly [
 GameTest >> test005WhenThePlayerRollsThreeThenHisShipsMovesForwardThreeSquares [
 	
 	| aGame aSize aNumberOfShips aDice aDiceCollection |
-	aNumberOfShips := 1.
+	aNumberOfShips := 2.
 	aSize:=10.
 	aDice := HardcodedDice with: 3.
 	aDiceCollection:=(OrderedCollection with: aDice).
@@ -71,7 +71,7 @@ GameTest >> test005WhenThePlayerRollsThreeThenHisShipsMovesForwardThreeSquares [
 GameTest >> test006WhenThePlayerRollsFourThenHisShipMovesForwardFourSquares [
 	
 	| aGame aSize aNumberOfShips aDice aDiceCollection |
-	aNumberOfShips := 1.
+	aNumberOfShips := 2.
 	aSize:=10.
 	aDice := HardcodedDice with: 4.
 	aDiceCollection:=(OrderedCollection with: aDice).
@@ -124,7 +124,7 @@ GameTest >> test009WhenGameHasMultipleShipsAndPlayTurnTwiceThenSecondShipMoves [
 GameTest >> test010WhenGamePlaysTurnThenShipMovesByDiceRoll [
 	
 	| aGame aSize aNumberOfShips aDice aDiceCollection |
-	aNumberOfShips := 1.
+	aNumberOfShips := 2.
 	aSize:=10.
 	aDice := HardcodedDice with: 3.
 	aDiceCollection:=(OrderedCollection with: aDice).
@@ -155,7 +155,7 @@ GameTest >> test011WhenAllShipsHavePlayedThenTurnStartsAgainFromFirstShip [
 GameTest >> test012WhenTheGameIsPlayedWithMultipleDicesThenThePlayerRollsAllOfThemAndTheShipMovesByTheTotalAmount [
 	
 	| aGame aSize aNumberOfShips aCollectionOfDices |
-	aNumberOfShips := 1.
+	aNumberOfShips := 2.
 	aSize:=20.
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 3)
@@ -189,7 +189,7 @@ GameTest >> test013WhenTheGameIsPlayedWithMultipleDicesAndPlayersThenThePlayersR
 GameTest >> test014WhenAShipReachesTheEndThenTheGameEnds [
 	
 	| aGame aSize aNumberOfShips aCollectionOfDices |
-	aNumberOfShips := 1.
+	aNumberOfShips := 2.
 	aSize:=5.
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
@@ -203,7 +203,7 @@ GameTest >> test014WhenAShipReachesTheEndThenTheGameEnds [
 GameTest >> test015WhenAGameEndedThenTurnsCannotBePlayed [
 	
 	| aGame aSize aNumberOfShips aCollectionOfDices |
-	aNumberOfShips := 1.
+	aNumberOfShips := 2.
 	aSize:=5.
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
@@ -269,5 +269,84 @@ GameTest >> test018WhenAGameIsEndedThenTheStandingsReflectTheWinnerAndTheOthersE
 	
 	self assert: aGame standings equals: #(8 5 5) asOrderedCollection.
 	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test019WhenAGameIsCreatedWithOneShipOrLessThenShouldThrowError [
+	
+	| aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 1.
+	aSize:=8.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 4).
+	self should: [Game with:aSize and: aNumberOfShips and: aCollectionOfDices ] 
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'There must be at least two ships' ]
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test020WhenAGameIsCreatedWithNoDiceThenShouldThrowError [
+	
+	| aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 4.
+	aSize:=8.
+	aCollectionOfDices:=OrderedCollection new.
+	self should: [Game with:aSize and: aNumberOfShips and: aCollectionOfDices ] 
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'There must be at least one dice' ]
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test021WhenAGameIsCreatedWithNullBoardThenShouldThrowError [
+	
+	| aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 4.
+	aSize:=0.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 4).
+	self should: [Game with:aSize and: aNumberOfShips and: aCollectionOfDices ] 
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'Board cannot be nil or size be zero' ]
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test022WhenAGameEndsTheWinnerCanBeKnown [
+	
+	| aGame aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 2.
+	aSize:=8.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 4).
+	aGame:= Game with:aSize and: aNumberOfShips and: aCollectionOfDices.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+		
+	self assert: aGame winner equals: 1.
+
+]
+
+{ #category : 'tests' }
+GameTest >> test023WhenAGameIsNotOverThenThereIsNoWinner [
+	
+	| aGame aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 2.
+	aSize:=14.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 4).
+	aGame:= Game with:aSize and: aNumberOfShips and: aCollectionOfDices.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	self should: [ aGame winner ]
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'Game is not over yet' ].
 
 ]
