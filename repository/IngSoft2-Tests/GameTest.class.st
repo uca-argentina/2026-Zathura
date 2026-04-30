@@ -35,10 +35,11 @@ GameTest >> test003WhenAGameIsCreatedThenAllThePlayersStartAt1 [
 { #category : 'tests' }
 GameTest >> test004WhenATurnIsPlayedThenAShipMovesAccordingly [
 	
-	| aGame aSize aNumberOfPlayers aNumberOfShips |
+	| aGame aSize aNumberOfPlayers aNumberOfShips aDice |
 	aNumberOfShips=1.
 	aSize:=10.
-	aGame:= Game with:aSize and: aNumberOfShips.
+	aDice := HardcodedDice with: 1.
+	aGame:= Game with:aSize and: aNumberOfShips and: aDice.
 	aGame playTurn.
 	self assert: (aGame standings ~= 1)
 ]
@@ -46,10 +47,23 @@ GameTest >> test004WhenATurnIsPlayedThenAShipMovesAccordingly [
 { #category : 'tests' }
 GameTest >> test005WhenThePlayerRollsThreeThenHisShipsMovesForwardThreeSquares [
 	
-	| aGame aSize aNumberOfPlayers aNumberOfShips |
+	| aGame aSize aNumberOfPlayers aNumberOfShips aDice |
 	aNumberOfShips=1.
 	aSize:=10.
-	aGame:= Game with:aSize and: aNumberOfShips.
+	aDice := HardcodedDice with: 3.
+	aGame:= Game with:aSize and: aNumberOfShips and: aDice.
 	aGame playTurn.
 	self assert: (aGame standings = 4)
+]
+
+{ #category : 'tests' }
+GameTest >> test006WhenThePlayerRollsFourThenHisShipMovesForwardFourSquares [
+	
+	| aGame aSize aNumberOfPlayers aNumberOfShips aDice |
+	aNumberOfShips=1.
+	aSize:=10.
+	aDice := HardcodedDice with: 4.
+	aGame:= Game with:aSize and: aNumberOfShips and: aDice.
+	aGame playTurn.
+	self assert: (aGame standings = 5)
 ]

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'size',
 		'numberOfShips',
-		'position'
+		'position',
+		'dice'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -28,13 +29,22 @@ Game >> initializeWith: aSize and: aNumberOfShips [
 ]
 
 { #category : 'accessing' }
+Game >> initializeWith: aSize and: aNumberOfShips and: aHardcodedDice [ 
+	position := 1.
+	size := aSize.
+	numberOfShips := aNumberOfShips.
+	dice := aHardcodedDice.
+	
+]
+
+{ #category : 'accessing' }
 Game >> numberOfSquares [ 
 	^size.
 ]
 
 { #category : 'as yet unclassified' }
 Game >> playTurn [
-	position := position + 3.
+	position := position + (dice roll).
 ]
 
 { #category : 'accessing' }
