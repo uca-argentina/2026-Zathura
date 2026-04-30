@@ -16,11 +16,6 @@ Board class >> withSize: aSize [
 	^(self new) initializeWithSize: aSize.
 ]
 
-{ #category : 'accessing' }
-Board >> addShip: aShip [ 
-	ships add: aShip
-]
-
 { #category : 'instance creation' }
 Board >> initializeWithSize: aSize [ 
 	ships:= OrderedCollection new. 
@@ -30,11 +25,6 @@ Board >> initializeWithSize: aSize [
 { #category : 'accessing' }
 Board >> numSquares [
     ^ numSquares
-]
-
-{ #category : 'accessing' }
-Board >> numberShips [
-	 ^ships size.
 ]
 
 { #category : 'accessing' }

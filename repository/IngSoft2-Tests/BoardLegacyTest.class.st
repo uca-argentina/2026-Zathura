@@ -22,13 +22,3 @@ BoardLegacyTest >> test002WhenBoardIsCreatedWithSizeLessOrEqualToZeroThenShouldT
 BoardLegacyTest >> test003WhenBoardIsCreatedWithFloatSizeThenShouldThrowError [
     self should: [ Board withSize: 3.5 ] raise: Error.
 ]
-
-{ #category : 'tests' }
-BoardLegacyTest >> test004WhenShipsAreAddedToTheBoardThenTheBoardsNumberOfShipsIncreasesAccordingly [
-    |aBoard|
-		aBoard:= Board withSize: 10.
-		aBoard addShip: (ShipLegacy knownBy: 1).
-		aBoard addShip: (ShipLegacy knownBy: 2).
-		aBoard addShip: (ShipLegacy knownBy: 3).
-		self assert: aBoard numberShips equals: 3.
-]
