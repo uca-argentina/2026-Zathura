@@ -1,12 +1,12 @@
 Class {
-	#name : 'HardcodeDiceTest',
+	#name : 'HardcodeDiceLegacyTest',
 	#superclass : 'TestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-HardcodeDiceTest >> test001WhenAHardcodedDiceIsRolledThenTheResultIsTheExpectedResult [
+HardcodeDiceLegacyTest >> test001WhenAHardcodedDiceIsRolledThenTheResultIsTheExpectedResult [
 
 | aRollResult expectedResult aHardcodeDice |
 expectedResult := 3.
@@ -18,7 +18,7 @@ self assert: (aRollResult = expectedResult)
 ]
 
 { #category : 'tests' }
-HardcodeDiceTest >> test002WhenTheExpectedResultIsLessThanOneThenTheHardcodedDiceCannotBeCreated [
+HardcodeDiceLegacyTest >> test002WhenTheExpectedResultIsLessThanOneThenTheHardcodedDiceCannotBeCreated [
 
 |  expectedResult  |
 expectedResult := 0.

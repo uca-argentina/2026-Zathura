@@ -19,7 +19,7 @@ GameLegacy class >> with: aNumberOfPlayers and: aDiceCollection and: aBoardSize 
 	aBoard:= Board withSize: aBoardSize.
 	
 	aShipCollection:=OrderedCollection new.
-	1 to: aNumberOfPlayers do: [ :aShipId | aShipCollection add: (Ship knownBy:aShipId) ].
+	1 to: aNumberOfPlayers do: [ :aShipId | aShipCollection add: (ShipLegacy knownBy:aShipId) ].
 	
 	^ (self new) initializeWith: aShipCollection and: aDiceCollection and: aBoard.
 ]

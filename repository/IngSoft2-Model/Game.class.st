@@ -5,7 +5,10 @@ Class {
 		'size',
 		'numberOfShips',
 		'position',
-		'dice'
+		'dice',
+		'positions',
+		'currentShipIndex',
+		'ships'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -22,19 +25,14 @@ Game >> ended [
 ]
 
 { #category : 'accessing' }
-Game >> initializeWith: aSize and: aNumberOfShips [ 
-	position:=1.
-	size:=aSize.
-	numberOfShips:=aNumberOfShips.
-]
-
-{ #category : 'accessing' }
 Game >> initializeWith: aSize and: aNumberOfShips and: aHardcodedDice [ 
-	position := 1.
-	size := aSize.
 	numberOfShips := aNumberOfShips.
+	size := aSize.
 	dice := aHardcodedDice.
 	
+	ships := OrderedCollection new.
+	1 to: numberOfShips do: [ :i | ships add: Ship new ].
+	currentShipIndex := 1.
 ]
 
 { #category : 'accessing' }
@@ -44,10 +42,20 @@ Game >> numberOfSquares [
 
 { #category : 'as yet unclassified' }
 Game >> playTurn [
-	position := position + (dice roll).
+	| ship |
+	ship := ships at: currentShipIndex.
+	ship moveBy: dice roll.
+	
+	currentShipIndex := currentShipIndex + 1.
+	currentShipIndex > ships size ifTrue: [ currentShipIndex := 1 ].
+]
+
+{ #category : 'accessing' }
+Game >> ships [
+	^ ships
 ]
 
 { #category : 'accessing' }
 Game >> standings [
-	^ position .
+	^ positions .
 ]
