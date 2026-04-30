@@ -42,3 +42,14 @@ GameTest >> test004WhenATurnIsPlayedThenAShipMovesAccordingly [
 	aGame playTurn.
 	self assert: (aGame standings ~= 1)
 ]
+
+{ #category : 'tests' }
+GameTest >> test005WhenThePlayerRollsThreeThenHisShipsMovesForwardThreeSquares [
+	
+	| aGame aSize aNumberOfPlayers aNumberOfShips |
+	aNumberOfShips=1.
+	aSize:=10.
+	aGame:= Game with:aSize and: aNumberOfShips.
+	aGame playTurn.
+	self assert: (aGame standings = 4)
+]

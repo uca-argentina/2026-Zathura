@@ -34,7 +34,7 @@ Game >> numberOfSquares [
 
 { #category : 'as yet unclassified' }
 Game >> playTurn [
-	position := position + 1.
+	position := position + 3.
 ]
 
 { #category : 'accessing' }
