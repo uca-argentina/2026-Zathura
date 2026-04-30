@@ -6,6 +6,18 @@ Class {
 }
 
 { #category : 'tests' }
+HardcodedDiceTest >> test001WhenAHardcodedDiceIsRolledThenTheResultIsTheExpectedResult [
+
+| aRollResult expectedResult aHardcodeDice |
+expectedResult := 3.
+aHardcodeDice := HardcodedDice with: expectedResult.
+aRollResult := aHardcodeDice roll.
+
+
+self assert: aRollResult equals: expectedResult
+]
+
+{ #category : 'tests' }
 HardcodedDiceTest >> test002WhenTheExpectedResultIsLessThanOneThenTheHardcodedDiceCannotBeCreated [
 
 |  expectedResult  |

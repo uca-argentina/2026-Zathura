@@ -11,7 +11,7 @@ GameLegacyTest >> test001WhenAnyShipReachesTheEndThenTheGameEnds [
 	aNumberOfPlayers := 1.
 	aBoardSize :=4.
 	aDiceCollection := OrderedCollection new.
-	aDiceCollection add: (HardcodeDice with: 3).
+	aDiceCollection add: (HardcodedDice with: 3).
 	aGame:= GameLegacy with: aNumberOfPlayers and: aDiceCollection and: aBoardSize.
 	
 	
