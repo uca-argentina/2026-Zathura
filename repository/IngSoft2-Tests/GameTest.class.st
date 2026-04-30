@@ -8,8 +8,12 @@ Class {
 { #category : 'tests' }
 GameTest >> test001WhenAGameIsCreatedThenItCanBePlayed [
 	
-	| aGame |
-	aGame:= Game new.
+	| aGame aSize aDice aDiceCollection aNumberOfShips |
+	aSize:=10.
+	aDice := HardcodedDice with: 1.
+	aNumberOfShips:=1.
+	aDiceCollection:=(OrderedCollection with: aDice).
+	aGame:= Game with:aSize and: aNumberOfShips and: aDiceCollection.
 	self deny: (aGame ended )
 ]
 
@@ -160,5 +164,110 @@ GameTest >> test012WhenTheGameIsPlayedWithMultipleDicesThenThePlayerRollsAllOfTh
 	aGame:= Game with:aSize and: aNumberOfShips and: aCollectionOfDices.
 	aGame playTurn.
 	self assert: aGame standings first equals: 14.
+
+]
+
+{ #category : 'tests' }
+GameTest >> test013WhenTheGameIsPlayedWithMultipleDicesAndPlayersThenThePlayersRollAllOfThemAndTheShipsMoveByTheTotalAmounts [
+	
+	| aGame aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 3.
+	aSize:=20.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 3)
+	with: (HardcodedDice with: 8)
+	with: (HardcodedDice with: 2).
+	aGame:= Game with:aSize and: aNumberOfShips and: aCollectionOfDices.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	self assert: (aGame standings select:[:aShipPosition| aShipPosition ~=14]) isEmpty.
+
+]
+
+{ #category : 'tests' }
+GameTest >> test014WhenAShipReachesTheEndThenTheGameEnds [
+	
+	| aGame aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 1.
+	aSize:=5.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 4).
+	aGame:= Game with:aSize and: aNumberOfShips and: aCollectionOfDices.
+	aGame playTurn.
+	self assert: (aGame ended).
+
+]
+
+{ #category : 'tests' }
+GameTest >> test015WhenAGameEndedThenTurnsCannotBePlayed [
+	
+	| aGame aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 1.
+	aSize:=5.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 4).
+	aGame:= Game with:aSize and: aNumberOfShips and: aCollectionOfDices.
+	aGame playTurn.
+	self should: [aGame playTurn]
+	raise:Error
+	withExceptionDo: [ :anError|self assert: anError messageText equals:'The Game ended, turns CANNOT be played' ]
+
+]
+
+{ #category : 'tests' }
+GameTest >> test016WhenAnyShipReachesTheEndThenTheGameEnds [
+	
+	| aGame aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 3.
+	aSize:=8.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 4).
+	aGame:= Game with:aSize and: aNumberOfShips and: aCollectionOfDices.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	
+	self assert: aGame ended.
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test017WhenAShipSurpassesTheEndThenItsPositionIsTheLastSquare [
+	
+	| aGame aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 3.
+	aSize:=8.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 4).
+	aGame:= Game with:aSize and: aNumberOfShips and: aCollectionOfDices.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	
+	self assert: aGame standings first equals: aSize.
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test018WhenAGameIsEndedThenTheStandingsReflectTheWinnerAndTheOthersEndPosition [
+	
+	| aGame aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 3.
+	aSize:=8.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 4).
+	aGame:= Game with:aSize and: aNumberOfShips and: aCollectionOfDices.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	
+	self assert: aGame standings equals: #(8 5 5) asOrderedCollection.
+	
 
 ]

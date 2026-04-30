@@ -6,7 +6,8 @@ Class {
 		'numberOfShips',
 		'currentShipIndex',
 		'ships',
-		'dices'
+		'dices',
+		'ended'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -24,7 +25,7 @@ Game class >> with: aSize and: aNumberOfShips and: aDiceCollection [
 
 { #category : 'accessing' }
 Game >> ended [
-	^false.
+	^ended.
 ]
 
 { #category : 'accessing' }
@@ -32,7 +33,7 @@ Game >> initializeWith: aSize and: aCollectionOfShips and: aDiceCollection [
 	numberOfShips := aCollectionOfShips size.
 	size := aSize.
 	dices := aDiceCollection.
-	
+	ended:=false.
 	ships := aCollectionOfShips.
 	currentShipIndex := 1.
 ]
@@ -45,12 +46,17 @@ Game >> numberOfSquares [
 { #category : 'as yet unclassified' }
 Game >> playTurn [
 	| ship totalRoll |
+	
+	
+	(ended) ifTrue: [Error signal: 'The Game ended, turns CANNOT be played'].
 	ship := ships at: currentShipIndex.
 	totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
+	(ship position + totalRoll >=size) ifTrue: [ended:=true. totalRoll :=size- ship position].
 	ship moveBy: totalRoll.
 	
+	
 	currentShipIndex := (currentShipIndex \\ numberOfShips) +1.
-	"currentShipIndex > ships size ifTrue: [ currentShipIndex := 1 ]."
+	
 ]
 
 { #category : 'accessing' }
