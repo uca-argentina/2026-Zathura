@@ -11,8 +11,8 @@ Class {
 
 { #category : 'instance creation' }
 Board class >> withSize: aSize [ 
-	(aSize isInteger) ifFalse: [ Error signal: 'el tamaño del tablero debe ser un numero entero' ].
-	aSize <= 0 ifTrue: [ Error signal: 'tamaño del tablero debe ser mayor a 0' ].
+	(aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].
+	aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
 	^(self new) initializeWithSize: aSize.
 ]
 

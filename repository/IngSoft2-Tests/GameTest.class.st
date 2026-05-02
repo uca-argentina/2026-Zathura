@@ -208,7 +208,7 @@ GameTest >> test014WhenAShipReachesTheEndThenTheGameEnds [
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
-	aGame playTurn.
+	aGame playGame.
 	self assert: (aGame ended).
 
 ]
@@ -240,10 +240,7 @@ GameTest >> test016WhenAnyShipReachesTheEndThenTheGameEnds [
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
+	aGame playGame.
 	
 	self assert: aGame ended.
 	
@@ -280,10 +277,7 @@ GameTest >> test018WhenAGameIsEndedThenTheStandingsReflectTheWinnerAndTheOthersE
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
+	aGame playGame.
 	
 	self assert: aGame standings equals: #(8 5 5) asOrderedCollection.
 	
@@ -342,9 +336,7 @@ GameTest >> test022WhenAGameEndsTheWinnerCanBeKnown [
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
+	aGame playGame.
 		
 	self assert: aGame winner equals: 1.
 

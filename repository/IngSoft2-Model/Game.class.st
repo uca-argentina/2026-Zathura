@@ -42,6 +42,12 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection [
 ]
 
 { #category : 'accessing' }
+Game >> playGame [
+	[ ended ] whileFalse: [ self playTurn ].
+	
+]
+
+{ #category : 'accessing' }
 Game >> playTurn [
 	| ship totalRoll |
 	
@@ -64,10 +70,7 @@ Game >> ships [
 
 { #category : 'accessing' }
 Game >> standings [
-	| positionCollection|
-	positionCollection:= Dictionary new.
-	ships keysAndValuesDo: [ :index :aShip | positionCollection at: index put: aShip position ].
-    ^ positionCollection values asOrderedCollection.
+	^ ships collect: [ :aShip | aShip position ]
 ]
 
 { #category : 'accessing' }
