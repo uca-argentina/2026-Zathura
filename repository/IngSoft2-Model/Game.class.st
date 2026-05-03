@@ -26,9 +26,14 @@ Game class >> with: aBoard and: aNumberOfShips and: aDiceCollection [
 	^(self new) initializeWith: aBoard and:aCollectionOfShips and:aDiceCollection 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'playingLogic' }
+Game >> endGame [
+	state:= EndedState new.
+]
+
+{ #category : 'playingLogic' }
 Game >> ended [
-	^ended.
+	^state ended
 ]
 
 { #category : 'accessing' }
@@ -41,22 +46,33 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection [
 	currentShipIndex := 1.
 ]
 
-{ #category : 'accessing' }
+{ #category : 'playingLogic' }
 Game >> playGame [
-	[ ended ] whileFalse: [ self playTurn ].
+	[self ended] whileFalse: [ self playTurn ].
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : 'playingLogic' }
 Game >> playTurn [
+	
+	state playTurn: self.
+	
+]
+
+{ #category : 'playingLogic' }
+Game >> playTurnAsEnded [
+	Error signal: 'The Game ended, turns CANNOT be played'.
+	
+]
+
+{ #category : 'playingLogic' }
+Game >> playTurnAsOngoing [
 	| ship totalRoll |
 	
-	
-	(ended) ifTrue: [Error signal: 'The Game ended, turns CANNOT be played'].
 	ship := ships at: currentShipIndex.
 	totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
-	(ship position + totalRoll >=board numSquares) ifTrue: [ended:=true. totalRoll :=board numSquares- ship position].
-	ship moveBy: totalRoll.
+	board move: ship thatRolled:totalRoll.
+	(board winner: ship) ifTrue: [self endGame].
 	
 	
 	currentShipIndex := (currentShipIndex \\ numberOfShips) +1.
