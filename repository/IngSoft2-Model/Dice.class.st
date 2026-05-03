@@ -19,7 +19,7 @@ Dice >> initializeWith: aNumberOfSides [
 	numberOfSides:=aNumberOfSides.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 Dice >> roll [
 	^ ((1 to:numberOfSides ) atRandom ).
 ]
