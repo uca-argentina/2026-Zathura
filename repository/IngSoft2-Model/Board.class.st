@@ -23,12 +23,11 @@ Board >> initializeWithSize: aSize [
 ]
 
 { #category : 'accessing' }
-Board >> move: aShip thatRolled: aDicesResult [ 
-	| currentPosition amountOfSquares |
-	currentPosition:=aShip position.
-	amountOfSquares:=aDicesResult.
-	(currentPosition + aDicesResult >= numSquares) ifTrue: [amountOfSquares:= numSquares - currentPosition ].
-	aShip moveBy: amountOfSquares.
+Board >> move: aShip thatRolled: aDicesResult andNotify: aGame [ 
+    | amountOfSquares |
+    amountOfSquares := (aShip position + aDicesResult) min: numSquares.
+    aShip moveBy: amountOfSquares - aShip position.
+    (self winner: aShip) ifTrue: [ aGame end ].
 ]
 
 { #category : 'accessing' }

@@ -27,8 +27,13 @@ Game class >> with: aBoard and: aNumberOfShips and: aDiceCollection [
 ]
 
 { #category : 'accessing' }
+Game >> end [ 
+    state := EndedState new.
+]
+
+{ #category : 'accessing' }
 Game >> ended [
-	^ended.
+	^ state ended
 ]
 
 { #category : 'accessing' }
@@ -43,24 +48,28 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection [
 
 { #category : 'accessing' }
 Game >> playGame [
-	[ ended ] whileFalse: [ self playTurn ].
+	[ self ended ] whileFalse: [ self playTurn ].
 	
 ]
 
 { #category : 'accessing' }
 Game >> playTurn [
-	| ship totalRoll |
+	state playTurn: self
 	
-	
-	(ended) ifTrue: [Error signal: 'The Game ended, turns CANNOT be played'].
-	ship := ships at: currentShipIndex.
-	totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
-	(ship position + totalRoll >=board numSquares) ifTrue: [ended:=true. totalRoll :=board numSquares- ship position].
-	ship moveBy: totalRoll.
-	
-	
-	currentShipIndex := (currentShipIndex \\ numberOfShips) +1.
-	
+]
+
+{ #category : 'accessing' }
+Game >> playTurnAsEnded [ 
+    Error signal: 'The Game ended, turns CANNOT be played'.
+]
+
+{ #category : 'accessing' }
+Game >> playTurnAsOngoing [
+    | ship totalRoll |
+    ship := ships at: currentShipIndex.
+    totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
+    board move: ship thatRolled: totalRoll andNotify: self.
+    currentShipIndex := (currentShipIndex \\ ships size) + 1.
 ]
 
 { #category : 'accessing' }
