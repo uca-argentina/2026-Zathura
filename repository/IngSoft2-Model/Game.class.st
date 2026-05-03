@@ -7,7 +7,7 @@ Class {
 		'currentShipIndex',
 		'ships',
 		'dices',
-		'ended'
+		'state'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -36,7 +36,7 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection [
 	numberOfShips := aCollectionOfShips size.
 	board := aBoard.
 	dices := aDiceCollection.
-	ended:=false.
+	state:=OngoingState new.
 	ships := aCollectionOfShips.
 	currentShipIndex := 1.
 ]
@@ -75,6 +75,6 @@ Game >> standings [
 
 { #category : 'accessing' }
 Game >> winner [
-	self ended ifFalse: [ Error signal: 'Game is not over yet' ].
+	state ended ifFalse: [ Error signal: 'Game is not over yet' ].
     ^ ships indexOf: (ships detect: [ :aShip | board winner: aShip ]).
 ]

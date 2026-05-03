@@ -1,12 +1,12 @@
 Class {
-	#name : 'DiceLegacyTest',
+	#name : 'DiceTest',
 	#superclass : 'TestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-DiceLegacyTest >> test001WhenANSidedDiceRollsThenTheResultIsBetween1AndN [
+DiceTest >> test001WhenANSidedDiceRollsThenTheResultIsBetween1AndN [
 	| rollResult numberOfSides aDice |
 	numberOfSides :=6.
 	aDice:= Dice with:numberOfSides.
@@ -15,7 +15,7 @@ DiceLegacyTest >> test001WhenANSidedDiceRollsThenTheResultIsBetween1AndN [
 ]
 
 { #category : 'tests' }
-DiceLegacyTest >> test002WhenTheNumberOfSidesIsLessThan3ThenTheDiceCannotBeInstanced [
+DiceTest >> test002WhenTheNumberOfSidesIsLessThan3ThenTheDiceCannotBeInstanced [
 	|numberOfSides|
 	numberOfSides :=2.
 	self should: [Dice with:numberOfSides]

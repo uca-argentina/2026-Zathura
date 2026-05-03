@@ -23,6 +23,15 @@ Board >> initializeWithSize: aSize [
 ]
 
 { #category : 'accessing' }
+Board >> move: aShip thatRolled: aDicesResult [ 
+	| currentPosition amountOfSquares |
+	currentPosition:=aShip position.
+	amountOfSquares:=aDicesResult.
+	(currentPosition + aDicesResult >= numSquares) ifTrue: [amountOfSquares:= numSquares - currentPosition ].
+	aShip moveBy: amountOfSquares.
+]
+
+{ #category : 'accessing' }
 Board >> numSquares [
     ^ numSquares
 ]
