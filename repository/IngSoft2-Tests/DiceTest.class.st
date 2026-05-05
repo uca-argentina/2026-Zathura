@@ -17,7 +17,7 @@ DiceTest >> test001WhenANSidedDiceRollsThenTheResultIsBetween1AndN [
 { #category : 'tests' }
 DiceTest >> test002WhenTheNumberOfSidesIsLessThan3ThenTheDiceCannotBeInstanced [
 	|numberOfSides|
-	numberOfSides :=-1.
+	numberOfSides :=2.
 	self should: [Dice with:numberOfSides]
 	raise: Error
 	withExceptionDo: [:anError|self assert: anError messageText equals: 'Number of sides should be 3 or greater'].   
