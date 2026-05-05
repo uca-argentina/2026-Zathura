@@ -360,3 +360,20 @@ GameTest >> test023WhenAGameIsNotOverThenThereIsNoWinner [
 	withExceptionDo: [ :anError | self assert: anError messageText equals: 'Game is not over yet' ].
 
 ]
+
+{ #category : 'tests' }
+GameTest >> test024WhenAGameIsPlayedWithRandomDiceUntilAShipReachesTheEndThenTheGameEnds [
+	
+	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 3.
+	aSize:=8.
+	aBoard := Board withSize: aSize.
+	aCollectionOfDices:=OrderedCollection
+	with: (Dice with: 6).
+	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
+	aGame playGame.
+	
+	self assert: aGame ended.
+	
+
+]

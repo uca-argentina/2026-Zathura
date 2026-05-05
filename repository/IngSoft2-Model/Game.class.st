@@ -26,9 +26,9 @@ Game class >> with: aBoard and: aNumberOfShips and: aDiceCollection [
 	^(self new) initializeWith: aBoard and:aCollectionOfShips and:aDiceCollection 
 ]
 
-{ #category : 'accessing' }
-Game >> end [ 
-    state := EndedState new.
+{ #category : 'playingLogic' }
+Game >> end [
+	state:= EndedState new.
 ]
 
 { #category : 'accessing' }
@@ -70,11 +70,6 @@ Game >> playTurnAsOngoing [
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
     board move: ship thatRolled: totalRoll andNotify: self.
     currentShipIndex := (currentShipIndex \\ ships size) + 1.
-]
-
-{ #category : 'accessing' }
-Game >> ships [
-	^ ships
 ]
 
 { #category : 'accessing' }
