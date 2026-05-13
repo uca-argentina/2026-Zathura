@@ -14,6 +14,12 @@ Ship >> initialize [
 ]
 
 { #category : 'accessing' }
+Ship >> moveBack: anAmountOfSquares [
+	(anAmountOfSquares >0)ifFalse: [ Error signal: 'The Ship must move by at least 1 square back' ].
+	position := position - anAmountOfSquares.
+]
+
+{ #category : 'accessing' }
 Ship >> moveBy: anAmountOfSquares [
 	(anAmountOfSquares >0)ifFalse: [ Error signal: 'The Ship must move by at least 1 square' ].
 	position := position + anAmountOfSquares.
