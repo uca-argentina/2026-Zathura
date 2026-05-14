@@ -5,11 +5,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-WormHole class >> applyTo: aShip in: aGame [ 
-	aShip moveBack: 4.
-]
-
 { #category : 'initialization' }
 WormHole >> applyTo: aShip in: aGame [
 	aShip moveBack: 4.

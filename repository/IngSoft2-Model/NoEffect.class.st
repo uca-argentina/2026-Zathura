@@ -10,11 +10,6 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-NoEffect class >> applyTo: aShip in: aGame [ 
-	^True 
-]
-
-{ #category : 'as yet unclassified' }
 NoEffect >> applyTo: aShip in: aGame [ 
 	"do nothing"
 ]

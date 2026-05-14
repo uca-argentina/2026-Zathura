@@ -10,7 +10,7 @@ GameTest >> test001WhenAGameIsCreatedThenItCanBePlayed [
 	
 	| aGame aSize aBoard aDice aDiceCollection aNumberOfShips |
 	aSize:=5.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 1.
 	aNumberOfShips:=2.
 	aDiceCollection:=(OrderedCollection with: aDice).
@@ -23,7 +23,7 @@ GameTest >> test002WhenAGameIsCreatedWithXNumberSquaresThenItsNumberOfSquaresIsX
 	
 	| aGame aSize aBoard aDice aDiceCollection aNumberOfShips |
 	aSize:= 5.
-	aBoard := Board withSize: aSize and: NoEffect .
+aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 1.
 	aNumberOfShips:=2.
 	aDiceCollection:=(OrderedCollection with: aDice).
@@ -37,7 +37,7 @@ GameTest >> test003WhenAGameWithOnePlayerIsCreatedThenThePlayerStartsAt1 [
 	| aGame aBoard aSize aNumberOfShips aDice aDiceCollection |
 	aNumberOfShips := 2.
 	aSize:=10.
-	 aBoard := Board withSize: aSize and: NoEffect .
+aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 1.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aDiceCollection.
@@ -50,7 +50,7 @@ GameTest >> test004WhenATurnIsPlayedThenTheFirstShipMovesAccordingly [
 	| aGame aSize aBoard aNumberOfShips aDice aDiceCollection |
 	aNumberOfShips := 2.
 	aSize:=10.
-	aBoard := Board withSize: aSize and: NoEffect .
+	aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 1.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aDiceCollection.
@@ -64,7 +64,7 @@ GameTest >> test005WhenThePlayerRollsThreeThenHisShipsMovesForwardThreeSquares [
 	| aGame aBoard aSize aNumberOfShips aDice aDiceCollection |
 	aNumberOfShips := 2.
 	aSize:=10.
-	 aBoard := Board withSize: aSize and: NoEffect .
+	aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 3.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aDiceCollection.
@@ -78,7 +78,7 @@ GameTest >> test006WhenThePlayerRollsFourThenHisShipMovesForwardFourSquares [
 	| aGame aBoard aSize aNumberOfShips aDice aDiceCollection |
 	aNumberOfShips := 2.
 	aSize:=10.
-   aBoard := Board withSize: aSize and: NoEffect .
+	aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 4.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aDiceCollection.
@@ -92,7 +92,7 @@ GameTest >> test007WhenGameIsCreatedWithMultipleShipsThenAllShipsStartAtPosition
 	| aGame aBoard aSize aNumberOfShips aDice aDiceCollection |
 	aNumberOfShips := 2.
 	aSize:=10.
-   aBoard := Board withSize: aSize and: NoEffect .
+	aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 1.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aDiceCollection.
@@ -105,7 +105,7 @@ GameTest >> test008WhenGameIsCreatedWithMultipleShipsAndPlayTurnThenOnlyFirstShi
 	| aGame aBoard aSize aNumberOfShips aDice aDiceCollection |
 	aNumberOfShips := 2.
 	aSize:=10.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 3.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aDiceCollection.
@@ -120,7 +120,7 @@ GameTest >> test009WhenGameHasMultipleShipsAndPlayTurnTwiceThenSecondShipMoves [
 	| aGame aBoard aSize aNumberOfShips aDice aDiceCollection |
 	aNumberOfShips := 2.
 	aSize:=10.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 3.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aDiceCollection.
@@ -135,7 +135,7 @@ GameTest >> test010WhenGamePlaysTurnThenShipMovesByDiceRoll [
 	| aGame aBoard aSize aNumberOfShips aDice aDiceCollection |
 	aNumberOfShips := 2.
 	aSize:=10.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 3.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aDiceCollection.
@@ -150,7 +150,7 @@ GameTest >> test011WhenAllShipsHavePlayedThenTurnStartsAgainFromFirstShip [
 	| aGame aBoard aSize aNumberOfShips aDice aDiceCollection |
 	aNumberOfShips := 2.
 	aSize:=10.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aDice := HardcodedDice with: 3.
 	aDiceCollection:=(OrderedCollection with: aDice).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aDiceCollection.
@@ -168,7 +168,7 @@ GameTest >> test012WhenTheGameIsPlayedWithMultipleDicesThenThePlayerRollsAllOfTh
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 2.
 	aSize:=20.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 3)
 	with: (HardcodedDice with: 8)
@@ -185,7 +185,7 @@ GameTest >> test013WhenTheGameIsPlayedWithMultipleDicesAndPlayersThenThePlayersR
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 3.
 	aSize:=20.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 3)
 	with: (HardcodedDice with: 8)
@@ -204,7 +204,7 @@ GameTest >> test014WhenAShipReachesTheEndThenTheGameEnds [
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 2.
 	aSize:=5.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
@@ -219,7 +219,7 @@ GameTest >> test015WhenAGameEndedThenTurnsCannotBePlayed [
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 2.
 	aSize:=5.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
@@ -236,7 +236,7 @@ GameTest >> test016WhenAnyShipReachesTheEndThenTheGameEnds [
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 3.
 	aSize:=8.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
@@ -253,7 +253,7 @@ GameTest >> test017WhenAShipSurpassesTheEndThenItsPositionIsTheLastSquare [
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 3.
 	aSize:=8.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
@@ -273,7 +273,7 @@ GameTest >> test018WhenAGameIsEndedThenTheStandingsReflectTheWinnerAndTheOthersE
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 3.
 	aSize:=8.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
@@ -290,7 +290,7 @@ GameTest >> test019WhenAGameIsCreatedWithOneShipOrLessThenShouldThrowError [
 	| aSize aBoard aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 1.
 	aSize:=8.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	self should: [Game with:aBoard and: aNumberOfShips and: aCollectionOfDices ] 
@@ -306,7 +306,7 @@ GameTest >> test020WhenAGameIsCreatedWithNoDiceThenShouldThrowError [
 	| aSize aBoard aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 4.
 	aSize:=8.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection new.
 	self should: [Game with:aBoard and: aNumberOfShips and: aCollectionOfDices ] 
 	raise: Error
@@ -332,7 +332,7 @@ GameTest >> test022WhenAGameEndsTheWinnerCanBeKnown [
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 2.
 	aSize:=8.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
@@ -348,7 +348,7 @@ GameTest >> test023WhenAGameIsNotOverThenThereIsNoWinner [
 	| aGame aSize aBoard aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 2.
 	aSize:=14.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 4).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
@@ -367,7 +367,7 @@ GameTest >> test024WhenAGameIsPlayedWithRandomDiceUntilAShipReachesTheEndThenThe
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 3.
 	aSize:=8.
-   aBoard := Board withSize: aSize and: NoEffect .
+   aBoard := Board withSize: aSize and: NoEffect new .
 	aCollectionOfDices:=OrderedCollection
 	with: (Dice with: 6).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
@@ -384,7 +384,7 @@ GameTest >> test024WhenASquareIsSpeedUpThenTheShipMovesFourSquaresMore [
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 3.
 	aSize:=20.
-	 aBoard := Board withSize: aSize and: SpeedUp.
+	 aBoard := Board withSize: aSize and: SpeedUp new.
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 6).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
@@ -401,7 +401,7 @@ GameTest >> test025WhenASquareIsWormHoleThenTheShipMovesFourSquaresBack [
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 3.
 	aSize:=20.
-	 aBoard := Board withSize: aSize and: WormHole.
+	 aBoard := Board withSize: aSize and: WormHole new.
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 6).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
@@ -418,7 +418,7 @@ GameTest >> test026WhenASquareIsAtomicBombThenAllShipsGoBackToFirstSquare [
 	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
 	aNumberOfShips := 3.
 	aSize:=20.
-	 aBoard := Board withSize: aSize and: AtomicBomb.
+	 aBoard := Board withSize: aSize and: AtomicBomb new.
 	aCollectionOfDices:=OrderedCollection
 	with: (HardcodedDice with: 6).
 	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
