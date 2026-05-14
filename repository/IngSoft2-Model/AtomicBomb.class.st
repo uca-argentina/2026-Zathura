@@ -1,16 +1,16 @@
 Class {
-	#name : 'WormHole',
+	#name : 'AtomicBomb',
 	#superclass : 'Object',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-WormHole class >> applyTo: aShip in: aGame [ 
-	aShip moveBack: 4.
+AtomicBomb class >> applyTo: aShip in: aGame [ 
+	aGame sendAllShipsToStart.
 ]
 
 { #category : 'initialization' }
-WormHole >> applyTo: aShip in: aGame [
-	aShip moveBack: 4.
+AtomicBomb >> applyTo: aShip in: aGame [ 
+	aGame sendAllShipsToStart.
 ]

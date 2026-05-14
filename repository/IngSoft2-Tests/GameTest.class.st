@@ -411,3 +411,39 @@ GameTest >> test025WhenASquareIsWormHoleThenTheShipMovesFourSquaresBack [
 	
 
 ]
+
+{ #category : 'tests' }
+GameTest >> test026WhenASquareIsAtomicBombThenAllShipsGoBackToFirstSquare [
+	
+	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 3.
+	aSize:=20.
+	 aBoard := Board withSize: aSize and: AtomicBomb.
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 6).
+	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
+	aGame playTurn.
+	
+	self assert: aGame standings equals: #(1 1 1) asOrderedCollection.
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test027WhenASquareIsMoonWalkThenAllOtherShipsMoveBackNSquares [
+	
+	| aGame aBoard aSize aNumberOfShips aCollectionOfDices |
+	aNumberOfShips := 2.
+	aSize:=20.
+	 aBoard := Board withSize: aSize and: (MoonWalk with: 2).
+	aCollectionOfDices:=OrderedCollection
+	with: (HardcodedDice with: 6).
+	aGame:= Game with:aBoard and: aNumberOfShips and: aCollectionOfDices.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	
+	self assert: aGame standings equals: #(11 3) asOrderedCollection.
+	
+
+]

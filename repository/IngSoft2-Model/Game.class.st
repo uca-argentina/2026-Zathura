@@ -47,6 +47,11 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection [
 ]
 
 { #category : 'accessing' }
+Game >> moveAllShipsExcept: aShip by:  numSquares [
+	ships do: [ :each | each ~= aShip ifTrue: [ each moveBack: numSquares ] ]
+]
+
+{ #category : 'accessing' }
 Game >> playGame [
 	[ self ended ] whileFalse: [ self playTurn ].
 	
@@ -70,6 +75,11 @@ Game >> playTurnAsOngoing [
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
     board move: ship thatRolled: totalRoll andNotify: self.
     currentShipIndex := (currentShipIndex \\ ships size) + 1.
+]
+
+{ #category : 'accessing' }
+Game >> sendAllShipsToStart [
+	ships do:[ :aShip | aShip moveToStart].
 ]
 
 { #category : 'accessing' }

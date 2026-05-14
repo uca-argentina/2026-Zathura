@@ -25,6 +25,11 @@ Board class >> withSize: aSize and: aEffect [
 ]
 
 { #category : 'instance creation' }
+Board >> initializeWith: aNum [ 
+   numSquares := aNum.
+]
+
+{ #category : 'instance creation' }
 Board >> initializeWithSize: aSize [ 
 	ships:= OrderedCollection new. 
    numSquares := aSize.

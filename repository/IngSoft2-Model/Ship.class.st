@@ -26,6 +26,11 @@ Ship >> moveBy: anAmountOfSquares [
 ]
 
 { #category : 'accessing' }
+Ship >> moveToStart [
+	position := 1.
+]
+
+{ #category : 'accessing' }
 Ship >> position [
 	^position.
 ]
