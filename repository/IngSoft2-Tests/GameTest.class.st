@@ -2,14 +2,14 @@ Class {
 	#name : 'GameTest',
 	#superclass : 'TestCase',
 	#instVars : [
-		'aGame',
-		'aBoard',
-		'aCollectionOfDices',
-		'aCollectionOfShips',
 		'walter',
 		'danny',
 		'lisa',
-		'aDice'
+		'aDice',
+		'aBoard',
+		'aCollectionOfDices',
+		'aCollectionOfShips',
+		'aGame'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -17,7 +17,8 @@ Class {
 
 { #category : 'running' }
 GameTest >> setUp [ 
-
+	
+	super setUp.
 	walter:= Ship named: 'Walter'.
 	danny:= Ship named: 'Danny'.
 	lisa:= Ship named: 'Lisa'.
@@ -26,6 +27,7 @@ GameTest >> setUp [
 	aCollectionOfDices:= (OrderedCollection with: aDice).
 	aCollectionOfShips := { walter. danny. lisa }.
 	aGame:= Game playedOn: aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
+	
 ]
 
 { #category : 'tests' }

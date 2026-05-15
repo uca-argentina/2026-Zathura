@@ -40,12 +40,11 @@ Game >> ended [
 
 { #category : 'accessing' }
 Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection [ 
-	numberOfShips := aCollectionOfShips size.
 	board := aBoard.
 	dices := aDiceCollection.
 	state:=OngoingState new.
 	ships := aCollectionOfShips.
-	currentShipIndex := 1.
+	turnHandler := TurnHandler for:aCollectionOfShips.
 ]
 
 { #category : 'accessing' }

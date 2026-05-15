@@ -9,6 +9,11 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'as yet unclassified' }
+TurnHandler class >> for: aCollectionOfShips [ 
+	^ self new initializeFor: aCollectionOfShips .
+]
+
 { #category : 'accessing' }
 TurnHandler >> initializeFor: aCollectionOfShips [
 	ships:= aCollectionOfShips .
