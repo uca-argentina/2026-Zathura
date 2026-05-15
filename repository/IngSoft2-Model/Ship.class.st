@@ -14,6 +14,21 @@ Ship class >> named: aName [
 	^ self new initializeAs: aName.
 ]
 
+{ #category : 'accessing' }
+Ship >> = aShip [
+	^ aShip areYou:name.
+]
+
+{ #category : 'accessing' }
+Ship >> areYou: aName [
+	^ name = aName.
+]
+
+{ #category : 'accessing' }
+Ship >> didYouWin:aBoardSize [
+	^position >= aBoardSize.
+]
+
 { #category : 'initialization' }
 Ship >> initializeAs: aName [
 	name := aName.
@@ -27,9 +42,14 @@ Ship >> moveBack: anAmountOfSquares [
 ]
 
 { #category : 'accessing' }
-Ship >> moveBy: anAmountOfSquares [
+Ship >> moveBy: anAmountOfSquares [ 
 	(anAmountOfSquares >0)ifFalse: [ Error signal: 'The Ship must move by at least 1 square' ].
 	position := position + anAmountOfSquares.
+]
+
+{ #category : 'accessing' }
+Ship >> moveInsideTheLimits: aMaxLimit [ 
+	position := position min:aMaxLimit .
 ]
 
 { #category : 'accessing' }

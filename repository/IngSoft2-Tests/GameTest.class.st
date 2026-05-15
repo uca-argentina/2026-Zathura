@@ -247,7 +247,7 @@ GameTest >> test022WhenAGameEndsTheWinnerCanBeKnown [
 	
 	aGame playGame.
 		
-	self assert: aGame winner equals: 1.
+	self assert: aGame whoWon equals: 'Walter'.
 
 ]
 
@@ -257,7 +257,7 @@ GameTest >> test023WhenAGameIsNotOverThenThereIsNoWinner [
 	aGame playTurn.
 	aGame playTurn.
 	aGame playTurn.
-	self should: [ aGame winner ]
+	self should: [ aGame whoWon ]
 	raise: Error
 	withExceptionDo: [ :anError | self assert: anError messageText equals: 'Game is not over yet' ].
 

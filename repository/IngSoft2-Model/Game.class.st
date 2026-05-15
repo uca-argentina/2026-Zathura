@@ -25,7 +25,7 @@ Game class >> playedOn: aBoard by: aShipsCollection  throwing: aDiceCollection [
 	
 	
 	
-	^(self new) initializeWith: aBoard and:aShipsCollection and:aDiceCollection 
+	^(self new) initializeWith: aBoard deepCopy and:aShipsCollection deepCopy and:aDiceCollection 
 ]
 
 { #category : 'playingLogic' }
@@ -43,7 +43,7 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection [
 	board := aBoard.
 	dices := aDiceCollection.
 	state:=OngoingState new.
-	ships := aCollectionOfShips.
+	ships := aCollectionOfShips .
 	turnHandler := TurnHandler for:aCollectionOfShips.
 ]
 
@@ -75,6 +75,7 @@ Game >> playTurnAsOngoing [
     ship := turnHandler whoseTurnIsIt.
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
     board move: ship thatRolled: totalRoll andNotify: self.
+	(board hasWon: ship) ifTrue: [ self end ].
 	turnHandler prepareNextTurn.
 ]
 
@@ -99,7 +100,7 @@ Game >> standings [
 ]
 
 { #category : 'accessing' }
-Game >> winner [
+Game >> whoWon [
 	state ended ifFalse: [ Error signal: 'Game is not over yet' ].
-    ^ ships indexOf: (ships detect: [ :aShip | board winner: aShip ]).
+    ^ (ships detect: [ :aShip | board hasWon: aShip ]) name.
 ]

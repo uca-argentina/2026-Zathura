@@ -3,7 +3,6 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'numSquares',
-		'ships',
 		'effects'
 	],
 	#category : 'IngSoft2-Model',
@@ -17,9 +16,13 @@ Board class >> withSize: aSize and: aEffect [
 	^ (self new) initializeWithSize: aSize andEffect: aEffect.
 ]
 
+{ #category : 'accessing' }
+Board >> hasWon: aShip [ 
+	^ (aShip didYouWin: numSquares).
+]
+
 { #category : 'instance creation' }
 Board >> initializeWithSize: aSize andEffect: aEffect [
-	ships:= OrderedCollection new. 
    numSquares := aSize.
 	effects := aEffect
 ]
@@ -28,17 +31,12 @@ Board >> initializeWithSize: aSize andEffect: aEffect [
 Board >> move: aShip thatRolled: aDicesResult andNotify: aGame [ 
     | amountOfSquares |
     amountOfSquares := (aShip position + aDicesResult) min: numSquares.
-    aShip moveBy: amountOfSquares - aShip position.
+    aShip moveBy: aDicesResult.
 	effects applyTo: aShip in: aGame.
-    (self winner: aShip) ifTrue: [ aGame end ].
+	aShip moveInsideTheLimits: numSquares.
 ]
 
 { #category : 'accessing' }
 Board >> numSquares [
     ^ numSquares
-]
-
-{ #category : 'accessing' }
-Board >> winner: aShip [ 
-	^ (aShip position >= numSquares).
 ]
