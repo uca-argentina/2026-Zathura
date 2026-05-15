@@ -3,23 +3,26 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'board',
-		'numberOfShips',
-		'currentShipIndex',
 		'ships',
 		'dices',
-		'state'
+		'state',
+		'turnHandler'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-Game class >> with: aBoard and: aShipsCollection  and: aDiceCollection [ 
+Game class >> playedOn: aBoard by: aShipsCollection  throwing: aDiceCollection [ 
 	
 	
+	| shipsNames |
 	(aShipsCollection size <2)ifTrue: [ Error signal: 'There must be at least two ships'].
+	shipsNames:=aShipsCollection collect:[:aShip| aShip name].
+	(shipsNames asSet size = aShipsCollection size) ifFalse: [ Error signal: 'There CANNOT be two ships named the same way'].
 	aDiceCollection isEmpty ifTrue: [ Error signal: 'There must be at least one dice'].
 	aBoard ifNil: [ Error signal: 'Board cannot be nil' ].
+	
 	
 	
 	^(self new) initializeWith: aBoard and:aShipsCollection and:aDiceCollection 
@@ -70,10 +73,17 @@ Game >> playTurnAsEnded [
 { #category : 'accessing' }
 Game >> playTurnAsOngoing [
     | ship totalRoll |
-    ship := ships at: currentShipIndex.
+    ship := turnHandler whoseTurnIsIt.
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
     board move: ship thatRolled: totalRoll andNotify: self.
-    currentShipIndex := (currentShipIndex \\ ships size) + 1.
+	turnHandler prepareNextTurn.
+]
+
+{ #category : 'accessing' }
+Game >> playTurnFor: aShip [
+	turnHandler playTurnFor:aShip.
+	self playTurn.
+	
 ]
 
 { #category : 'accessing' }
@@ -83,7 +93,10 @@ Game >> sendAllShipsToStart [
 
 { #category : 'accessing' }
 Game >> standings [
-	^ ships asOrderedCollection collect: [ :aShip | aShip position ]
+	| dict |
+	dict:=Dictionary new.
+	ships do:[:aShip| dict at: aShip name put: aShip position].
+	^ dict.
 ]
 
 { #category : 'accessing' }

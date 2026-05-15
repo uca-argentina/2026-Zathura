@@ -5,7 +5,11 @@ Class {
 		'aGame',
 		'aBoard',
 		'aCollectionOfDices',
-		'aCollectionOfShips'
+		'aCollectionOfShips',
+		'walter',
+		'danny',
+		'lisa',
+		'aDice'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -13,7 +17,7 @@ Class {
 
 { #category : 'running' }
 GameTest >> setUp [ 
-	|aDice walter danny lisa|
+
 	walter:= Ship named: 'Walter'.
 	danny:= Ship named: 'Danny'.
 	lisa:= Ship named: 'Lisa'.
@@ -21,7 +25,7 @@ GameTest >> setUp [
    aBoard := Board withSize: 20 and: NoEffect new .
 	aCollectionOfDices:= (OrderedCollection with: aDice).
 	aCollectionOfShips := { walter. danny. lisa }.
-	aGame:= Game with: aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn: aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 ]
 
 { #category : 'tests' }
@@ -39,29 +43,29 @@ GameTest >> test002WhenAGameIsCreatedWithXNumberSquaresThenItsNumberOfSquaresIsX
 { #category : 'tests' }
 GameTest >> test003WhenAGameWithShipsIsCreatedThenTheShipsStartsAt1 [
 	
-	self assert: aGame standings first equals: 1.
+	self assert: (aGame standings at:'Walter' ) equals: 1.
 ]
 
 { #category : 'tests' }
 GameTest >> test004WhenATurnIsPlayedThenTheFirstShipMovesAccordingly [
 	
 	aGame playTurn.
-	self deny: aGame standings first equals: 1
+	self deny: (aGame standings at:'Walter' ) equals: 1
 ]
 
 { #category : 'tests' }
 GameTest >> test005WhenTheShipRollsThreeThenHisShipMovesForwardThreeSquares [
 	aGame playTurn.
-	self assert: aGame standings first equals: 4
+	self assert: (aGame standings at:'Walter' )  equals: 4
 ]
 
 { #category : 'tests' }
 GameTest >> test006WhenTheShipRollsFourThenHisShipMovesForwardFourSquares [
 	|aDiceCollection|
 	aDiceCollection:=(OrderedCollection with: (LoadedDice with: 4)).
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aDiceCollection.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aDiceCollection.
 	aGame playTurn.
-	self assert: aGame standings first equals: 5
+	self assert: (aGame standings at:'Walter' ) equals: 5
 ]
 
 { #category : 'tests' }
@@ -73,8 +77,11 @@ GameTest >> test007WhenGameIsCreatedWithMultipleShipsThenAllShipsStartAtPosition
 { #category : 'tests' }
 GameTest >> test008WhenGameIsCreatedWithMultipleShipsAndPlayTurnThenOnlyFirstShipMovesAccordingly [
 	
+	| standings |
 	aGame playTurn.
-	self assert:(( aGame standings first = 4) and: ((aGame standings select:[:aShipPosition|aShipPosition ~=1] )size = 1)).
+	standings:=aGame standings.
+	self assert: (standings at:'Walter') equals: 4 .
+	self assert: (standings keys select:[:aShipsName| (standings at:aShipsName) ~=1] )size equals: 1.
 	
 ]
 
@@ -83,7 +90,7 @@ GameTest >> test009WhenGameHasMultipleShipsAndPlayTurnTwiceThenSecondShipMoves [
 	
 	aGame playTurn.
 	aGame playTurn.
-	self assert: aGame standings second equals: 4
+	self assert: (aGame standings at:'Danny') equals: 4
 ]
 
 { #category : 'tests' }
@@ -91,7 +98,7 @@ GameTest >> test010WhenGamePlaysTurnThenShipMovesByDiceRoll [
 	
 	aGame playTurn.
 
-	self assert: aGame standings first equals: 4
+	self assert: (aGame standings at:'Walter') equals: 4
 ]
 
 { #category : 'tests' }
@@ -102,8 +109,8 @@ GameTest >> test011WhenAllShipsHavePlayedThenTurnStartsAgainFromFirstShip [
 	aGame playTurn.
 	aGame playTurn.
 
-	self assert: aGame standings first equals: 7.
-	self assert: aGame standings second equals: 4.
+	self assert: (aGame standings at: 'Walter') equals: 7.
+	self assert: (aGame standings at: 'Danny') equals: 4.
 ]
 
 { #category : 'tests' }
@@ -113,9 +120,9 @@ GameTest >> test012WhenTheGameIsPlayedWithMultipleDicesThenTheShipRollsAllOfThem
 	with: (LoadedDice with: 3)
 	with: (LoadedDice with: 8)
 	with: (LoadedDice with: 2).
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
-	self assert: aGame standings first equals: 14.
+	self assert: (aGame standings at: 'Walter') equals: 14.
 
 ]
 
@@ -126,7 +133,7 @@ GameTest >> test013WhenTheGameIsPlayedWithMultipleDicesAndShipsThenAShipRollAllO
 	with: (LoadedDice with: 3)
 	with: (LoadedDice with: 8)
 	with: (LoadedDice with: 2).
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	aGame playTurn.
 	aGame playTurn.
@@ -139,7 +146,7 @@ GameTest >> test014WhenAShipReachesTheEndThenTheGameEnds [
 	
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 19).
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playGame.
 	self assert: (aGame ended).
 
@@ -150,7 +157,7 @@ GameTest >> test015WhenAGameEndedThenTurnsCannotBePlayed [
 	
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 19).
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	self should: [aGame playTurn]
 	raise:Error
@@ -163,7 +170,7 @@ GameTest >> test016WhenAnyShipReachesTheEndThenTheGameEnds [
 	
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 19).
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playGame.
 	
 	self assert: aGame ended.
@@ -176,7 +183,7 @@ GameTest >> test017WhenAShipSurpassesTheEndThenItsPositionIsTheLastSquare [
 	
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 7).
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	aGame playTurn.
 	aGame playTurn.
@@ -185,7 +192,7 @@ GameTest >> test017WhenAShipSurpassesTheEndThenItsPositionIsTheLastSquare [
 	aGame playTurn.
 	aGame playTurn.
 	
-	self assert: aGame standings first equals: aBoard numSquares.
+	self assert: (aGame standings at:'Walter') equals: aBoard numSquares.
 	
 
 ]
@@ -194,8 +201,11 @@ GameTest >> test017WhenAShipSurpassesTheEndThenItsPositionIsTheLastSquare [
 GameTest >> test018WhenAGameIsEndedThenTheStandingsReflectTheWinnerAndTheOthersEndPosition [
 
 	aGame playGame.
-	
-	self assert: aGame standings equals: #(20 19 19) asOrderedCollection.
+
+	self assert: (aGame standings at: 'Walter') equals: 20.
+	self assert: (aGame standings at: 'Danny') equals: 19.
+	self assert: (aGame standings at: 'Lisa') equals: 19.
+
 	
 
 ]
@@ -203,7 +213,7 @@ GameTest >> test018WhenAGameIsEndedThenTheStandingsReflectTheWinnerAndTheOthersE
 { #category : 'tests' }
 GameTest >> test019WhenAGameIsCreatedWithOneShipOrLessThenShouldThrowError [
 	
-	self should: [Game with:aBoard and: {Ship named: 'Walter'} and: aCollectionOfDices ] 
+	self should: [Game playedOn:aBoard by: {Ship named: 'Walter'} throwing: aCollectionOfDices ] 
 	raise: Error
 	withExceptionDo: [ :anError | self assert: anError messageText equals: 'There must be at least two ships' ]
 	
@@ -214,7 +224,7 @@ GameTest >> test019WhenAGameIsCreatedWithOneShipOrLessThenShouldThrowError [
 GameTest >> test020WhenAGameIsCreatedWithNoDiceThenShouldThrowError [
 	
 	aCollectionOfDices:=OrderedCollection new.
-	self should: [Game with:aBoard and:aCollectionOfShips and: aCollectionOfDices ] 
+	self should: [Game playedOn:aBoard by:aCollectionOfShips throwing: aCollectionOfDices ] 
 	raise: Error
 	withExceptionDo: [ :anError | self assert: anError messageText equals: 'There must be at least one dice' ]
 	
@@ -224,7 +234,7 @@ GameTest >> test020WhenAGameIsCreatedWithNoDiceThenShouldThrowError [
 { #category : 'tests' }
 GameTest >> test021WhenAGameIsCreatedWithNullBoardThenShouldThrowError [
 
-    self should: [ Game with: nil and: aCollectionOfShips and: aCollectionOfDices ]
+    self should: [ Game playedOn: nil by: aCollectionOfShips throwing: aCollectionOfDices ]
     raise: Error
     withExceptionDo: [ :anError | self assert: anError messageText equals: 'Board cannot be nil' ].
 
@@ -255,10 +265,10 @@ GameTest >> test023WhenAGameIsNotOverThenThereIsNoWinner [
 GameTest >> test024WhenASquareIsSpeedUpThenTheShipMovesFourSquaresMore [
 	
 	 aBoard := Board withSize: 20 and: SpeedUp new.
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	
-	self assert: aGame standings first equals: 8.
+	self assert: (aGame standings at: 'Walter') equals: 8.
 	
 
 ]
@@ -268,10 +278,10 @@ GameTest >> test025WhenASquareIsWormHoleThenTheShipMovesFourSquaresBack [
 	
 	 aBoard := Board withSize: 20 and: WormHole new.
 	aCollectionOfDices:= (OrderedCollection with: (LoadedDice with: 6)).
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	
-	self assert: aGame standings first equals: 3.
+	self assert: (aGame standings at: 'Walter') equals: 3.
 	
 
 ]
@@ -282,10 +292,12 @@ GameTest >> test026WhenASquareIsAtomicBombThenAllShipsGoBackToFirstSquare [
 	 aBoard := Board withSize: 20 and: AtomicBomb new.
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	
-	self assert: aGame standings equals: #(1 1 1) asOrderedCollection.
+	self assert: (aGame standings at: 'Walter') equals: 1.
+	self assert: (aGame standings at: 'Danny') equals: 1.
+	self assert: (aGame standings at: 'Lisa') equals: 1.
 	
 
 ]
@@ -296,7 +308,7 @@ GameTest >> test027WhenASquareIsMoonWalkThenAllOtherShipsMoveBackNSquares [
 	 aBoard := Board withSize: 20 and: (MoonWalk with: 2).
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
-	aGame:= Game with:aBoard and: aCollectionOfShips and: aCollectionOfDices.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	aGame playTurn.
 	aGame playTurn.
@@ -305,7 +317,33 @@ GameTest >> test027WhenASquareIsMoonWalkThenAllOtherShipsMoveBackNSquares [
 	aGame playTurn.
 	aGame playTurn.
 	
-	self assert: aGame standings equals: #(11 3 3) asOrderedCollection.
+self assert: (aGame standings at: 'Walter') equals: 11.
+	self assert: (aGame standings at: 'Danny') equals: 3.
+	self assert: (aGame standings at: 'Lisa') equals: 3.
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test028WhenAShipsTriesToPlayInAnotherShipsTurnThenTheShipCannotPlay [
+	aGame playTurnFor: walter.
+	self should: [aGame playTurnFor:walter ]
+	raise: Error
+	withExceptionDo: [ :anError| self assert: anError messageText equals: 'It is not this ships turn' ]
+	
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test028WhenTwoShipsAreNameTheSameThenTheGameCannotBeCreated [
+	| walter2 aColl2 |
+	walter2:= Ship named: 'Walter'.
+	aColl2:= OrderedCollection with:walter with:danny with:walter2. 
+	self should: [Game playedOn: aBoard by: aColl2 throwing:aCollectionOfDices.]
+	raise: Error
+	withExceptionDo: [ :anError| self assert: anError messageText equals: 'There CANNOT be two ships named the same way' ]
+	
 	
 
 ]

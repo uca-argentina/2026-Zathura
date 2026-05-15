@@ -11,11 +11,11 @@ Class {
 
 { #category : 'as yet unclassified' }
 Ship class >> named: aName [
-	^ self new initializeNamed: aName.
+	^ self new initializeAs: aName.
 ]
 
 { #category : 'initialization' }
-Ship >> initializeNamed: aName [
+Ship >> initializeAs: aName [
 	name := aName.
 	position := 1.
 ]
@@ -38,6 +38,16 @@ Ship >> moveToStart [
 ]
 
 { #category : 'accessing' }
+Ship >> name [
+	^name.
+]
+
+{ #category : 'accessing' }
 Ship >> position [
 	^position.
+]
+
+{ #category : 'accessing' }
+Ship >> standing [
+	^#(name position).
 ]
