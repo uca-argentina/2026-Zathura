@@ -2,14 +2,21 @@ Class {
 	#name : 'Ship',
 	#superclass : 'Object',
 	#instVars : [
-		'position'
+		'position',
+		'name'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'as yet unclassified' }
+Ship class >> named: aName [
+	^ self new initializeNamed: aName.
+]
+
 { #category : 'initialization' }
-Ship >> initialize [
+Ship >> initializeNamed: aName [
+	name := aName.
 	position := 1.
 ]
 

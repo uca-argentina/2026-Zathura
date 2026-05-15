@@ -14,16 +14,15 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-Game class >> with: aBoard and: aNumberOfShips and: aDiceCollection [ 
-	| aCollectionOfShips |
+Game class >> with: aBoard and: aShipsCollection  and: aDiceCollection [ 
 	
-	(aNumberOfShips <2)ifTrue: [ Error signal: 'There must be at least two ships'].
+	
+	(aShipsCollection size <2)ifTrue: [ Error signal: 'There must be at least two ships'].
 	aDiceCollection isEmpty ifTrue: [ Error signal: 'There must be at least one dice'].
 	aBoard ifNil: [ Error signal: 'Board cannot be nil' ].
 	
-	aCollectionOfShips:=OrderedCollection new.
-	1 to: aNumberOfShips do: [ :i | aCollectionOfShips add: Ship new ].
-	^(self new) initializeWith: aBoard and:aCollectionOfShips and:aDiceCollection 
+	
+	^(self new) initializeWith: aBoard and:aShipsCollection and:aDiceCollection 
 ]
 
 { #category : 'playingLogic' }
@@ -84,7 +83,7 @@ Game >> sendAllShipsToStart [
 
 { #category : 'accessing' }
 Game >> standings [
-	^ ships collect: [ :aShip | aShip position ]
+	^ ships asOrderedCollection collect: [ :aShip | aShip position ]
 ]
 
 { #category : 'accessing' }

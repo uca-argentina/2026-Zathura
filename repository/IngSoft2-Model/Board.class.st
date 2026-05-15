@@ -10,30 +10,11 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'instance creation' }
-Board class >> withSize: aSize [ 
-	(aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].
-	aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
-	^ (self new) initializeWithSize: aSize.
-]
-
-{ #category : 'instance creation' }
+{ #category : 'as yet unclassified' }
 Board class >> withSize: aSize and: aEffect [
 	(aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].
 	aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
 	^ (self new) initializeWithSize: aSize andEffect: aEffect.
-]
-
-{ #category : 'instance creation' }
-Board >> initializeWith: aNum [ 
-   numSquares := aNum.
-]
-
-{ #category : 'instance creation' }
-Board >> initializeWithSize: aSize [ 
-	ships:= OrderedCollection new. 
-   numSquares := aSize.
-	effects := NoEffect new
 ]
 
 { #category : 'instance creation' }

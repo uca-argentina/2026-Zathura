@@ -9,16 +9,16 @@ Class {
 ShipTest >> test001WhenShipIsCreatedThenPositionIsOne [
 	| aShip |
 	
-	aShip := Ship new.
+	aShip := Ship named: 'Walter'..
 	
-	self assert: aShip position = 1.
+	self assert: aShip position equals: 1.
 ]
 
 { #category : 'tests' }
 ShipTest >> test002WhenShipMovesThenPositionIncreases [
 	| aShip |
 	
-	aShip := Ship new.
+	aShip := Ship named: 'Walter'.
 	aShip moveBy: 3.
 	
 	self assert: aShip position equals: 4.
@@ -28,7 +28,7 @@ ShipTest >> test002WhenShipMovesThenPositionIncreases [
 ShipTest >> test003WhenAShipTriesToMoveBy0orLowerThenTheShipsMovementIsInvalid [
 	| aShip |
 	
-	aShip := Ship new.
+	aShip := Ship named: 'Walter'.
 	self should:[aShip moveBy: 0]
 	raise: Error 
 	withExceptionDo: [:anError| self assert: anError messageText equals:'The Ship must move by at least 1 square'  ]

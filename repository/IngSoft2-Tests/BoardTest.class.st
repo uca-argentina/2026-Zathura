@@ -8,17 +8,17 @@ Class {
 { #category : 'tests' }
 BoardTest >> test001WhenBoardIsCreatedWithASizeThenBoardSizeShouldBeThatSize [
     | board |
-    board := Board withSize: 5.
+    board := Board withSize: 5 and: NoEffect new.
     self assert: (board numSquares) equals: 5.
 ]
 
 { #category : 'tests' }
 BoardTest >> test002WhenBoardIsCreatedWithSizeLessOrEqualToZeroThenShouldThrowError [
-    self should: [ Board withSize: 0 ] raise: Error.
-    self should: [ Board withSize: -1 ] raise: Error.
+    self should: [ Board withSize: 0 and: NoEffect new ] raise: Error.
+    self should: [ Board withSize: -1 and: NoEffect new ] raise: Error.
 ]
 
 { #category : 'tests' }
 BoardTest >> test003WhenBoardIsCreatedWithFloatSizeThenShouldThrowError [
-    self should: [ Board withSize: 3.5 ] raise: Error.
+    self should: [ Board withSize: 5.5 and: NoEffect new ] raise: Error.
 ]

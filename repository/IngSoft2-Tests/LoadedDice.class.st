@@ -1,5 +1,5 @@
 Class {
-	#name : 'HardcodedDice',
+	#name : 'LoadedDice',
 	#superclass : 'Object',
 	#instVars : [
 		'expectedResult'
@@ -9,17 +9,17 @@ Class {
 }
 
 { #category : 'instance creation' }
-HardcodedDice class >> with: anExpectedResult [ 
+LoadedDice class >> with: anExpectedResult [ 
 	(anExpectedResult <1)ifTrue: [ Error signal:'The expected result should be one or higher' ].
 	^ (self new) initializeWith: anExpectedResult.
 ]
 
 { #category : 'initialization' }
-HardcodedDice >> initializeWith: anExpectedResult [
+LoadedDice >> initializeWith: anExpectedResult [
 	expectedResult := anExpectedResult.
 ]
 
 { #category : 'initialization' }
-HardcodedDice >> roll [
+LoadedDice >> roll [
 	^expectedResult 
 ]
