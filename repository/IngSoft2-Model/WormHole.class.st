@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : 'initialization' }
-WormHole >> applyTo: aShip in: aGame [
+WormHole >> applyTo: aShip withShips: allShips [
 	aShip moveBack: 4.
+]
+
+{ #category : 'initialization' }
+WormHole >> effectsFor: aSize [
+	^ Array new: aSize withAll: self.
 ]

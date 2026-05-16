@@ -34,3 +34,12 @@ ShipTest >> test003WhenAShipTriesToMoveBy0orLowerThenTheShipsMovementIsInvalid [
 	withExceptionDo: [:anError| self assert: anError messageText equals:'The Ship must move by at least 1 square'  ]
 
 ]
+
+{ #category : 'tests' }
+ShipTest >> test004WhenAShipIsMovedBackBeyondStartThenTheShipsStaysAtOne [
+	| aShip |
+	
+	aShip := Ship named: 'Walter'.
+	aShip moveBack: 5.
+	self assert: aShip position equals: 1.
+]

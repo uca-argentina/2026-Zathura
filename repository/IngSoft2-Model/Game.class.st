@@ -74,7 +74,8 @@ Game >> playTurnAsOngoing [
     | ship totalRoll |
     ship := turnHandler whoseTurnIsIt.
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
-    board move: ship thatRolled: totalRoll andNotify: self.
+    board move: ship thatRolled: totalRoll.
+	board applyEffect: (board effectAt: ship position) to: ship withShips: ships.
 	(board hasWon: ship) ifTrue: [ self end ].
 	turnHandler prepareNextTurn.
 ]

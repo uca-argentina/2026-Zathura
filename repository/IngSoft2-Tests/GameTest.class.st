@@ -319,9 +319,9 @@ GameTest >> test027WhenASquareIsMoonWalkThenAllOtherShipsMoveBackNSquares [
 	aGame playTurn.
 	aGame playTurn.
 	
-self assert: (aGame standings at: 'Walter') equals: 11.
-	self assert: (aGame standings at: 'Danny') equals: 3.
-	self assert: (aGame standings at: 'Lisa') equals: 3.
+	self assert: (aGame standings at: 'Walter') equals: 11.
+	self assert: (aGame standings at: 'Danny') equals: 5.
+	self assert: (aGame standings at: 'Lisa') equals: 7.
 	
 
 ]
@@ -338,7 +338,7 @@ GameTest >> test028WhenAShipsTriesToPlayInAnotherShipsTurnThenTheShipCannotPlay 
 ]
 
 { #category : 'tests' }
-GameTest >> test028WhenTwoShipsAreNameTheSameThenTheGameCannotBeCreated [
+GameTest >> test029WhenTwoShipsAreNameTheSameThenTheGameCannotBeCreated [
 	| walter2 aColl2 |
 	walter2:= Ship named: 'Walter'.
 	aColl2:= OrderedCollection with:walter with:danny with:walter2. 
@@ -346,6 +346,40 @@ GameTest >> test028WhenTwoShipsAreNameTheSameThenTheGameCannotBeCreated [
 	raise: Error
 	withExceptionDo: [ :anError| self assert: anError messageText equals: 'There CANNOT be two ships named the same way' ]
 	
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test030WhenASquareIsHyperJumpThenShipAdvancesByFirstValueInList [
+	
+	 aBoard := Board withSize: 20 and: (HyperJump with: #(10 5 2)).
+	aCollectionOfDices:=OrderedCollection
+	with: (LoadedDice with: 6).
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
+	aGame playTurn.
+	
+	self assert: (aGame standings at: 'Walter') equals: 17.
+
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test031WhenAllHyperJumpValuesAreUsedThenListResets [
+	
+	 aBoard := Board withSize: 20 and: (HyperJump with: #(10 5 2)).
+	aCollectionOfDices:=OrderedCollection
+	with: (LoadedDice with: 6).
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	
+	self assert: (aGame standings at: 'Walter') equals: 20.
+	self assert: (aGame standings at: 'Danny') equals: 12.
+	self assert: (aGame standings at: 'Lisa') equals: 9.
 	
 
 ]

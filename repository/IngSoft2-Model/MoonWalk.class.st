@@ -17,8 +17,13 @@ MoonWalk class >> with: aNumber [
 ]
 
 { #category : 'initialization' }
-MoonWalk >> applyTo: aShip in: aGame [
-	aGame moveAllShipsExcept: aShip by:  numSquares.
+MoonWalk >> applyTo: aShip withShips: allShips [
+	allShips select: [ :each | each ~= aShip ] thenDo: [ :each | each moveBack: numSquares ]
+]
+
+{ #category : 'initialization' }
+MoonWalk >> effectsFor: aSize [
+	^ Array new: aSize withAll: self.
 ]
 
 { #category : 'initialization' }

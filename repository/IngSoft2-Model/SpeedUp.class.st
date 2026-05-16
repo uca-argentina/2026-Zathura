@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : 'initialization' }
-SpeedUp >> applyTo: aShip in: aGame [
+SpeedUp >> applyTo: aShip withShips: allShips [
 	aShip moveBy: 4.
+]
+
+{ #category : 'initialization' }
+SpeedUp >> effectsFor: aSize [
+	^ Array new: aSize withAll: self.
 ]

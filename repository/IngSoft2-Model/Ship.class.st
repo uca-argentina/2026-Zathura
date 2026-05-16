@@ -38,7 +38,7 @@ Ship >> initializeAs: aName [
 { #category : 'accessing' }
 Ship >> moveBack: anAmountOfSquares [
 	(anAmountOfSquares >0)ifFalse: [ Error signal: 'The Ship must move by at least 1 square back' ].
-	position := position - anAmountOfSquares.
+	position := (position - anAmountOfSquares) max: 1.
 ]
 
 { #category : 'accessing' }

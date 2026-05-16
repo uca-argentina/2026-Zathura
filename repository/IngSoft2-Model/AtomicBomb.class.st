@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : 'initialization' }
-AtomicBomb >> applyTo: aShip in: aGame [ 
-	aGame sendAllShipsToStart.
+AtomicBomb >> applyTo: aShip withShips: allShips [
+	allShips do:[:each | each moveToStart ].
+]
+
+{ #category : 'initialization' }
+AtomicBomb >> effectsFor: aSize [
+	^ Array new: aSize withAll: self.
 ]
