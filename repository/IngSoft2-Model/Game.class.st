@@ -88,6 +88,33 @@ Game >> playTurnFor: aShip [
 ]
 
 { #category : 'accessing' }
+Game >> positionOf: theShip [ 
+	| res |
+	res:= ships select: [:aShip| aShip = theShip ].
+	(res isEmpty)ifTrue: [ Error signal: 'This ship is not playing this game' ].
+	^ res first position.
+	
+]
+
+{ #category : 'accessing' }
+Game >> ranking [
+	| sortedShips dict |
+	sortedShips := ships asSortedCollection: [ :a :b | a position > b position ].
+	dict := Dictionary new.
+	sortedShips doWithIndex: [ :aShip :i | dict at: i put: aShip name ].
+	^ dict
+]
+
+{ #category : 'accessing' }
+Game >> rankingFor: theShip [ 
+	
+	| res |
+	res:= ships select: [:aShip| aShip = theShip ].
+	(res isEmpty)ifTrue: [ Error signal: 'This ship is not playing this game' ].
+	^ self ranking keyAtValue: theShip name.
+]
+
+{ #category : 'accessing' }
 Game >> sendAllShipsToStart [
 	ships do:[ :aShip | aShip moveToStart].
 ]

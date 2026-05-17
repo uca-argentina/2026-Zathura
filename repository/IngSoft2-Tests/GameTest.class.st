@@ -368,7 +368,7 @@ GameTest >> test030WhenASquareIsHyperJumpThenShipAdvancesByFirstValueInList [
 { #category : 'tests' }
 GameTest >> test031WhenAllHyperJumpValuesAreUsedThenListResets [
 	
-	 aBoard := Board withSize: 20 and: (HyperJump with: #(10 5 2)).
+	 aBoard := Board withSize: 40 and: (HyperJump with: #(10 5 2)).
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -377,9 +377,69 @@ GameTest >> test031WhenAllHyperJumpValuesAreUsedThenListResets [
 	aGame playTurn.
 	aGame playTurn.
 	
-	self assert: (aGame standings at: 'Walter') equals: 20.
+	self assert: (aGame standings at: 'Walter') equals: 33.
 	self assert: (aGame standings at: 'Danny') equals: 12.
 	self assert: (aGame standings at: 'Lisa') equals: 9.
 	
 
+]
+
+{ #category : 'tests' }
+GameTest >> test032WhenAShipsPositionIsRequestedThenThatShipsPositionIsRevealed [
+	
+	aGame playTurnFor: walter.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurnFor: walter.
+	
+	self assert: (aGame positionOf:walter) equals: 7.
+	
+
+]
+
+{ #category : 'tests' }
+GameTest >> test033WhenAnUnknownShipsPositionIsRequestedThenThatRequestIsDenied [
+	
+	| darthVadersTieFighter |
+	darthVadersTieFighter:= Ship named: 'darthVadersTieFighter'.
+	
+	self should: [aGame positionOf:darthVadersTieFighter]
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'This ship is not playing this game' ]
+	
+]
+
+{ #category : 'tests' }
+GameTest >> test034WhenRankingsIsCalledThenItReturnsShipsOrderedByPosition [
+
+	| ranking secondAndThird |
+	aGame playTurnFor:walter; 
+			playTurnFor:danny;
+			playTurnFor:lisa;
+			playTurnFor:walter.
+	
+	ranking:=aGame ranking.
+	self assert: (ranking at: 1) equals: 'Walter'.
+	secondAndThird := (Array with: (ranking at: 2) with: (ranking at: 3)) asSet.
+	self assert: secondAndThird equals: (Set with: 'Danny' with: 'Lisa')
+]
+
+{ #category : 'tests' }
+GameTest >> test035WhenARequestForAShipsRankingIsMadeThenThatShipsRankingIsTheResponse [
+
+	aGame playTurnFor:walter.
+	aGame playTurnFor: danny.
+	
+	self assert: (aGame rankingFor:lisa) equals:3
+]
+
+{ #category : 'tests' }
+GameTest >> test036WhenARequestForAnUnknownShipsRankingIsMadeThenThatRequestIsDenied [
+
+	| darthVadersTieFighter |
+	darthVadersTieFighter:= Ship named: 'darthVadersTieFighter'.
+	
+	self should: [aGame rankingFor:darthVadersTieFighter]
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'This ship is not playing this game' ].
 ]
