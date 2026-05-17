@@ -28,9 +28,9 @@ BoardTest >> test004WhenAShipCrossesTheEndOfTheBoardThenItWrapsAroundAndComplete
     | aShip aBoard |
     aShip := Ship named: 'Walter'.
     aBoard := Board withSize: 20 and: NoEffect new andLaps: 2.
-    aShip moveBy: 17.   
-    aBoard move: aShip thatRolled: 5. 
-    self assert: aShip position equals: 3.
+    aBoard move: aShip thatRolled: 17.
+    aBoard move: aShip thatRolled: 2. 
+    self assert: aShip position equals: 20.
     self assert: aShip lap equals: 1
 ]
 

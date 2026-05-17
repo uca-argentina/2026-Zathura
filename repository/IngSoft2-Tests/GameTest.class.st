@@ -443,3 +443,35 @@ GameTest >> test036WhenARequestForAnUnknownShipsRankingIsMadeThenThatRequestIsDe
 	raise: Error
 	withExceptionDo: [ :anError | self assert: anError messageText equals: 'This ship is not playing this game' ].
 ]
+
+{ #category : 'tests' }
+GameTest >> test037WhenAShipReachesTheEndOfANotFinalLapThenTheGameDoesNotEnd [
+	
+	| aNumberOfLaps |
+	aCollectionOfDices:=OrderedCollection
+	with: (LoadedDice with: 13).
+	aNumberOfLaps:=2.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	self deny: (aGame ended).
+
+]
+
+{ #category : 'tests' }
+GameTest >> test038WhenAShipReachesTheEndOfAFinalLapThenTheGameEnds [
+	
+	| aNumberOfLaps |
+	aCollectionOfDices:=OrderedCollection
+	with: (LoadedDice with: 20).
+	aNumberOfLaps:=2.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	self assert: (aGame ended).
+
+]

@@ -27,19 +27,19 @@ Ship >> areYou: aName [
 
 { #category : 'accessing' }
 Ship >> completeLapFor: aBoardSize [
-	lap := lap + ((position - 1) // aBoardSize).
+	lap := lap + ((position - 1 ) // aBoardSize).
    position := ((position - 1) \\ aBoardSize) + 1
 ]
 
 { #category : 'accessing' }
-Ship >> didYouWin:aBoardSize [
-	^position >= aBoardSize.
+Ship >> didYouWin:aNumberofLaps [
+	^lap >= aNumberofLaps.
 ]
 
 { #category : 'initialization' }
 Ship >> handleLapsFor: aBoardSize andNumberOfLaps: aBoardNumberOfLaps [
 
-	(position > aBoardSize )ifTrue: [ self completeLapFor:aBoardSize ].
+	(position >= aBoardSize )ifTrue: [ self completeLapFor:aBoardSize ].
 	(lap >= aBoardNumberOfLaps) ifTrue: [ position := aBoardSize. lap := aBoardNumberOfLaps ].
 ]
 

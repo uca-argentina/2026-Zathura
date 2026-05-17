@@ -6,7 +6,8 @@ Class {
 		'ships',
 		'dices',
 		'state',
-		'turnHandler'
+		'turnHandler',
+		'lapsToWin'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -25,7 +26,24 @@ Game class >> playedOn: aBoard by: aShipsCollection  throwing: aDiceCollection [
 	
 	
 	
-	^(self new) initializeWith: aBoard deepCopy and:aShipsCollection deepCopy and:aDiceCollection 
+	^(self new) initializeWith: aBoard deepCopy and:aShipsCollection deepCopy and:aDiceCollection and: 1
+]
+
+{ #category : 'as yet unclassified' }
+Game class >> playedOn: aBoard by: aShipsCollection throwing: aDiceCollection winningWith: aNumberofLaps [ 
+	
+	
+	| shipsNames |
+	(aShipsCollection size <2)ifTrue: [ Error signal: 'There must be at least two ships'].
+	shipsNames:=aShipsCollection collect:[:aShip| aShip name].
+	(shipsNames asSet size = aShipsCollection size) ifFalse: [ Error signal: 'There CANNOT be two ships named the same way'].
+	aDiceCollection isEmpty ifTrue: [ Error signal: 'There must be at least one dice'].
+	aBoard ifNil: [ Error signal: 'Board cannot be nil' ].
+	
+	
+	
+	^(self new) initializeWith: aBoard deepCopy and:aShipsCollection deepCopy and:aDiceCollection and:aNumberofLaps.
+	
 ]
 
 { #category : 'playingLogic' }
@@ -39,12 +57,13 @@ Game >> ended [
 ]
 
 { #category : 'accessing' }
-Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection [ 
+Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection and: aNumberOfLaps [ 
 	board := aBoard.
 	dices := aDiceCollection.
 	state:=OngoingState new.
 	ships := aCollectionOfShips .
 	turnHandler := TurnHandler for:aCollectionOfShips.
+	lapsToWin:=aNumberOfLaps.
 ]
 
 { #category : 'accessing' }
@@ -76,7 +95,7 @@ Game >> playTurnAsOngoing [
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
     board move: ship thatRolled: totalRoll.
 	board applyEffect: (board effectAt: ship position) to: ship withShips: ships.
-	(board hasWon: ship) ifTrue: [ self end ].
+	(board hasWon: ship forLaps: lapsToWin ) ifTrue: [ self end ].
 	turnHandler prepareNextTurn.
 ]
 

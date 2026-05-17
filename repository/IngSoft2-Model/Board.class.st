@@ -27,7 +27,7 @@ Board class >> withSize: aSize and: aEffectProvider andLaps: anAmount [
 { #category : 'accessing' }
 Board >> applyEffect: anEffect to: aShip withShips: allShips [
     anEffect applyTo: aShip withShips: allShips.
-    allShips do: [ :each | each moveInsideTheLimits: numSquares ].
+    allShips do: [ :each | each handleLapsFor:numSquares andNumberOfLaps:numberOfLaps ].
 ]
 
 { #category : 'accessing' }
@@ -37,7 +37,12 @@ Board >> effectAt: aPosition [
 
 { #category : 'accessing' }
 Board >> hasWon: aShip [ 
-	^ (aShip didYouWin: numSquares).
+	^ (aShip didYouWin: numberOfLaps).
+]
+
+{ #category : 'accessing' }
+Board >> hasWon: aShip forLaps: aNumberOfLaps [
+	^ (aShip didYouWin: aNumberOfLaps).
 ]
 
 { #category : 'instance creation' }
@@ -49,8 +54,6 @@ Board >> initializeWithSize: aSize andEffect: anEffectsArray andNumberOfLaps:anA
 
 { #category : 'accessing' }
 Board >> move: aShip thatRolled: aDicesResult [ 
-    | amountOfSquares |
-    amountOfSquares := (aShip position + aDicesResult) min: numSquares.
     aShip moveBy: aDicesResult.
 	aShip handleLapsFor: numSquares andNumberOfLaps: numberOfLaps.
 ]
