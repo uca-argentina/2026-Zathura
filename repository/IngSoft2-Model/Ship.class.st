@@ -88,6 +88,11 @@ Ship >> position [
 ]
 
 { #category : 'accessing' }
+Ship >> progressIn: aBoardSize [
+    ^ (lap * aBoardSize) + position
+]
+
+{ #category : 'accessing' }
 Ship >> standing [
 	^#(name position).
 ]

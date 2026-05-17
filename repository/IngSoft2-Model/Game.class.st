@@ -72,6 +72,22 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection and:
 ]
 
 { #category : 'accessing' }
+Game >> laps [
+	| dict |
+	dict:=Dictionary new.
+	ships do:[:aShip| dict at: aShip name put: aShip lap ].
+	^ dict.
+]
+
+{ #category : 'accessing' }
+Game >> lapsFor: theShip [ 
+	| res |
+	res:= ships select: [:aShip| aShip = theShip ].
+	(res isEmpty)ifTrue: [ Error signal: 'This ship is not playing this game' ].
+	^ (self laps) at: theShip name.
+]
+
+{ #category : 'accessing' }
 Game >> moveAllShipsExcept: aShip by:  numSquares [
 	ships do: [ :each | each ~= aShip ifTrue: [ each moveBack: numSquares ] ]
 ]
@@ -112,18 +128,10 @@ Game >> playTurnFor: aShip [
 ]
 
 { #category : 'accessing' }
-Game >> positionOf: theShip [ 
-	| res |
-	res:= ships select: [:aShip| aShip = theShip ].
-	(res isEmpty)ifTrue: [ Error signal: 'This ship is not playing this game' ].
-	^ res first position.
-	
-]
-
-{ #category : 'accessing' }
 Game >> ranking [
 	| sortedShips dict |
-	sortedShips := ships asSortedCollection: [ :a :b | a position > b position ].
+	sortedShips := ships asSortedCollection: [ :a :b | 
+    (a progressIn: board numSquares) > (b progressIn: board numSquares) ].
 	dict := Dictionary new.
 	sortedShips doWithIndex: [ :aShip :i | dict at: i put: aShip name ].
 	^ dict
@@ -144,10 +152,19 @@ Game >> sendAllShipsToStart [
 ]
 
 { #category : 'accessing' }
-Game >> standings [
+Game >> squareOf: theShip [ 
+	| res |
+	res:= ships select: [:aShip| aShip = theShip ].
+	(res isEmpty)ifTrue: [ Error signal: 'This ship is not playing this game' ].
+	^ res first position.
+	
+]
+
+{ #category : 'accessing' }
+Game >> squares [
 	| dict |
 	dict:=Dictionary new.
-	ships do:[:aShip| dict at: aShip name put: aShip position].
+	ships do:[:aShip| dict at: aShip name put: aShip position ].
 	^ dict.
 ]
 
