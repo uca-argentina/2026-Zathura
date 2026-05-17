@@ -95,10 +95,11 @@ Game >> playTurnAsEnded [
 
 { #category : 'accessing' }
 Game >> playTurnAsOngoing [
-    | ship totalRoll |
+    | ship totalRoll squareEffect |
     ship := turnHandler whoseTurnIsIt.
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
     board move: ship thatRolled: totalRoll.
+	squareEffect:= board effectAt: ship position.
 	board applyEffect: (board effectAt: ship position) to: ship withShips: ships.
 	(self hasWon: ship) ifTrue: [ self end ].
 	turnHandler prepareNextTurn.

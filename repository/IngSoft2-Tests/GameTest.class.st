@@ -455,3 +455,31 @@ GameTest >> test037WhenAShipReachesTheEndOfAFinalLapThenTheGameEnds [
 	self assert: (aGame ended).
 
 ]
+
+{ #category : 'tests' }
+GameTest >> test041WhenAShipGoBackwardsThenItLoseALap [
+	
+	| aNumberOfLaps |
+	aCollectionOfDices:=OrderedCollection
+	with: (LoadedDice with: 22).
+	aNumberOfLaps:=2.
+	aBoard := Board withSize: 20 and: WormHole new .
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
+	aGame playTurn.
+	self assert: aGame end .
+
+]
+
+{ #category : 'tests' }
+GameTest >> test042WhenAShipLandsOnASquareByEffectThenNoSecondEffectIsApplied [
+	
+	| aNumberOfLaps |
+	aCollectionOfDices:=OrderedCollection
+	with: (LoadedDice with: 8).
+	aNumberOfLaps:=2.
+	aBoard := Board withSize: 20 and: WormHole new .
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
+	aGame playTurn.
+	self assert: (aGame positionOf: walter) equals: 5.
+
+]
