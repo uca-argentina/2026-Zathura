@@ -44,13 +44,6 @@ Ship >> handleLapsFor: aBoardSize [
 ]
 
 { #category : 'initialization' }
-Ship >> handleLapsFor: aBoardSize andNumberOfLaps: aBoardNumberOfLaps [
-
-	(position >= aBoardSize )ifTrue: [ self completeLapFor:aBoardSize ].
-	(lap >= aBoardNumberOfLaps) ifTrue: [ position := aBoardSize. lap := aBoardNumberOfLaps ].
-]
-
-{ #category : 'initialization' }
 Ship >> initializeAs: aName [
 	name := aName.
 	position := 1.

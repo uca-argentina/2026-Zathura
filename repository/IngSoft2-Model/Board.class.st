@@ -14,7 +14,7 @@ Class {
 Board class >> withSize: aSize and: aEffectProvider [
 	(aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].
 	aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
-	^ (self new) initializeWithSize: aSize andEffect: (aEffectProvider effectsFor: aSize) andNumberOfLaps: 1.
+	^ (self new) initializeWithSize: aSize andEffect: (aEffectProvider effectsFor: aSize).
 ]
 
 { #category : 'accessing' }
@@ -29,20 +29,15 @@ Board >> effectAt: aPosition [
 ]
 
 { #category : 'accessing' }
-Board >> hasWon: aShip [ 
-	^ (aShip didYouWin: numberOfLaps).
-]
-
-{ #category : 'accessing' }
 Board >> hasWon: aShip forLaps: aNumberOfLaps [
 	^ (aShip didYouWin: aNumberOfLaps).
 ]
 
 { #category : 'instance creation' }
-Board >> initializeWithSize: aSize andEffect: anEffectsArray andNumberOfLaps:anAmount [
+Board >> initializeWithSize: aSize andEffect: anEffectsArray [
    numSquares := aSize.
 	effects := anEffectsArray.
-	numberOfLaps:=anAmount.
+
 ]
 
 { #category : 'accessing' }

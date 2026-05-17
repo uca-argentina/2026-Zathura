@@ -58,7 +58,7 @@ Game >> ended [
 
 { #category : 'accessing' }
 Game >> hasWon: aShip [
-    ^ aShip lap >= lapsToWin
+    ^ aShip didYouWin: lapsToWin
 ]
 
 { #category : 'accessing' }
@@ -154,5 +154,5 @@ Game >> standings [
 { #category : 'accessing' }
 Game >> whoWon [
 	state ended ifFalse: [ Error signal: 'Game is not over yet' ].
-    ^ (ships detect: [ :aShip | board hasWon: aShip ]) name.
+    ^ (ships detect: [ :aShip | self hasWon: aShip ]) name.
 ]

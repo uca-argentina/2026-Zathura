@@ -181,21 +181,17 @@ GameTest >> test016WhenAnyShipReachesTheEndThenTheGameEnds [
 ]
 
 { #category : 'tests' }
-GameTest >> test017WhenAShipSurpassesTheEndThenItsPositionIsTheLastSquare [
-	
-	aCollectionOfDices:=OrderedCollection
-	with: (LoadedDice with: 7).
-	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
-	
-	self assert: (aGame standings at:'Walter') equals: aBoard numSquares.
-	
+GameTest >> test017WhenAShipSurpassesTheEndOfTheBoardThenItWrapsAroundAndContinues [
+    aCollectionOfDices := OrderedCollection with: (LoadedDice with: 7).
+    aGame := Game 
+        playedOn: aBoard 
+        by: aCollectionOfShips 
+        throwing: aCollectionOfDices 
+        winningWith: 2.
+    7 timesRepeat: [ aGame playTurn ].
+
+	 self assert: (aGame standings at: 'Walter') equals: 2.
+    self deny: aGame ended
 
 ]
 
@@ -445,23 +441,7 @@ GameTest >> test036WhenARequestForAnUnknownShipsRankingIsMadeThenThatRequestIsDe
 ]
 
 { #category : 'tests' }
-GameTest >> test037WhenAShipReachesTheEndOfANotFinalLapThenTheGameDoesNotEnd [
-	
-	| aNumberOfLaps |
-	aCollectionOfDices:=OrderedCollection
-	with: (LoadedDice with: 13).
-	aNumberOfLaps:=2.
-	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
-	aGame playTurn.
-	self deny: (aGame ended).
-
-]
-
-{ #category : 'tests' }
-GameTest >> test038WhenAShipReachesTheEndOfAFinalLapThenTheGameEnds [
+GameTest >> test037WhenAShipReachesTheEndOfAFinalLapThenTheGameEnds [
 	
 	| aNumberOfLaps |
 	aCollectionOfDices:=OrderedCollection
