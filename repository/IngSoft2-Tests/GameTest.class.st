@@ -158,7 +158,7 @@ GameTest >> test014WhenAShipReachesTheEndThenTheGameEnds [
 GameTest >> test015WhenAGameEndedThenTurnsCannotBePlayed [
 	
 	aCollectionOfDices:=OrderedCollection
-	with: (LoadedDice with: 19).
+	with: (LoadedDice with: 20).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	self should: [aGame playTurn]
@@ -171,7 +171,7 @@ GameTest >> test015WhenAGameEndedThenTurnsCannotBePlayed [
 GameTest >> test016WhenAnyShipReachesTheEndThenTheGameEnds [
 	
 	aCollectionOfDices:=OrderedCollection
-	with: (LoadedDice with: 19).
+	with: (LoadedDice with: 20).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playGame.
 	
@@ -204,7 +204,7 @@ GameTest >> test018WhenAGameIsEndedThenTheStandingsReflectTheWinnerAndTheOthersE
 
 	aGame playGame.
 
-	self assert: (aGame standings at: 'Walter') equals: 20.
+	self assert: (aGame standings at: 'Walter') equals: 2.
 	self assert: (aGame standings at: 'Danny') equals: 19.
 	self assert: (aGame standings at: 'Lisa') equals: 19.
 

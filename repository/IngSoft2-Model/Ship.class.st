@@ -37,6 +37,13 @@ Ship >> didYouWin:aNumberofLaps [
 ]
 
 { #category : 'initialization' }
+Ship >> handleLapsFor: aBoardSize [
+
+	(position > aBoardSize )ifTrue: [ self completeLapFor:aBoardSize ].
+
+]
+
+{ #category : 'initialization' }
 Ship >> handleLapsFor: aBoardSize andNumberOfLaps: aBoardNumberOfLaps [
 
 	(position >= aBoardSize )ifTrue: [ self completeLapFor:aBoardSize ].

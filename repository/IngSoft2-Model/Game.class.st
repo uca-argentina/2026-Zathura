@@ -57,6 +57,11 @@ Game >> ended [
 ]
 
 { #category : 'accessing' }
+Game >> hasWon: aShip [
+    ^ aShip lap >= lapsToWin
+]
+
+{ #category : 'accessing' }
 Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection and: aNumberOfLaps [ 
 	board := aBoard.
 	dices := aDiceCollection.
@@ -95,7 +100,7 @@ Game >> playTurnAsOngoing [
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
     board move: ship thatRolled: totalRoll.
 	board applyEffect: (board effectAt: ship position) to: ship withShips: ships.
-	(board hasWon: ship forLaps: lapsToWin ) ifTrue: [ self end ].
+	(self hasWon: ship) ifTrue: [ self end ].
 	turnHandler prepareNextTurn.
 ]
 
