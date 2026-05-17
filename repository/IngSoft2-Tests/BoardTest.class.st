@@ -38,7 +38,7 @@ BoardTest >> test004WhenAShipCrossesTheEndOfTheBoardThenItWrapsAroundAndComplete
 BoardTest >> test005WhenAShipMovesMoreThanTwoBoardLengthsThenLapsIncreaseAccordingly [
     | aShip aBoard |
     aShip := Ship named: 'Walter'.
-    aBoard := Board withSize: 10 and: NoEffect new.
+    aBoard := Board withSize: 10 and: NoEffect new andLaps: 3.
     aBoard move: aShip thatRolled: 25.  
     self assert: aShip position equals: 6.
     self assert: aShip lap equals: 2
