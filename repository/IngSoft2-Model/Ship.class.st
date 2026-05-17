@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'position',
-		'name'
+		'name',
+		'lap'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -25,14 +26,33 @@ Ship >> areYou: aName [
 ]
 
 { #category : 'accessing' }
+Ship >> completeLapFor: aBoardSize [
+	lap := lap + ((position - 1) // aBoardSize).
+   position := ((position - 1) \\ aBoardSize) + 1
+]
+
+{ #category : 'accessing' }
 Ship >> didYouWin:aBoardSize [
 	^position >= aBoardSize.
+]
+
+{ #category : 'initialization' }
+Ship >> handleLapsFor: aBoardSize andNumberOfLaps: aBoardNumberOfLaps [
+
+	(position > aBoardSize )ifTrue: [ self completeLapFor:aBoardSize ].
+	(lap >= aBoardNumberOfLaps) ifTrue: [ position := aBoardSize. lap := aBoardNumberOfLaps ].
 ]
 
 { #category : 'initialization' }
 Ship >> initializeAs: aName [
 	name := aName.
 	position := 1.
+	lap:=0.
+]
+
+{ #category : 'accessing' }
+Ship >> lap [
+	^lap.
 ]
 
 { #category : 'accessing' }
@@ -48,8 +68,8 @@ Ship >> moveBy: anAmountOfSquares [
 ]
 
 { #category : 'accessing' }
-Ship >> moveInsideTheLimits: aMaxLimit [ 
-	position := position min:aMaxLimit .
+Ship >> moveInsideTheLimits: aBoardSize [
+	position := position min:aBoardSize .
 ]
 
 { #category : 'accessing' }

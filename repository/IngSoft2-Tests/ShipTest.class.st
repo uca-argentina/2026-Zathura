@@ -43,3 +43,11 @@ ShipTest >> test004WhenAShipIsMovedBackBeyondStartThenTheShipsStaysAtOne [
 	aShip moveBack: 5.
 	self assert: aShip position equals: 1.
 ]
+
+{ #category : 'tests' }
+ShipTest >> test005WhenAShipIsCreatedThenItsStartsAtLap0 [
+	| aShip |
+	
+	aShip := Ship named: 'Walter'.
+	self assert: aShip lap equals: 0.
+]

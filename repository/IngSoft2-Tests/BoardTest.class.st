@@ -22,3 +22,24 @@ BoardTest >> test002WhenBoardIsCreatedWithSizeLessOrEqualToZeroThenShouldThrowEr
 BoardTest >> test003WhenBoardIsCreatedWithFloatSizeThenShouldThrowError [
     self should: [ Board withSize: 5.5 and: NoEffect new ] raise: Error.
 ]
+
+{ #category : 'tests' }
+BoardTest >> test004WhenAShipCrossesTheEndOfTheBoardThenItWrapsAroundAndCompletesALap [
+    | aShip aBoard |
+    aShip := Ship named: 'Walter'.
+    aBoard := Board withSize: 20 and: NoEffect new andLaps: 2.
+    aShip moveBy: 17.   
+    aBoard move: aShip thatRolled: 5. 
+    self assert: aShip position equals: 3.
+    self assert: aShip lap equals: 1
+]
+
+{ #category : 'tests' }
+BoardTest >> test005WhenAShipMovesMoreThanTwoBoardLengthsThenLapsIncreaseAccordingly [
+    | aShip aBoard |
+    aShip := Ship named: 'Walter'.
+    aBoard := Board withSize: 10 and: NoEffect new.
+    aBoard move: aShip thatRolled: 25.  
+    self assert: aShip position equals: 6.
+    self assert: aShip lap equals: 2
+]
