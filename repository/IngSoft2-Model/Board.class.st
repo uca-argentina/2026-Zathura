@@ -18,10 +18,10 @@ Board class >> withSize: aSize and: aEffectProvider [
 ]
 
 { #category : 'instance creation' }
-Board class >> withSize: aSize using: aProbabilityProvider [
+Board class >> withSize: aSize using: aRandomProvider [
 	(aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].
 	aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
-	^ (self new) initializeWithSize: aSize using: aProbabilityProvider 
+	^ (self new) initializeWithSize: aSize using: aRandomProvider. 
 ]
 
 { #category : 'accessing' }
@@ -48,13 +48,13 @@ Board >> initializeWithSize: aSize andEffect: anEffectsArray [
 ]
 
 { #category : 'instance creation' }
-Board >> initializeWithSize: aSize using: aProbabilityProvider [
+Board >> initializeWithSize: aSize using: aRandomProvider [
 	| probability |
 	numSquares := aSize.
 	effects := Array new: aSize.
 
 	1 to: aSize do: [ :index |
-		probability := aProbabilityProvider next.
+		probability := aRandomProvider nextEffectProbability.
 
 		probability <= 0.40
 			ifTrue: [ effects at: index put: NoEffect new ].
@@ -63,7 +63,16 @@ Board >> initializeWithSize: aSize using: aProbabilityProvider [
 			ifTrue: [ effects at: index put: WormHole new ].
 			
 		(probability > 0.60 and: [ probability <= 0.80 ])
-		ifTrue: [ effects at: index put: SpeedUp new ] ].
+		ifTrue: [ effects at: index put: SpeedUp new ].
+		
+		(probability > 0.80 and: [ probability <= 0.90 ])
+		ifTrue: [ effects at: index put: (MoonWalk with: aRandomProvider nextMoonWalkDistance) ].
+		
+		(probability > 0.90 and: [ probability <= 0.98 ])
+		ifTrue: [ effects at: index put: (HyperJump with: aRandomProvider nextHyperJumpValues) ].
+		
+		(probability > 0.98 and: [ probability <= 1 ])
+		ifTrue: [ effects at: index put: AtomicBomb new ]. ].
 ]
 
 { #category : 'accessing' }
