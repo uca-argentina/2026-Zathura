@@ -110,6 +110,7 @@ GameTest >> test011WhenAllShipsHavePlayedThenTurnStartsAgainFromFirstShip [
 	aGame playTurn.
 	aGame playTurn.
 	aGame playTurn.
+	
 
 	self assert: (aGame squares at: 'Walter') equals: 7.
 	self assert: (aGame squares at: 'Danny') equals: 4.
@@ -511,7 +512,7 @@ GameTest >> test040WhenARequestForAnUnknownShipsLapIsMadeThenThatRequestIsDenied
 ]
 
 { #category : 'tests' }
-GameTest >> test041WhenAShipGoBackwardsThenItLoseALap [
+GameTest >> test041WhenAShipGoBackwardsThenItLosesALap [
 	
 	| aNumberOfLaps |
 	aCollectionOfDices:=OrderedCollection
@@ -539,7 +540,7 @@ GameTest >> test042WhenAShipLandsOnASquareByEffectThenNoSecondEffectIsApplied [
 ]
 
 { #category : 'tests' }
-GameTest >> test043WhenASquareIsAtomicBombThenAllShipsKeePTheirLaps [
+GameTest >> test043WhenASquareIsAtomicBombThenAllShipsKeepTheirLaps [
 	
 	 | aNumberOfLaps |
 	aCollectionOfDices:=OrderedCollection

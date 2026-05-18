@@ -42,7 +42,7 @@ Game class >> playedOn: aBoard by: aShipsCollection throwing: aDiceCollection wi
 	
 	
 	
-	^(self new) initializeWith: aBoard deepCopy and:aShipsCollection deepCopy and:aDiceCollection and:aNumberofLaps.
+	^(self new) initializeWith: aBoard deepCopy and:aShipsCollection deepCopy and:aDiceCollection deepCopy and:aNumberofLaps.
 	
 ]
 
