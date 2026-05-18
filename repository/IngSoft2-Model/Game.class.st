@@ -16,17 +16,7 @@ Class {
 { #category : 'as yet unclassified' }
 Game class >> playedOn: aBoard by: aShipsCollection  throwing: aDiceCollection [ 
 	
-	
-	| shipsNames |
-	(aShipsCollection size <2)ifTrue: [ Error signal: 'There must be at least two ships'].
-	shipsNames:=aShipsCollection collect:[:aShip| aShip name].
-	(shipsNames asSet size = aShipsCollection size) ifFalse: [ Error signal: 'There CANNOT be two ships named the same way'].
-	aDiceCollection isEmpty ifTrue: [ Error signal: 'There must be at least one dice'].
-	aBoard ifNil: [ Error signal: 'Board cannot be nil' ].
-	
-	
-	
-	^(self new) initializeWith: aBoard deepCopy and:aShipsCollection deepCopy and:aDiceCollection and: 1
+	^ self playedOn: aBoard by: aShipsCollection throwing: aDiceCollection winningWith: 1.
 ]
 
 { #category : 'as yet unclassified' }
@@ -81,9 +71,7 @@ Game >> laps [
 
 { #category : 'accessing' }
 Game >> lapsFor: theShip [ 
-	| res |
-	res:= ships select: [:aShip| aShip = theShip ].
-	(res isEmpty)ifTrue: [ Error signal: 'This ship is not playing this game' ].
+	self validateShipIsPlaying: theShip.
 	^ (self laps) at: theShip name.
 ]
 
@@ -139,24 +127,19 @@ Game >> ranking [
 
 { #category : 'accessing' }
 Game >> rankingFor: theShip [ 
-	
-	| res |
-	res:= ships select: [:aShip| aShip = theShip ].
-	(res isEmpty)ifTrue: [ Error signal: 'This ship is not playing this game' ].
+	self validateShipIsPlaying: theShip.
 	^ self ranking keyAtValue: theShip name.
 ]
 
 { #category : 'accessing' }
 Game >> sendAllShipsToStart [
-	ships do:[ :aShip | aShip moveToStart].
+	ships do:[ :aShip | aShip sendToSquareOne].
 ]
 
 { #category : 'accessing' }
 Game >> squareOf: theShip [ 
-	| res |
-	res:= ships select: [:aShip| aShip = theShip ].
-	(res isEmpty)ifTrue: [ Error signal: 'This ship is not playing this game' ].
-	^ res first position.
+	self validateShipIsPlaying: theShip.
+	^ (ships detect: [:each | each = theShip]) position.
 	
 ]
 
@@ -166,6 +149,11 @@ Game >> squares [
 	dict:=Dictionary new.
 	ships do:[:aShip| dict at: aShip name put: aShip position ].
 	^ dict.
+]
+
+{ #category : 'accessing' }
+Game >> validateShipIsPlaying: theShip [ 
+	(ships anySatisfy: [:aShip| aShip = theShip ]) ifFalse: [ Error signal: 'This ship is not playing this game' ].
 ]
 
 { #category : 'accessing' }

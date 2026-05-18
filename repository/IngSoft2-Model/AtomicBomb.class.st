@@ -7,7 +7,7 @@ Class {
 
 { #category : 'initialization' }
 AtomicBomb >> applyTo: aShip withShips: allShips [
-	allShips do:[:each | each moveToStart ].
+	allShips do:[:each | each sendToSquareOne ].
 ]
 
 { #category : 'initialization' }

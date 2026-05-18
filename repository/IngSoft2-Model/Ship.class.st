@@ -52,22 +52,13 @@ Ship >> lap [
 Ship >> moveBack: anAmountOfSquares [
 	(anAmountOfSquares >0)ifFalse: [ Error signal: 'The Ship must move by at least 1 square back' ].
 	position := (position - anAmountOfSquares).
+	(lap = 0 and: [ position < 1]) ifTrue: [ position :=1. ].
 ]
 
 { #category : 'accessing' }
 Ship >> moveBy: anAmountOfSquares [ 
 	(anAmountOfSquares >0)ifFalse: [ Error signal: 'The Ship must move by at least 1 square' ].
 	position := position + anAmountOfSquares.
-]
-
-{ #category : 'accessing' }
-Ship >> moveInsideTheLimits: aBoardSize [
-	position := position min:aBoardSize .
-]
-
-{ #category : 'accessing' }
-Ship >> moveToStart [
-	position := 1.
 ]
 
 { #category : 'accessing' }
@@ -86,6 +77,11 @@ Ship >> progressIn: aBoardSize [
 ]
 
 { #category : 'accessing' }
+Ship >> sendToSquareOne [
+	position := 1.
+]
+
+{ #category : 'accessing' }
 Ship >> standing [
-	^#(name position).
+	^ Array with: name with: position .
 ]
