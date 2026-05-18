@@ -22,3 +22,27 @@ BoardTest >> test002WhenBoardIsCreatedWithSizeLessOrEqualToZeroThenShouldThrowEr
 BoardTest >> test003WhenBoardIsCreatedWithFloatSizeThenShouldThrowError [
     self should: [ Board withSize: 5.5 and: NoEffect new ] raise: Error.
 ]
+
+{ #category : 'tests' }
+BoardTest >> test004WhenProbabilityFallsInNoEffectRangeThenSquareHasNoEffect [
+	| board loadedProbability |
+	loadedProbability := LoadedProbability with: 0.10.
+	board := Board withSize: 1 using: loadedProbability.
+	self assert: (board effectAt: 1) class equals: NoEffect.
+]
+
+{ #category : 'tests' }
+BoardTest >> test005WhenProbabilityFallsInWormHoleRangeThenSquareHasWormHole [
+	| board loadedProbability |
+	loadedProbability := LoadedProbability with: 0.50.
+	board := Board withSize: 1 using: loadedProbability.
+	self assert: (board effectAt: 1) class equals: WormHole.
+]
+
+{ #category : 'tests' }
+BoardTest >> test006WhenProbabilityFallsInSpeedUpRangeThenSquareHasSpeedUp [
+	| board loadedProbability |
+	loadedProbability := LoadedProbability with: 0.70.
+	board := Board withSize: 1 using: loadedProbability.
+	self assert: (board effectAt: 1) class equals: SpeedUp.
+]
