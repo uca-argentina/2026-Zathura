@@ -19,11 +19,6 @@ MoonWalk >> applyTo: aShip withShips: allShips [
 ]
 
 { #category : 'initialization' }
-MoonWalk >> effectsFor: aSize [
-	^ Array new: aSize withAll: self.
-]
-
-{ #category : 'initialization' }
 MoonWalk >> initializeWith: aNumber [
 	numSquares:= aNumber.
 ]

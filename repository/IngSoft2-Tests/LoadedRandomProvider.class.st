@@ -43,6 +43,11 @@ LoadedRandomProvider class >> with: aProbability andMoonWalkDistance: aDistance 
 ]
 
 { #category : 'instance creation' }
+LoadedRandomProvider class >> withProbabilities: aProbabilityList [
+    ^ (self new) initializeWithProbabilities:  aProbabilityList  andMoonWalkDistances: #() andHyperJumpValuesLists: #().
+]
+
+{ #category : 'instance creation' }
 LoadedRandomProvider class >> withProbabilities: someProbabilities andHyperJumpValuesLists: someHyperJumpValuesLists [
 	^ self new
         initializeWithProbabilities: someProbabilities

@@ -22,11 +22,6 @@ HyperJump >> applyTo: aShip withShips: allShips [
 ]
 
 { #category : 'initialization' }
-HyperJump >> effectsFor: aSize [
-	^ Array new: aSize withAll: self.
-]
-
-{ #category : 'initialization' }
 HyperJump >> initializeWith: aValuesArray [
 	values:= aValuesArray asOrderedCollection 
                   sort: [ :a :b | a > b ];

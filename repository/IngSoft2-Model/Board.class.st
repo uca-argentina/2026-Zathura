@@ -46,13 +46,6 @@ Board class >> effectsOfSize: aSize using: aRandomProvider [
 
 ]
 
-{ #category : 'as yet unclassified' }
-Board class >> withSize: aSize and: aEffectProvider [
-	(aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].
-	aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
-	^ (self new) initializeWithSize: aSize andEffects: (aEffectProvider effectsFor: aSize).
-]
-
 { #category : 'instance creation' }
 Board class >> withSize: aSize using: aRandomProvider [
 	(aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].

@@ -589,11 +589,18 @@ GameTest >> test040WhenARequestForAnUnknownShipsLapIsMadeThenThatRequestIsDenied
 { #category : 'tests' }
 GameTest >> test041WhenAShipGoBackwardsThenItLoseALap [
 	
-	| aNumberOfLaps |
-	aCollectionOfDices:=OrderedCollection
-	with: (LoadedDice with: 22).
+	| aNumberOfLaps probabilities |
+	aCollectionOfDices:=OrderedCollection with: (LoadedDice with: 22).
 	aNumberOfLaps:=2.
-	aBoard := Board withSize: 20 and: WormHole new .
+	probabilities :=OrderedCollection new.
+	probabilities addAll: ((1 to: 20) collect: [ :i | 0.50 ]).
+
+	loadedRandomProvider := LoadedRandomProvider
+		                        withProbabilities: probabilities
+		                        andMoonWalkDistances: 0
+		                        andHyperJumpValues: 0.	
+		
+	aBoard := Board withSize: 20 using: loadedRandomProvider .
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
 	aGame playTurn.
 	self assert: (aGame lapsFor: walter) equals: 0.
@@ -603,11 +610,18 @@ GameTest >> test041WhenAShipGoBackwardsThenItLoseALap [
 { #category : 'tests' }
 GameTest >> test041WhenAShipGoBackwardsThenItLosesALap [
 	
-	| aNumberOfLaps |
-	aCollectionOfDices:=OrderedCollection
-	with: (LoadedDice with: 22).
+	| aNumberOfLaps probabilities |
+	aCollectionOfDices:=OrderedCollection with: (LoadedDice with: 22).
 	aNumberOfLaps:=2.
-	aBoard := Board withSize: 20 and: WormHole new .
+	probabilities :=OrderedCollection new.
+	probabilities addAll: ((1 to: 20) collect: [ :i | 0.50 ]).
+
+	loadedRandomProvider := LoadedRandomProvider
+		                        withProbabilities: probabilities
+		                        andMoonWalkDistances: 0
+		                        andHyperJumpValues: 0.	
+		
+	aBoard := Board withSize: 20 using: loadedRandomProvider .
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
 	aGame playTurn.
 	self assert: (aGame lapsFor: walter) equals: 0.
@@ -617,11 +631,19 @@ GameTest >> test041WhenAShipGoBackwardsThenItLosesALap [
 { #category : 'tests' }
 GameTest >> test042WhenAShipLandsOnASquareByEffectThenNoSecondEffectIsApplied [
 	
-	| aNumberOfLaps |
+	| aNumberOfLaps probabilities |
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 8).
 	aNumberOfLaps:=2.
-	aBoard := Board withSize: 20 and: WormHole new .
+	probabilities :=OrderedCollection new.
+	probabilities addAll: ((1 to: 20) collect: [ :i | 0.50 ]).
+
+	loadedRandomProvider := LoadedRandomProvider
+		                        withProbabilities: probabilities
+		                        andMoonWalkDistances: 0
+		                        andHyperJumpValues: 0.	
+		
+	aBoard := Board withSize: 20 using: loadedRandomProvider .
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
 	aGame playTurn.
 	self assert: (aGame squareOf: walter) equals: 5.

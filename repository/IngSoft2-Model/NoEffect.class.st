@@ -9,8 +9,3 @@ Class {
 NoEffect >> applyTo: aShip withShips: allShips [
 	"do nothing"
 ]
-
-{ #category : 'as yet unclassified' }
-NoEffect >> effectsFor: aSize [
-	^ Array new: aSize withAll: self.
-]

@@ -9,8 +9,3 @@ Class {
 AtomicBomb >> applyTo: aShip withShips: allShips [
 	allShips do:[:each | each sendToSquareOne ].
 ]
-
-{ #category : 'initialization' }
-AtomicBomb >> effectsFor: aSize [
-	^ Array new: aSize withAll: self.
-]

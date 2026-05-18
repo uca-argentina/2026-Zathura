@@ -9,8 +9,3 @@ Class {
 WormHole >> applyTo: aShip withShips: allShips [
 	aShip moveBack: 4.
 ]
-
-{ #category : 'initialization' }
-WormHole >> effectsFor: aSize [
-	^ Array new: aSize withAll: self.
-]
