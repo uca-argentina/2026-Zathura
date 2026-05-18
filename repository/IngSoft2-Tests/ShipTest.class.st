@@ -36,16 +36,7 @@ ShipTest >> test003WhenAShipTriesToMoveBy0orLowerThenTheShipsMovementIsInvalid [
 ]
 
 { #category : 'tests' }
-ShipTest >> test004WhenAShipIsMovedBackBeyondStartThenTheShipsStaysAtOne [
-	| aShip |
-	
-	aShip := Ship named: 'Walter'.
-	aShip moveBack: 5.
-	self assert: aShip position equals: 1.
-]
-
-{ #category : 'tests' }
-ShipTest >> test005WhenAShipIsCreatedThenItsStartsAtLap0 [
+ShipTest >> test004WhenAShipIsCreatedThenItsStartsAtLap0 [
 	| aShip |
 	
 	aShip := Ship named: 'Walter'.

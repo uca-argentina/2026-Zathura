@@ -26,21 +26,14 @@ Ship >> areYou: aName [
 ]
 
 { #category : 'accessing' }
-Ship >> completeLapFor: aBoardSize [
-	lap := lap + ((position - 1 ) // aBoardSize).
-   position := ((position - 1) \\ aBoardSize) + 1
-]
-
-{ #category : 'accessing' }
 Ship >> didYouWin:aNumberofLaps [
 	^lap >= aNumberofLaps.
 ]
 
 { #category : 'initialization' }
 Ship >> handleLapsFor: aBoardSize [
-
-	(position > aBoardSize )ifTrue: [ self completeLapFor:aBoardSize ].
-
+	lap := lap + ((position - 1 ) // aBoardSize).
+   position := ((position - 1) \\ aBoardSize) + 1
 ]
 
 { #category : 'initialization' }
@@ -58,7 +51,7 @@ Ship >> lap [
 { #category : 'accessing' }
 Ship >> moveBack: anAmountOfSquares [
 	(anAmountOfSquares >0)ifFalse: [ Error signal: 'The Ship must move by at least 1 square back' ].
-	position := (position - anAmountOfSquares) max: 1.
+	position := (position - anAmountOfSquares).
 ]
 
 { #category : 'accessing' }

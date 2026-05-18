@@ -316,8 +316,11 @@ GameTest >> test027WhenASquareIsMoonWalkThenAllOtherShipsMoveBackNSquares [
 	aGame playTurn.
 	
 	self assert: (aGame squares at: 'Walter') equals: 11.
-	self assert: (aGame squares at: 'Danny') equals: 5.
-	self assert: (aGame squares at: 'Lisa') equals: 7.
+	self assert: (aGame squares at: 'Danny') equals: 3.
+	self assert: (aGame squares at: 'Lisa') equals: 3.
+	self assert: (aGame lapsFor: walter) equals: 0.
+	self assert: (aGame lapsFor: danny) equals: 0.
+	self assert: (aGame lapsFor: lisa) equals: 0.
 	
 
 ]
@@ -517,7 +520,7 @@ GameTest >> test041WhenAShipGoBackwardsThenItLoseALap [
 	aBoard := Board withSize: 20 and: WormHole new .
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
 	aGame playTurn.
-	self assert: aGame end .
+	self assert: (aGame lapsFor: walter) equals: 0.
 
 ]
 
@@ -531,6 +534,29 @@ GameTest >> test042WhenAShipLandsOnASquareByEffectThenNoSecondEffectIsApplied [
 	aBoard := Board withSize: 20 and: WormHole new .
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
 	aGame playTurn.
-	self assert: (aGame positionOf: walter) equals: 5.
+	self assert: (aGame squareOf: walter) equals: 5.
+
+]
+
+{ #category : 'tests' }
+GameTest >> test043WhenASquareIsAtomicBombThenAllShipsKeePTheirLaps [
+	
+	 | aNumberOfLaps |
+	aCollectionOfDices:=OrderedCollection
+	with: (LoadedDice with: 8).
+	aNumberOfLaps:=5.
+	aBoard := Board withSize: 7 and: AtomicBomb new .
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playTurn.
+	
+	self assert: (aGame lapsFor: walter) equals: 3.
+	self assert: (aGame lapsFor: danny) equals: 2.
+	self assert: (aGame lapsFor: lisa) equals: 2.
 
 ]
