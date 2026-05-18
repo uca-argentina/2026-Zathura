@@ -52,10 +52,13 @@ Board >> initializeWithSize: aSize using: aRandomProvider [
 	| probability |
 	numSquares := aSize.
 	effects := Array new: aSize.
-
+	
 	1 to: aSize do: [ :index |
 		probability := aRandomProvider nextEffectProbability.
-
+		
+		(probability < 0 or: [ probability > 1 ])
+		ifTrue: [ Error signal: 'Effect probability must be between 0 and 1' ].
+		
 		probability <= 0.40
 			ifTrue: [ effects at: index put: NoEffect new ].
 

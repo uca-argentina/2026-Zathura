@@ -140,3 +140,93 @@ BoardTest >> test012WhenProbabilityFallsInAtomicBombRangeThenSquareHasAtomicBomb
 
 	self assert: (board effectAt: 1) class equals: AtomicBomb.
 ]
+
+{ #category : 'tests' }
+BoardTest >> test013WhenBoardHasManySquaresThenEachSquareUsesNextGeneratedProbability [
+
+	| board loadedRandomProvider |
+	loadedRandomProvider := LoadedRandomProvider
+		withProbabilities: #(0.10 0.50 0.70 0.99)
+		andMoonWalkDistances: #().
+
+	board := Board withSize: 4 using: loadedRandomProvider.
+
+	self assert: (board effectAt: 1) class equals: NoEffect.
+	self assert: (board effectAt: 2) class equals: WormHole.
+	self assert: (board effectAt: 3) class equals: SpeedUp.
+	self assert: (board effectAt: 4) class equals: AtomicBomb.
+]
+
+{ #category : 'tests' }
+BoardTest >> test014WhenBoardGeneratesConfigurableEffectsThenEachUsesItsGeneratedConfiguration [
+
+	| board loadedRandomProvider moonWalkEffect hyperJumpEffect shipThatLands otherShip jumpingShip |
+	loadedRandomProvider := LoadedRandomProvider
+		withProbabilities: #(0.85 0.95)
+		andMoonWalkDistances: #(3)
+		andHyperJumpValues: #(10 5 2).
+
+	board := Board withSize: 2 using: loadedRandomProvider.
+
+	moonWalkEffect := board effectAt: 1.
+	hyperJumpEffect := board effectAt: 2.
+
+	shipThatLands := Ship named: 'Walter'.
+	otherShip := Ship named: 'Danny'.
+	otherShip moveBy: 5.
+
+	moonWalkEffect applyTo: shipThatLands withShips: { shipThatLands. otherShip }.
+	self assert: otherShip position equals: 3.
+
+	jumpingShip := Ship named: 'Lisa'.
+	hyperJumpEffect applyTo: jumpingShip withShips: { jumpingShip }.
+	self assert: jumpingShip position equals: 11.
+]
+
+{ #category : 'tests' }
+BoardTest >> test015WhenTwoHyperJumpSquaresAreGeneratedThenEachUsesDifferentGeneratedValues [
+
+	| board loadedRandomProvider firstHyperJump secondHyperJump firstShip secondShip |
+	loadedRandomProvider := LoadedRandomProvider
+		withProbabilities: #(0.95 0.95)
+		andHyperJumpValuesLists: { #(10 5 2). #(7 4 1) }.
+
+	board := Board withSize: 2 using: loadedRandomProvider.
+
+	firstHyperJump := board effectAt: 1.
+	secondHyperJump := board effectAt: 2.
+
+	firstShip := Ship named: 'Walter'.
+	secondShip := Ship named: 'Danny'.
+
+	firstHyperJump applyTo: firstShip withShips: { firstShip }.
+	secondHyperJump applyTo: secondShip withShips: { secondShip }.
+
+	self assert: firstShip position equals: 11.
+	self assert: secondShip position equals: 8.
+]
+
+{ #category : 'tests' }
+BoardTest >> test016WhenProbabilityIsGreaterThanOneThenBoardCreationFails [
+
+	| loadedRandomProvider |
+	loadedRandomProvider := LoadedRandomProvider with: 1.10.
+
+	self
+		should: [ Board withSize: 1 using: loadedRandomProvider ]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: 'Effect probability must be between 0 and 1' ].
+]
+
+{ #category : 'tests' }
+BoardTest >> test017WhenBoardIsCreatedWithRandomProviderThenAllSquaresHaveAnEffect [
+
+	| board randomProvider |
+	randomProvider := RandomProvider withMaxMoonWalkDistance: 10.
+
+	board := Board withSize: 20 using: randomProvider.
+
+	1 to: board numSquares do: [ :position |
+		self deny: (board effectAt: position) isNil ].
+]

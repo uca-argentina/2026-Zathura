@@ -8,7 +8,9 @@ Class {
 		'probabilityIndex',
 		'moonWalkDistances',
 		'moonWalkDistanceIndex',
-		'hyperJumpValues'
+		'hyperJumpValues',
+		'hyperJumpValuesLists',
+		'hyperJumpValuesIndex'
 	],
 	#classInstVars : [
 		'probabilities',
@@ -35,9 +37,21 @@ LoadedRandomProvider class >> with: aProbability andMoonWalkDistance: aDistance 
 ]
 
 { #category : 'instance creation' }
+LoadedRandomProvider class >> withProbabilities: someProbabilities andHyperJumpValuesLists: someHyperJumpValuesLists [
+	^ self new
+		initializeWithProbabilities: someProbabilities
+		andHyperJumpValuesLists: someHyperJumpValuesLists
+]
+
+{ #category : 'instance creation' }
 LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDistances: someDistances [
 
 	^ self new initializeWithProbabilities: someProbabilities andMoonWalkDistances: someDistances
+]
+
+{ #category : 'instance creation' }
+LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValues: someValues [
+	^self new initializeWithProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValues: someValues.
 ]
 
 { #category : 'initialization' }
@@ -50,8 +64,8 @@ LoadedRandomProvider >> initializeWith: aProbability [
 LoadedRandomProvider >> initializeWith: aProbability andHyperJumpValues: someValues [
 	probabilities := { aProbability }.
 	probabilityIndex := 1.
-	hyperJumpValues :=  someValues 
-	
+	hyperJumpValuesLists := { someValues }.
+	hyperJumpValuesIndex := 1.
 ]
 
 { #category : 'initialization' }
@@ -60,6 +74,14 @@ LoadedRandomProvider >> initializeWith: aProbability andMoonWalkDistance: aDista
 	probabilityIndex := 1.
 	moonWalkDistances := { aDistance }.
 	moonWalkDistanceIndex := 1.
+]
+
+{ #category : 'initialization' }
+LoadedRandomProvider >> initializeWithProbabilities: someProbabilities andHyperJumpValuesLists: someHyperJumpValuesLists [ 
+	probabilities :=  someProbabilities .
+	probabilityIndex := 1.
+	hyperJumpValuesLists := someHyperJumpValuesLists .
+	hyperJumpValuesIndex := 1.
 ]
 
 { #category : 'initialization' }
@@ -72,6 +94,20 @@ LoadedRandomProvider >> initializeWithProbabilities: someProbabilities andMoonWa
 ]
 
 { #category : 'initialization' }
+LoadedRandomProvider >> initializeWithProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValues: someValues [
+	
+	probabilities := someProbabilities.
+	probabilityIndex := 1.
+	moonWalkDistances := someDistances.
+	moonWalkDistanceIndex := 1.
+	hyperJumpValuesLists := { someValues }.
+	hyperJumpValuesIndex := 1.
+	
+	
+	
+]
+
+{ #category : 'initialization' }
 LoadedRandomProvider >> nextEffectProbability [
 	| value |
 	value := probabilities at: probabilityIndex.
@@ -81,7 +117,10 @@ LoadedRandomProvider >> nextEffectProbability [
 
 { #category : 'initialization' }
 LoadedRandomProvider >> nextHyperJumpValues [
-	^hyperJumpValues 
+	| values |
+	values := hyperJumpValuesLists at: hyperJumpValuesIndex.
+	hyperJumpValuesIndex := hyperJumpValuesIndex + 1.
+	^ values
 ]
 
 { #category : 'initialization' }
