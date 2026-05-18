@@ -118,7 +118,7 @@ BoardTest >> test011WhenProbabilityFallsInHyperJumpRangeThenHyperJumpUsesGenerat
 	| board loadedRandomProvider effect ship |
 	loadedRandomProvider := LoadedRandomProvider
 		with: 0.95
-		andHyperJumpValues: #(10 5 2).
+		andHyperJumpValues: #(5 10 2). "los tiene que ordenar"
 
 	board := Board withSize: 1 using: loadedRandomProvider.
 	effect := board effectAt: 1.
@@ -164,7 +164,7 @@ BoardTest >> test014WhenBoardGeneratesConfigurableEffectsThenEachUsesItsGenerate
 	loadedRandomProvider := LoadedRandomProvider
 		withProbabilities: #(0.85 0.95)
 		andMoonWalkDistances: #(3)
-		andHyperJumpValues: #(10 5 2).
+		andHyperJumpValues: {#(10 5 2)}.
 
 	board := Board withSize: 2 using: loadedRandomProvider.
 

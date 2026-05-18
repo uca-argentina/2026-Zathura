@@ -9,7 +9,7 @@ Class {
 RandomProviderTest >> test001WhenAskedForEffectProbabilityThenItReturnsANumberBetweenZeroAndOne [
 
 	| randomProvider probability |
-	randomProvider := RandomProvider new.
+	randomProvider := RandomProvider withMaxMoonWalkDistance: 10.
 
 	probability := randomProvider nextEffectProbability.
 

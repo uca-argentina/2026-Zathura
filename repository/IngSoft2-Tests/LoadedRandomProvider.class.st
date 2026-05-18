@@ -63,7 +63,7 @@ LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDi
 	^ self new
         initializeWithProbabilities: someProbabilities
         andMoonWalkDistances: someDistances
-        andHyperJumpValuesLists: { someValues }
+        andHyperJumpValuesLists: someValues
 ]
 
 { #category : 'initialization' }
