@@ -2,7 +2,8 @@ Class {
 	#name : 'RandomProvider',
 	#superclass : 'Object',
 	#instVars : [
-		'maxMoonWalkDistance'
+		'maxMoonWalkDistance',
+		'random'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -16,11 +17,12 @@ RandomProvider class >> withMaxMoonWalkDistance: aMaxDistance [
 { #category : 'initialization' }
 RandomProvider >> initializeMaxMoonWalkDistance: aMaxDistance [
 	maxMoonWalkDistance := aMaxDistance.
+	random := Random new.
 ]
 
 { #category : 'initialization' }
 RandomProvider >> nextEffectProbability [
-	^ Random new next.
+	^ random next.
 ]
 
 { #category : 'initialization' }

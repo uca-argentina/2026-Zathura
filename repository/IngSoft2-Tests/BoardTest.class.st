@@ -1,13 +1,20 @@
 Class {
 	#name : 'BoardTest',
 	#superclass : 'TestCase',
+	#instVars : [
+		'board'
+	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
+BoardTest >> boardWithSize: aSize AndWithLoadProbability: aProbability [
+    ^Board withSize: aSize using: (LoadedRandomProvider with: aProbability).
+]
+
+{ #category : 'tests' }
 BoardTest >> test001WhenBoardIsCreatedWithASizeThenBoardSizeShouldBeThatSize [
-    | board |
     board := Board withSize: 5 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4}).
     self assert: (board numSquares) equals: 5.
 ]
@@ -25,40 +32,31 @@ BoardTest >> test003WhenBoardIsCreatedWithFloatSizeThenShouldThrowError [
 
 { #category : 'tests' }
 BoardTest >> test004WhenProbabilityFallsInNoEffectRangeThenSquareHasNoEffect [
-	| board loadedProbability |
-	loadedProbability := LoadedRandomProvider with: 0.10.
-	board := Board withSize: 1 using: loadedProbability.
-	self assert: (board effectAt: 1) class equals: NoEffect.
+	self assert: ((self boardWithSize: 1 AndWithLoadProbability: 0.10 )effectAt: 1) class equals: NoEffect.
 ]
 
 { #category : 'tests' }
 BoardTest >> test005WhenProbabilityFallsInWormHoleRangeThenSquareHasWormHole [
-	| board loadedProbability |
-	loadedProbability := LoadedRandomProvider with: 0.50.
-	board := Board withSize: 1 using: loadedProbability.
-	self assert: (board effectAt: 1) class equals: WormHole.
+	self assert: ((self boardWithSize: 1 AndWithLoadProbability: 0.50 )effectAt: 1) class equals: WormHole.
 ]
 
 { #category : 'tests' }
 BoardTest >> test006WhenProbabilityFallsInSpeedUpRangeThenSquareHasSpeedUp [
-	| board loadedProbability |
-	loadedProbability := LoadedRandomProvider with: 0.70.
-	board := Board withSize: 1 using: loadedProbability.
-	self assert: (board effectAt: 1) class equals: SpeedUp.
+	self assert: ((self boardWithSize: 1 AndWithLoadProbability: 0.70 )effectAt: 1) class equals: SpeedUp.
 ]
 
 { #category : 'tests' }
 BoardTest >> test007WhenProbabilityFallsInMoonWalkRangeThenSquareHasMoonWalk [
-	| board loadedProbability |
-	loadedProbability := LoadedRandomProvider with: 0.85 andMoonWalkDistance: 1.
-	board := Board withSize: 1 using: loadedProbability.
-	self assert: (board effectAt: 1) class equals: MoonWalk.
+	| loadedProbability |
+    loadedProbability := LoadedRandomProvider with: 0.85 andMoonWalkDistance: 1.
+    board := Board withSize: 1 using: loadedProbability.
+    self assert: (board effectAt: 1) class equals: MoonWalk.
 ]
 
 { #category : 'tests' }
 BoardTest >> test008WhenProbabilityFallsInMoonWalkRangeThenMoonWalkUsesGeneratedDistance [
 
-	| board loadedProbability effect shipThatLands otherShip |
+	| loadedProbability effect shipThatLands otherShip |
 	loadedProbability := LoadedRandomProvider
 		with: 0.85
 		andMoonWalkDistance: 2.
@@ -79,7 +77,7 @@ BoardTest >> test008WhenProbabilityFallsInMoonWalkRangeThenMoonWalkUsesGenerated
 { #category : 'tests' }
 BoardTest >> test009WhenTwoMoonWalkSquaresAreGeneratedThenEachUsesADifferentGeneratedDistance [
 
-	| board loadedRandomProvider firstEffect secondEffect shipThatLands otherShip |
+	| loadedRandomProvider firstEffect secondEffect shipThatLands otherShip |
 	loadedRandomProvider := LoadedRandomProvider
 		withProbabilities: #(0.85 0.85)
 		andMoonWalkDistances: #(2 5).
@@ -104,7 +102,7 @@ BoardTest >> test009WhenTwoMoonWalkSquaresAreGeneratedThenEachUsesADifferentGene
 { #category : 'tests' }
 BoardTest >> test010WhenProbabilityFallsInHyperJumpRangeThenSquareHasHyperJump [
 
-	| board loadedRandomProvider |
+	| loadedRandomProvider |
 	loadedRandomProvider := LoadedRandomProvider with: 0.95 andHyperJumpValues: #(1).
 
 	board := Board withSize: 1 using: loadedRandomProvider.
@@ -115,7 +113,7 @@ BoardTest >> test010WhenProbabilityFallsInHyperJumpRangeThenSquareHasHyperJump [
 { #category : 'tests' }
 BoardTest >> test011WhenProbabilityFallsInHyperJumpRangeThenHyperJumpUsesGeneratedValues [
 
-	| board loadedRandomProvider effect ship |
+	| loadedRandomProvider effect ship |
 	loadedRandomProvider := LoadedRandomProvider
 		with: 0.95
 		andHyperJumpValues: #(5 10 2). "los tiene que ordenar"
@@ -132,19 +130,13 @@ BoardTest >> test011WhenProbabilityFallsInHyperJumpRangeThenHyperJumpUsesGenerat
 
 { #category : 'tests' }
 BoardTest >> test012WhenProbabilityFallsInAtomicBombRangeThenSquareHasAtomicBomb [
-
-	| board loadedRandomProvider |
-	loadedRandomProvider := LoadedRandomProvider with: 0.99.
-
-	board := Board withSize: 1 using: loadedRandomProvider.
-
-	self assert: (board effectAt: 1) class equals: AtomicBomb.
+	self assert:  ((self boardWithSize: 1 AndWithLoadProbability: 0.99 )effectAt: 1) class equals: AtomicBomb.
 ]
 
 { #category : 'tests' }
 BoardTest >> test013WhenBoardHasManySquaresThenEachSquareUsesNextGeneratedProbability [
 
-	| board loadedRandomProvider |
+	|  loadedRandomProvider |
 	loadedRandomProvider := LoadedRandomProvider
 		withProbabilities: #(0.10 0.50 0.70 0.99)
 		andMoonWalkDistances: #().
@@ -160,7 +152,7 @@ BoardTest >> test013WhenBoardHasManySquaresThenEachSquareUsesNextGeneratedProbab
 { #category : 'tests' }
 BoardTest >> test014WhenBoardGeneratesConfigurableEffectsThenEachUsesItsGeneratedConfiguration [
 
-	| board loadedRandomProvider moonWalkEffect hyperJumpEffect shipThatLands otherShip jumpingShip |
+	| loadedRandomProvider moonWalkEffect hyperJumpEffect shipThatLands otherShip jumpingShip |
 	loadedRandomProvider := LoadedRandomProvider
 		withProbabilities: #(0.85 0.95)
 		andMoonWalkDistances: #(3)
@@ -186,7 +178,7 @@ BoardTest >> test014WhenBoardGeneratesConfigurableEffectsThenEachUsesItsGenerate
 { #category : 'tests' }
 BoardTest >> test015WhenTwoHyperJumpSquaresAreGeneratedThenEachUsesDifferentGeneratedValues [
 
-	| board loadedRandomProvider firstHyperJump secondHyperJump firstShip secondShip |
+	|  loadedRandomProvider firstHyperJump secondHyperJump firstShip secondShip |
 	loadedRandomProvider := LoadedRandomProvider
 		withProbabilities: #(0.95 0.95)
 		andHyperJumpValuesLists: { #(10 5 2). #(7 4 1) }.
@@ -222,7 +214,7 @@ BoardTest >> test016WhenProbabilityIsGreaterThanOneThenBoardCreationFails [
 { #category : 'tests' }
 BoardTest >> test017WhenBoardIsCreatedWithRandomProviderThenAllSquaresHaveAnEffect [
 
-	| board randomProvider |
+	|  randomProvider |
 	randomProvider := RandomProvider withMaxMoonWalkDistance: 10.
 
 	board := Board withSize: 20 using: randomProvider.

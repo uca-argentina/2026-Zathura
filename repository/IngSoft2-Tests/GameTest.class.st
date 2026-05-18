@@ -16,6 +16,18 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'as yet unclassified' }
+GameTest >> boardWithSize: aSize AndWithProbability: aProbability [
+	|probability provider|
+	
+	probability:= ((1 to: aSize) collect: [ :i | aProbability ]).
+	provider:= LoadedRandomProvider
+		                        withProbabilities: probability
+		                        andMoonWalkDistances: 0 
+		                        andHyperJumpValues: 0.
+	^ Board withSize: aSize using: provider.	
+]
+
 { #category : 'running' }
 GameTest >> setUp [
 
@@ -299,16 +311,7 @@ GameTest >> test024WhenASquareIsSpeedUpThenTheShipMovesFourSquaresMore [
 { #category : 'tests' }
 GameTest >> test025WhenASquareIsWormHoleThenTheShipMovesFourSquaresBack [
 	
-	| probabilities |
-	probabilities := OrderedCollection new.
-	probabilities addAll: ((1 to: 20) collect: [ :i | 0.50 ]).
-
-	loadedRandomProvider := LoadedRandomProvider
-		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0
-		                        andHyperJumpValues: 0.	
-		
-	aBoard := Board withSize: 20 using: loadedRandomProvider .
+	aBoard := self boardWithSize: 20 AndWithProbability: 0.50.
 	aCollectionOfDices:= (OrderedCollection with: (LoadedDice with: 6)).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
@@ -321,16 +324,7 @@ GameTest >> test025WhenASquareIsWormHoleThenTheShipMovesFourSquaresBack [
 { #category : 'tests' }
 GameTest >> test026WhenASquareIsAtomicBombThenAllShipsGoBackToFirstSquare [
 	
-	| probabilities |
-	probabilities := OrderedCollection new.
-	probabilities addAll: ((1 to: 20) collect: [ :i | 0.99 ]).
-
-	loadedRandomProvider := LoadedRandomProvider
-		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0
-		                        andHyperJumpValues: 0.	
-		
-	aBoard := Board withSize: 20 using: loadedRandomProvider .
+	aBoard := self boardWithSize: 20 AndWithProbability: 0.99.
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -587,42 +581,11 @@ GameTest >> test040WhenARequestForAnUnknownShipsLapIsMadeThenThatRequestIsDenied
 ]
 
 { #category : 'tests' }
-GameTest >> test041WhenAShipGoBackwardsThenItLoseALap [
-	
-	| aNumberOfLaps probabilities |
-	aCollectionOfDices:=OrderedCollection with: (LoadedDice with: 22).
-	aNumberOfLaps:=2.
-	probabilities :=OrderedCollection new.
-	probabilities addAll: ((1 to: 20) collect: [ :i | 0.50 ]).
-
-	loadedRandomProvider := LoadedRandomProvider
-		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0
-		                        andHyperJumpValues: 0.	
-		
-	aBoard := Board withSize: 20 using: loadedRandomProvider .
-	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
-	aGame playTurn.
-	self assert: (aGame lapsFor: walter) equals: 0.
-
-]
-
-{ #category : 'tests' }
 GameTest >> test041WhenAShipGoBackwardsThenItLosesALap [
 	
-	| aNumberOfLaps probabilities |
 	aCollectionOfDices:=OrderedCollection with: (LoadedDice with: 22).
-	aNumberOfLaps:=2.
-	probabilities :=OrderedCollection new.
-	probabilities addAll: ((1 to: 20) collect: [ :i | 0.50 ]).
-
-	loadedRandomProvider := LoadedRandomProvider
-		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0
-		                        andHyperJumpValues: 0.	
-		
-	aBoard := Board withSize: 20 using: loadedRandomProvider .
-	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
+	aBoard := self boardWithSize: 20 AndWithProbability: 0.50.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: 2.
 	aGame playTurn.
 	self assert: (aGame lapsFor: walter) equals: 0.
 
@@ -631,20 +594,10 @@ GameTest >> test041WhenAShipGoBackwardsThenItLosesALap [
 { #category : 'tests' }
 GameTest >> test042WhenAShipLandsOnASquareByEffectThenNoSecondEffectIsApplied [
 	
-	| aNumberOfLaps probabilities |
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 8).
-	aNumberOfLaps:=2.
-	probabilities :=OrderedCollection new.
-	probabilities addAll: ((1 to: 20) collect: [ :i | 0.50 ]).
-
-	loadedRandomProvider := LoadedRandomProvider
-		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0
-		                        andHyperJumpValues: 0.	
-		
-	aBoard := Board withSize: 20 using: loadedRandomProvider .
-	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
+	aBoard := self boardWithSize: 20 AndWithProbability: 0.50.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: 2.
 	aGame playTurn.
 	self assert: (aGame squareOf: walter) equals: 5.
 
@@ -652,21 +605,10 @@ GameTest >> test042WhenAShipLandsOnASquareByEffectThenNoSecondEffectIsApplied [
 
 { #category : 'tests' }
 GameTest >> test043WhenASquareIsAtomicBombThenAllShipsKeepTheirLaps [
-	
-	 | aNumberOfLaps probabilities |
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 8).
-	aNumberOfLaps:=5.
-	probabilities := OrderedCollection new.
-	probabilities addAll: ((1 to: 7) collect: [ :i | 0.99 ]).
-
-	loadedRandomProvider := LoadedRandomProvider
-		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0
-		                        andHyperJumpValues: 0.	
-		
-	aBoard := Board withSize: 7 using: loadedRandomProvider .
-	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
+	aBoard := self boardWithSize: 6 AndWithProbability: 0.99.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: 5.
 	aGame playTurn.
 	aGame playTurn.
 	aGame playTurn.
@@ -684,21 +626,10 @@ GameTest >> test043WhenASquareIsAtomicBombThenAllShipsKeepTheirLaps [
 { #category : 'tests' }
 GameTest >> test044WhenAShipRecivesEffectThatWouldMoveItBeforeLapZeroSquareOneThenItStaysAtLapZeroSquareOne [
 	
-	 | aNumberOfLaps probabilities|
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 2).
-	aNumberOfLaps:=2.
-	
-	probabilities := OrderedCollection new.
-	probabilities addAll: ((1 to: 20) collect: [ :i | 0.50 ]).
-
-	loadedRandomProvider := LoadedRandomProvider
-		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0
-		                        andHyperJumpValues: 0.	
-		
-	aBoard := Board withSize: 10 using: loadedRandomProvider .
-	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
+	aBoard := self boardWithSize: 10 AndWithProbability: 0.50.
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: 2.
 	aGame playTurn.
 	
 	self assert: (aGame squareOf: walter) equals: 1.
