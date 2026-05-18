@@ -406,7 +406,18 @@ GameTest >> test029WhenTwoShipsAreNameTheSameThenTheGameCannotBeCreated [
 { #category : 'tests' }
 GameTest >> test030WhenASquareIsHyperJumpThenShipAdvancesByFirstValueInList [
 	
-	 aBoard := Board withSize: 20 and: (HyperJump with: #(10 5 2)).
+	| probabilities hyperJumpDistances |
+	probabilities := OrderedCollection new.
+	probabilities addAll: ((1 to: 20) collect: [ :i | 0.91 ]).
+	hyperJumpDistances:= OrderedCollection new.
+	hyperJumpDistances addAll: ((1 to: 20) collect: [ :i | #(5 2 10) ]). "Lo tiene que ordenar a (10 5 2)"
+
+	loadedRandomProvider := LoadedRandomProvider
+		                        withProbabilities: probabilities
+		                        andMoonWalkDistances: 0 
+		                        andHyperJumpValues: hyperJumpDistances .	
+		
+	aBoard := Board withSize: 20 using: loadedRandomProvider .
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -421,7 +432,18 @@ GameTest >> test030WhenASquareIsHyperJumpThenShipAdvancesByFirstValueInList [
 { #category : 'tests' }
 GameTest >> test031WhenAllHyperJumpValuesAreUsedThenListResets [
 	
-	 aBoard := Board withSize: 40 and: (HyperJump with: #(10 5 2)).
+	| probabilities hyperJumpDistances |
+	probabilities := OrderedCollection new.
+	probabilities addAll: ((1 to: 40) collect: [ :i | 0.91 ]).
+	hyperJumpDistances:= OrderedCollection new.
+	hyperJumpDistances addAll: ((1 to: 40) collect: [ :i | #(5 2 10) ]). "Lo tiene que ordenar a (10 5 2)"
+
+	loadedRandomProvider := LoadedRandomProvider
+		                        withProbabilities: probabilities
+		                        andMoonWalkDistances: 0 
+		                        andHyperJumpValues: hyperJumpDistances .	
+		
+	aBoard := Board withSize: 40 using: loadedRandomProvider .
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
