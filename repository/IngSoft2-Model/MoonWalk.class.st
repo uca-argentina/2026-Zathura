@@ -4,9 +4,6 @@ Class {
 	#instVars : [
 		'numSquares'
 	],
-	#classInstVars : [
-		'numSquares'
-	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }

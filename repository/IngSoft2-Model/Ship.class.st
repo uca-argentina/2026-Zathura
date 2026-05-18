@@ -80,8 +80,3 @@ Ship >> progressIn: aBoardSize [
 Ship >> sendToSquareOne [
 	position := 1.
 ]
-
-{ #category : 'accessing' }
-Ship >> standing [
-	^ Array with: name with: position .
-]

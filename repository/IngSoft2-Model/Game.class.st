@@ -76,11 +76,6 @@ Game >> lapsFor: theShip [
 ]
 
 { #category : 'accessing' }
-Game >> moveAllShipsExcept: aShip by:  numSquares [
-	ships do: [ :each | each ~= aShip ifTrue: [ each moveBack: numSquares ] ]
-]
-
-{ #category : 'accessing' }
 Game >> playGame [
 	[ self ended ] whileFalse: [ self playTurn ].
 	
@@ -129,11 +124,6 @@ Game >> ranking [
 Game >> rankingFor: theShip [ 
 	self validateShipIsPlaying: theShip.
 	^ self ranking keyAtValue: theShip name.
-]
-
-{ #category : 'accessing' }
-Game >> sendAllShipsToStart [
-	ships do:[ :aShip | aShip sendToSquareOne].
 ]
 
 { #category : 'accessing' }
