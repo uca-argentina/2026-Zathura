@@ -10,33 +10,39 @@ Class {
 }
 
 { #category : 'instance creation' }
-Board class >> effectsOfSize: aSize using: aRandomProvider [ 
-    | effects probability |
-    effects := Array new: aSize.
-    1 to: aSize do: [ :index |
-        probability := aRandomProvider nextEffectProbability.
+Board class >> effectForProbability: aProbability using: aRandomProvider [
 
-        (probability < 0 or: [ probability > 1 ])
-            ifTrue: [ Error signal: 'Effect probability must be between 0 and 1' ].
+	(aProbability < 0 or: [ aProbability > 1 ])
+		ifTrue: [ Error signal: 'Effect probability must be between 0 and 1' ].
 
-        probability <= 0.40
-            ifTrue: [ effects at: index put: NoEffect new ].
+	^ ((self effectRangesUsing: aRandomProvider)
+		detect: [ :range | range matches: aProbability ]) effect
+]
 
-        (probability > 0.40 and: [ probability <= 0.60 ])
-            ifTrue: [ effects at: index put: WormHole new ].
+{ #category : 'instance creation' }
+Board class >> effectRangesUsing: aRandomProvider [
 
-        (probability > 0.60 and: [ probability <= 0.80 ])
-            ifTrue: [ effects at: index put: SpeedUp new ].
+	^ {
+		EffectProbabilityRange from: -1 to: 0.40 effectFactory: [ NoEffect new ].
+		EffectProbabilityRange from: 0.40 to: 0.60 effectFactory: [ WormHole new ].
+		EffectProbabilityRange from: 0.60 to: 0.80 effectFactory: [ SpeedUp new ].
+		EffectProbabilityRange from: 0.80 to: 0.90 effectFactory: [ MoonWalk with: aRandomProvider nextMoonWalkDistance ].
+		EffectProbabilityRange from: 0.90 to: 0.98 effectFactory: [ HyperJump with: aRandomProvider nextHyperJumpValues ].
+		EffectProbabilityRange from: 0.98 to: 1 effectFactory: [ AtomicBomb new ]
+	}
+]
 
-        (probability > 0.80 and: [ probability <= 0.90 ])
-            ifTrue: [ effects at: index put: (MoonWalk with: aRandomProvider nextMoonWalkDistance) ].
+{ #category : 'instance creation' }
+Board class >> effectsOfSize: aSize using: aRandomProvider [
 
-        (probability > 0.90 and: [ probability <= 0.98 ])
-            ifTrue: [ effects at: index put: (HyperJump with: aRandomProvider nextHyperJumpValues) ].
+	| effects probability |
+	effects := Array new: aSize.
 
-        (probability > 0.98 and: [ probability <= 1 ])
-            ifTrue: [ effects at: index put: AtomicBomb new ] ].
-    ^ effects
+	1 to: aSize do: [ :index |
+		probability := aRandomProvider nextEffectProbability.
+		effects at: index put: (self effectForProbability: probability using: aRandomProvider) ].
+
+	^ effects
 
 
 

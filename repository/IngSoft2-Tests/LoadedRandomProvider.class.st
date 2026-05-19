@@ -2,13 +2,10 @@ Class {
 	#name : 'LoadedRandomProvider',
 	#superclass : 'Object',
 	#instVars : [
-		'probability',
-		'moonWalkDistance',
 		'probabilities',
 		'probabilityIndex',
 		'moonWalkDistances',
 		'moonWalkDistanceIndex',
-		'hyperJumpValues',
 		'hyperJumpValuesLists',
 		'hyperJumpValuesIndex'
 	],
