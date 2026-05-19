@@ -636,3 +636,39 @@ GameTest >> test044WhenAShipRecivesEffectThatWouldMoveItBeforeLapZeroSquareOneTh
 	self assert: (aGame lapsFor: walter) equals: 0.
 
 ]
+
+{ #category : 'tests' }
+GameTest >> test045WhenAShipIsModifiedOutsideGameThenGameStateIsNotAffected [
+	aGame playTurn.
+	walter moveBy: 10.
+	self assert: (aGame squareOf: walter) equals: 4.
+
+]
+
+{ #category : 'tests' }
+GameTest >> test046WhenABoardIsModifiedOutsideGameThenGameStateIsNotAffected [
+	|externalBoard|
+	externalBoard := aBoard.
+	aGame playTurn.
+	externalBoard move: walter thatRolled: 10.
+	self assert: (aGame squareOf: walter) equals: 4.
+
+]
+
+{ #category : 'tests' }
+GameTest >> test047WhenADiceCollectionsIsModifiedOutsideGameThenGameStateIsNotAffected [
+	aCollectionOfDices add: (LoadedDice with: 100).
+	aGame playTurn.
+	self assert: (aGame squareOf: walter) equals: 4.
+
+]
+
+{ #category : 'tests' }
+GameTest >> test048WhenShipCollectionIsModifiedOutsideGameThenGameStateIsNotAffected [
+	|extraShip modifiableCollection|
+	extraShip := Ship named:'darthVadersTieFighter'. 
+	modifiableCollection := aCollectionOfShips asOrderedCollection.
+    modifiableCollection add: extraShip.
+	self assert: (aGame squares size) equals: 3.
+
+]
