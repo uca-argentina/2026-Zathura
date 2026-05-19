@@ -587,27 +587,6 @@ GameTest >> test040WhenARequestForAnUnknownShipsLapIsMadeThenThatRequestIsDenied
 ]
 
 { #category : 'tests' }
-GameTest >> test041WhenAShipGoBackwardsThenItLoseALap [
-	
-	| aNumberOfLaps probabilities |
-	aCollectionOfDices:=OrderedCollection with: (LoadedDice with: 22).
-	aNumberOfLaps:=2.
-	probabilities :=OrderedCollection new.
-	probabilities addAll: ((1 to: 20) collect: [ :i | 0.50 ]).
-
-	loadedRandomProvider := LoadedRandomProvider
-		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0
-		                        andHyperJumpValues: 0.	
-		
-	aBoard := Board withSize: 20 using: loadedRandomProvider .
-	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: aNumberOfLaps.
-	aGame playTurn.
-	self assert: (aGame lapsFor: walter) equals: 0.
-
-]
-
-{ #category : 'tests' }
 GameTest >> test041WhenAShipGoBackwardsThenItLosesALap [
 	
 	| aNumberOfLaps probabilities |
