@@ -42,3 +42,14 @@ ShipTest >> test004WhenAShipIsCreatedThenItsStartsAtLap0 [
 	aShip := Ship named: 'Walter'.
 	self assert: aShip lap equals: 0.
 ]
+
+{ #category : 'tests' }
+ShipTest >> test005WhenAShipTriesToMoveBackBy0orLowerThenTheShipsMovementIsInvalid [
+	| aShip |
+	
+	aShip := Ship named: 'Walter'.
+	self should:[aShip moveBack: 0]
+	raise: Error 
+	withExceptionDo: [:anError| self assert: anError messageText equals:'The Ship must move by at least 1 square back'  ]
+
+]
