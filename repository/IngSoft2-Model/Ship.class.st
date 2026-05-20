@@ -36,11 +36,6 @@ Ship >> handleLapsFor: aBoardSize [
    position := ((position - 1) \\ aBoardSize) + 1
 ]
 
-{ #category : 'accessing' }
-Ship >> hash [ 
- ^ name hash.
-]
-
 { #category : 'initialization' }
 Ship >> initializeAs: aName [
 	name := aName.
