@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'values',
-		'index'
+		'index',
+		'board'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -11,7 +12,7 @@ Class {
 
 { #category : 'instance creation' }
 HyperJump class >> with: aValuesArray [
-	^ self new initializeWith: aValuesArray
+	^ self new initializeWith: aValuesArray 
 	
 ]
 
