@@ -3,7 +3,9 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'numSquares',
-		'effects'
+		'effects',
+		'parsecLength',
+		'squares'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -33,18 +35,10 @@ Board class >> effectRangesUsing: aRandomProvider [
 ]
 
 { #category : 'instance creation' }
-Board class >> effectsOfSize: aSize using: aRandomProvider [
+Board class >> squaresOfSize: aSize using: aRandomProvider [
 
-	| effects probability |
-	effects := Array new: aSize.
-
-	1 to: aSize do: [ :index |
-		probability := aRandomProvider nextEffectProbability.
-		effects at: index put: (self effectForProbability: probability using: aRandomProvider) ].
-
-	^ effects
-
-
+	^(1 to: aSize ) collect: [ :i |
+		Square with: (self effectForProbability: aRandomProvider nextEffectProbability using: aRandomProvider) ].
 
 
 
@@ -53,10 +47,12 @@ Board class >> effectsOfSize: aSize using: aRandomProvider [
 ]
 
 { #category : 'instance creation' }
-Board class >> withSize: aSize using: aRandomProvider [
+Board class >> withSize: aSize andPasrsecLength: aLength  using: aRandomProvider [
 	(aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].
 	aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
-	^ self new initializeWithSize: aSize andEffects: (self effectsOfSize: aSize using: aRandomProvider).
+	(aLength isInteger) ifFalse: [ Error signal: 'Parsecs length must be a positive integer' ].
+	aLength <= 0 ifTrue: [ Error signal: 'Parsecs length must be greater than 0' ].
+	^ self new initializeWithSize: aSize andParsecLength: aLength andEffects: (self squaresOfSize: aSize using: aRandomProvider).
 ]
 
 { #category : 'accessing' }
@@ -71,9 +67,10 @@ Board >> effectAt: aPosition [
 ]
 
 { #category : 'instance creation' }
-Board >> initializeWithSize: aSize andEffects: anEffectsArray [
+Board >> initializeWithSize: aSize andParsecLength: aLength andEffects: anSquaresArray [
    numSquares := aSize.
-	effects := anEffectsArray.
+	parsecLength := aLength.
+	squares := anSquaresArray.
 
 ]
 
@@ -86,4 +83,14 @@ Board >> move: aShip thatRolled: aDicesResult [
 { #category : 'accessing' }
 Board >> numSquares [
     ^ numSquares
+]
+
+{ #category : 'accessing' }
+Board >> sizeInParsec [
+    ^ numSquares / parsecLength 
+]
+
+{ #category : 'accessing' }
+Board >> squareAt: aPosition [
+    ^ squares at: aPosition
 ]

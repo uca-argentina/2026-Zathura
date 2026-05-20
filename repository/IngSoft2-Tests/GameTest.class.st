@@ -17,7 +17,7 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-GameTest >> boardWithSize: aSize AndWithProbability: aProbability [
+GameTest >> boardWithSize: aSize AndParsecLength: aLength AndWithProbability: aProbability [
 	|probability provider|
 	
 	probability:= ((1 to: aSize) collect: [ :i | aProbability ]).
@@ -25,7 +25,7 @@ GameTest >> boardWithSize: aSize AndWithProbability: aProbability [
 		                        withProbabilities: probability
 		                        andMoonWalkDistances: 0 
 		                        andHyperJumpValues: 0.
-	^ Board withSize: aSize using: provider.	
+	^ Board withSize: aSize andPasrsecLength: aLength using: provider.	
 ]
 
 { #category : 'running' }
@@ -45,7 +45,7 @@ GameTest >> setUp [
 		                        andMoonWalkDistances: 0
 		                        andHyperJumpValues: 0.
 		
-	aBoard := Board withSize: 20 using: loadedRandomProvider.
+	aBoard := Board withSize: 20 andPasrsecLength: 5 using: loadedRandomProvider.
 	aCollectionOfDices := OrderedCollection with: aDice.
 	aCollectionOfShips := {
 		                      walter.
@@ -299,7 +299,7 @@ GameTest >> test024WhenASquareIsSpeedUpThenTheShipMovesFourSquaresMore [
 		                        andMoonWalkDistances: 0
 		                        andHyperJumpValues: 0.	
 		
-	aBoard := Board withSize: 20 using: loadedRandomProvider .
+	aBoard := Board withSize: 20 andPasrsecLength: 5 using: loadedRandomProvider .
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	
@@ -311,7 +311,7 @@ GameTest >> test024WhenASquareIsSpeedUpThenTheShipMovesFourSquaresMore [
 { #category : 'tests' }
 GameTest >> test025WhenASquareIsWormHoleThenTheShipMovesFourSquaresBack [
 	
-	aBoard := self boardWithSize: 20 AndWithProbability: 0.50.
+	aBoard := self boardWithSize: 20 AndParsecLength: 5 AndWithProbability: 0.50.
 	aCollectionOfDices:= (OrderedCollection with: (LoadedDice with: 6)).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
@@ -324,7 +324,7 @@ GameTest >> test025WhenASquareIsWormHoleThenTheShipMovesFourSquaresBack [
 { #category : 'tests' }
 GameTest >> test026WhenASquareIsAtomicBombThenAllShipsGoBackToFirstSquare [
 	
-	aBoard := self boardWithSize: 20 AndWithProbability: 0.99.
+	aBoard := self boardWithSize: 20 AndParsecLength: 5 AndWithProbability: 0.99.
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -351,7 +351,7 @@ GameTest >> test027WhenASquareIsMoonWalkThenAllOtherShipsMoveBackNSquares [
 		                        andMoonWalkDistances: moonWalkDistances 
 		                        andHyperJumpValues: 0.	
 		
-	aBoard := Board withSize: 20 using: loadedRandomProvider .
+	aBoard := Board withSize: 20 andPasrsecLength: 5 using: loadedRandomProvider .
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -411,7 +411,7 @@ GameTest >> test030WhenASquareIsHyperJumpThenShipAdvancesByFirstValueInList [
 		                        andMoonWalkDistances: 0 
 		                        andHyperJumpValues: hyperJumpDistances .	
 		
-	aBoard := Board withSize: 20 using: loadedRandomProvider .
+	aBoard := Board withSize: 20 andPasrsecLength: 5 using: loadedRandomProvider .
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -437,7 +437,7 @@ GameTest >> test031WhenAllHyperJumpValuesAreUsedThenListResets [
 		                        andMoonWalkDistances: 0 
 		                        andHyperJumpValues: hyperJumpDistances .	
 		
-	aBoard := Board withSize: 40 using: loadedRandomProvider .
+	aBoard := Board withSize: 40 andPasrsecLength: 5 using: loadedRandomProvider .
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -584,7 +584,7 @@ GameTest >> test040WhenARequestForAnUnknownShipsLapIsMadeThenThatRequestIsDenied
 GameTest >> test041WhenAShipGoBackwardsThenItLosesALap [
 	
 	aCollectionOfDices:=OrderedCollection with: (LoadedDice with: 22).
-	aBoard := self boardWithSize: 20 AndWithProbability: 0.50.
+	aBoard := self boardWithSize: 20 AndParsecLength: 5 AndWithProbability: 0.50.
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: 2.
 	aGame playTurn.
 	self assert: (aGame lapsFor: walter) equals: 0.
@@ -596,7 +596,7 @@ GameTest >> test042WhenAShipLandsOnASquareByEffectThenNoSecondEffectIsApplied [
 	
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 8).
-	aBoard := self boardWithSize: 20 AndWithProbability: 0.50.
+	aBoard := self boardWithSize: 20 AndParsecLength: 5 AndWithProbability: 0.50.
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: 2.
 	aGame playTurn.
 	self assert: (aGame squareOf: walter) equals: 5.
@@ -607,7 +607,7 @@ GameTest >> test042WhenAShipLandsOnASquareByEffectThenNoSecondEffectIsApplied [
 GameTest >> test043WhenASquareIsAtomicBombThenAllShipsKeepTheirLaps [
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 8).
-	aBoard := self boardWithSize: 6 AndWithProbability: 0.99.
+	aBoard := self boardWithSize: 6 AndParsecLength: 5 AndWithProbability: 0.99.
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: 5.
 	aGame playTurn.
 	aGame playTurn.
@@ -628,7 +628,7 @@ GameTest >> test044WhenAShipRecivesEffectThatWouldMoveItBeforeLapZeroSquareOneTh
 	
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 2).
-	aBoard := self boardWithSize: 10 AndWithProbability: 0.50.
+	aBoard := self boardWithSize: 10 AndParsecLength: 5 AndWithProbability: 0.50.
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: 2.
 	aGame playTurn.
 	
