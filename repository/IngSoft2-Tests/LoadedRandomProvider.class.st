@@ -61,11 +61,11 @@ LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDi
 ]
 
 { #category : 'instance creation' }
-LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValues: someValues [
+LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValues: someHyperJumpValuesLists [
 	^ self new
         initializeWithProbabilities: someProbabilities
         andMoonWalkDistances: someDistances
-        andHyperJumpValuesLists: someValues
+        andHyperJumpValuesLists: someHyperJumpValuesLists
 ]
 
 { #category : 'initialization' }

@@ -15,7 +15,19 @@ Class {
 Board class >> squaresOfSize: aSize using: aRandomProvider [
 
 	^(1 to: aSize ) collect: [ :i |
-		Square withId: i andRandomProvider: aRandomProvider  ].
+		Square withId: i andRandomProvider: aRandomProvider andParsecPerSquare: self parsecPerSquare  ].
+
+
+
+
+
+]
+
+{ #category : 'instance creation' }
+Board class >> squaresOfSize: aSize using: aRandomProvider andParsecPerSquare: aParsecPerSquare [
+
+	^(1 to: aSize ) collect: [ :i |
+		Square withId: i andRandomProvider: aRandomProvider andParsecPerSquare: aParsecPerSquare  ].
 
 
 
@@ -29,7 +41,9 @@ Board class >> withSize: aSize andPasrsecLength: aLength  using: aRandomProvider
 	aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
 	(aLength isInteger) ifFalse: [ Error signal: 'Parsecs length must be a positive integer' ].
 	aLength <= 0 ifTrue: [ Error signal: 'Parsecs length must be greater than 0' ].
-	^ self new initializeWithSize: aSize andParsecLength: aLength andSquares: (self squaresOfSize: aSize using: aRandomProvider).
+	^ self new initializeWithSize: aSize andParsecLength: aLength andRandomProvider: aRandomProvider.
+	
+
 ]
 
 { #category : 'accessing' }
@@ -44,10 +58,10 @@ Board >> effectAt: aPosition [
 ]
 
 { #category : 'instance creation' }
-Board >> initializeWithSize: aSize andParsecLength: aLength andSquares: anSquaresArray [
+Board >> initializeWithSize: aSize andParsecLength: aLength andRandomProvider: aRandomProvider [
    numSquares := aSize.
 	parsecLength := aLength.
-	squares := anSquaresArray.
+	squares := self class squaresOfSize: aSize using: aRandomProvider andParsecPerSquare: self parsecPerSquare.
 
 ]
 
@@ -63,8 +77,8 @@ Board >> numSquares [
 ]
 
 { #category : 'accessing' }
-Board >> sizeInParsec [
-    ^ numSquares / parsecLength 
+Board >> parsecPerSquare [
+    ^ parsecLength / numSquares  
 ]
 
 { #category : 'accessing' }

@@ -12,7 +12,7 @@ Class {
 SquareTest >> test001WhenProbabilityFallsInNoEffectRangeThenSquareHasNoEffect [
 	|provider| 
 	provider := LoadedRandomProvider withProbabilities: #(0.10).
-	square := Square withId: 1 andRandomProvider: provider.
+	square := Square withId: 1 andRandomProvider: provider andParsecPerSquare: 1.
 	self assert: square  effect class equals: NoEffect.
 ]
 
@@ -20,7 +20,7 @@ SquareTest >> test001WhenProbabilityFallsInNoEffectRangeThenSquareHasNoEffect [
 SquareTest >> test002WhenProbabilityFallsInWormHoleRangeThenSquareHasWormHole [
 	|provider| 
 	provider := LoadedRandomProvider withProbabilities: #(0.50).
-	square := Square withId: 1 andRandomProvider: provider.
+	square := Square withId: 1 andRandomProvider: provider andParsecPerSquare: 1.
 	self assert: square  effect class equals: WormHole .
 ]
 
@@ -28,7 +28,7 @@ SquareTest >> test002WhenProbabilityFallsInWormHoleRangeThenSquareHasWormHole [
 SquareTest >> test003WhenProbabilityFallsInSpeedUpRangeThenSquareHasSpeedUp [
 	|provider| 
 	provider := LoadedRandomProvider withProbabilities: #(0.70).
-	square := Square withId: 1 andRandomProvider: provider.
+	square := Square withId: 1 andRandomProvider: provider andParsecPerSquare: 1.
 	self assert: square  effect class equals: SpeedUp .
 ]
 
@@ -37,7 +37,7 @@ SquareTest >> test004WhenProbabilityFallsInMoonWalkRangeThenSquareHasMoonWalk [
 	
 	|provider| 
 	provider := LoadedRandomProvider with: 0.85 andMoonWalkDistance: 1.
-	square := Square withId: 1 andRandomProvider: provider.
+	square := Square withId: 1 andRandomProvider: provider andParsecPerSquare: 1.
 	self assert: square  effect class equals: MoonWalk .
 ]
 
@@ -46,7 +46,7 @@ SquareTest >> test005WhenProbabilityFallsInHyperJumpRangeThenSquareHasHyperJump 
 
 	| loadedRandomProvider |
 	loadedRandomProvider := LoadedRandomProvider with: 0.95 andHyperJumpValues: #(1).
-	square := Square withId: 1 andRandomProvider: loadedRandomProvider.
+	square := Square withId: 1 andRandomProvider: loadedRandomProvider andParsecPerSquare: 1.
 	self assert: square  effect class equals: HyperJump.
 ]
 
@@ -54,7 +54,7 @@ SquareTest >> test005WhenProbabilityFallsInHyperJumpRangeThenSquareHasHyperJump 
 SquareTest >> test006WhenProbabilityFallsInAtomicBombRangeThenSquareHasAtomicBomb [
 	|provider| 
 	provider := LoadedRandomProvider withProbabilities: #(0.99).
-	square := Square withId: 1 andRandomProvider: provider.
+	square := Square withId: 1 andRandomProvider: provider andParsecPerSquare: 1.
 	self assert: square  effect class equals: AtomicBomb.
 ]
 

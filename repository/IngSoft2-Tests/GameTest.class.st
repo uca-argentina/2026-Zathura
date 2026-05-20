@@ -417,7 +417,7 @@ GameTest >> test030WhenASquareIsHyperJumpThenShipAdvancesByFirstValueInList [
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	
-	self assert: (aGame squares at: 'Walter') equals: 17.
+	self assert: (aGame squares at: 'Walter') equals: 7.
 
 	
 
@@ -437,7 +437,7 @@ GameTest >> test031WhenAllHyperJumpValuesAreUsedThenListResets [
 		                        andMoonWalkDistances: 0 
 		                        andHyperJumpValues: hyperJumpDistances .	
 		
-	aBoard := Board withSize: 40 andPasrsecLength: 5 using: loadedRandomProvider .
+	aBoard := Board withSize: 40 andPasrsecLength: 20 using: loadedRandomProvider .
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -446,9 +446,9 @@ GameTest >> test031WhenAllHyperJumpValuesAreUsedThenListResets [
 	aGame playTurn.
 	aGame playTurn.
 	
-	self assert: (aGame squares at: 'Walter') equals: 33.
-	self assert: (aGame squares at: 'Danny') equals: 12.
-	self assert: (aGame squares at: 'Lisa') equals: 9.
+	self assert: (aGame squares at: 'Walter') equals: 13.
+	self assert: (aGame squares at: 'Danny') equals: 17.
+	self assert: (aGame squares at: 'Lisa') equals: 11.
 	
 
 ]

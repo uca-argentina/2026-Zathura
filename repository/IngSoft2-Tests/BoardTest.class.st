@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : 'tests' }
-BoardTest >> boardWithSize: aSize AndPasrsecLength: aLength AndWithLoadProbability: aProbability [
+BoardTest >> boardWithSize: aSize andParsecLength: aLength andWithLoadProbability: aProbability [
     ^Board withSize: aSize andPasrsecLength: aLength using: (LoadedRandomProvider with: aProbability).
 ]
 
@@ -38,7 +38,7 @@ BoardTest >> test004WhenBoardIsCreatedWithParsecSizeThenItReturndTheParsecLength
 
 	board := Board withSize: 20 andPasrsecLength: 4  using: randomProvider.
 
-	self assert: board sizeInParsec equals: 5.
+	self assert: board parsecPerSquare equals: 4/20.
 ]
 
 { #category : 'tests' }
@@ -161,7 +161,7 @@ BoardTest >> test012WhenBoardGeneratesConfigurableEffectsThenEachUsesItsGenerate
 
 	jumpingShip := Ship named: 'Lisa'.
 	hyperJumpEffect applyTo: jumpingShip withShips: { jumpingShip }.
-	self assert: jumpingShip position equals: 11.
+	self assert: jumpingShip position equals: 21.
 ]
 
 { #category : 'tests' }
@@ -183,8 +183,8 @@ BoardTest >> test013WhenTwoHyperJumpSquaresAreGeneratedThenEachUsesDifferentGene
 	firstHyperJump applyTo: firstShip withShips: { firstShip }.
 	secondHyperJump applyTo: secondShip withShips: { secondShip }.
 
-	self assert: firstShip position equals: 11.
-	self assert: secondShip position equals: 8.
+	self assert: firstShip position equals: 21.
+	self assert: secondShip position equals: 15.
 ]
 
 { #category : 'tests' }
