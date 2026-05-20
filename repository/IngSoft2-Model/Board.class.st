@@ -12,18 +12,6 @@ Class {
 }
 
 { #category : 'instance creation' }
-Board class >> squaresOfSize: aSize using: aRandomProvider [
-
-	^(1 to: aSize ) collect: [ :i |
-		Square withId: i andRandomProvider: aRandomProvider andParsecPerSquare: self parsecPerSquare  ].
-
-
-
-
-
-]
-
-{ #category : 'instance creation' }
 Board class >> squaresOfSize: aSize using: aRandomProvider andParsecPerSquare: aParsecPerSquare [
 
 	^(1 to: aSize ) collect: [ :i |
@@ -36,7 +24,7 @@ Board class >> squaresOfSize: aSize using: aRandomProvider andParsecPerSquare: a
 ]
 
 { #category : 'instance creation' }
-Board class >> withSize: aSize andPasrsecLength: aLength  using: aRandomProvider [
+Board class >> withSize: aSize andParsecLength: aLength  using: aRandomProvider [
 	(aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].
 	aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
 	(aLength isInteger) ifFalse: [ Error signal: 'Parsecs length must be a positive integer' ].
@@ -49,7 +37,8 @@ Board class >> withSize: aSize andPasrsecLength: aLength  using: aRandomProvider
 { #category : 'accessing' }
 Board >> applyEffect: anEffect to: aShip withShips: allShips [
     anEffect applyTo: aShip withShips: allShips.
-    allShips do: [ :each | each handleLapsFor:numSquares].
+	allShips do: [ :each | each handleLapsFor:numSquares].
+  
 ]
 
 { #category : 'accessing' }
@@ -68,7 +57,7 @@ Board >> initializeWithSize: aSize andParsecLength: aLength andRandomProvider: a
 { #category : 'accessing' }
 Board >> move: aShip thatRolled: aDicesResult [
     aShip moveBy: aDicesResult.
-    aShip handleLapsFor: numSquares.
+	aShip handleLapsFor: numSquares.
 ]
 
 { #category : 'accessing' }

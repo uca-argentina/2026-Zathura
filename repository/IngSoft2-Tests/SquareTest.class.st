@@ -65,7 +65,7 @@ SquareTest >> test007WhenProbabilityIsGreaterThanOneThenBoardCreationFails [
 	loadedRandomProvider := LoadedRandomProvider with: 1.10.
 
 	self
-		should: [ Board withSize: 1 andPasrsecLength: 1 using: loadedRandomProvider ]
+		should: [ Board withSize: 1 andParsecLength: 1 using: loadedRandomProvider ]
 		raise: Error
 		withExceptionDo: [ :anError |
 			self assert: anError messageText equals: 'Effect probability must be between 0 and 1' ].

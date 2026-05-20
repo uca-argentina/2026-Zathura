@@ -58,6 +58,7 @@ Ship >> moveBack: anAmountOfSquares [
 	(anAmountOfSquares >0)ifFalse: [ Error signal: 'The Ship must move by at least 1 square back' ].
 	position := (position - anAmountOfSquares).
 	(lap = 0 and: [ position < 1]) ifTrue: [ position :=1. ].
+
 ]
 
 { #category : 'accessing' }

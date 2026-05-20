@@ -25,7 +25,7 @@ GameTest >> boardWithSize: aSize AndParsecLength: aLength AndWithProbability: aP
 		                        withProbabilities: probability
 		                        andMoonWalkDistances: 0 
 		                        andHyperJumpValues: 0.
-	^ Board withSize: aSize andPasrsecLength: aLength using: provider.	
+	^ Board withSize: aSize andParsecLength: aLength using: provider.	
 ]
 
 { #category : 'running' }
@@ -45,7 +45,7 @@ GameTest >> setUp [
 		                        andMoonWalkDistances: 0
 		                        andHyperJumpValues: 0.
 		
-	aBoard := Board withSize: 20 andPasrsecLength: 5 using: loadedRandomProvider.
+	aBoard := Board withSize: 20 andParsecLength: 5 using: loadedRandomProvider.
 	aCollectionOfDices := OrderedCollection with: aDice.
 	aCollectionOfShips := {
 		                      walter.
@@ -299,7 +299,7 @@ GameTest >> test024WhenASquareIsSpeedUpThenTheShipMovesFourSquaresMore [
 		                        andMoonWalkDistances: 0
 		                        andHyperJumpValues: 0.	
 		
-	aBoard := Board withSize: 20 andPasrsecLength: 5 using: loadedRandomProvider .
+	aBoard := Board withSize: 20 andParsecLength: 5 using: loadedRandomProvider .
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	
@@ -351,7 +351,7 @@ GameTest >> test027WhenASquareIsMoonWalkThenAllOtherShipsMoveBackNSquares [
 		                        andMoonWalkDistances: moonWalkDistances 
 		                        andHyperJumpValues: 0.	
 		
-	aBoard := Board withSize: 20 andPasrsecLength: 5 using: loadedRandomProvider .
+	aBoard := Board withSize: 20 andParsecLength: 5 using: loadedRandomProvider .
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -411,7 +411,7 @@ GameTest >> test030WhenASquareIsHyperJumpThenShipAdvancesByFirstValueInList [
 		                        andMoonWalkDistances: 0 
 		                        andHyperJumpValues: hyperJumpDistances .	
 		
-	aBoard := Board withSize: 20 andPasrsecLength: 5 using: loadedRandomProvider .
+	aBoard := Board withSize: 20 andParsecLength: 5 using: loadedRandomProvider .
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -437,7 +437,7 @@ GameTest >> test031WhenAllHyperJumpValuesAreUsedThenListResets [
 		                        andMoonWalkDistances: 0 
 		                        andHyperJumpValues: hyperJumpDistances .	
 		
-	aBoard := Board withSize: 40 andPasrsecLength: 20 using: loadedRandomProvider .
+	aBoard := Board withSize: 40 andParsecLength: 20 using: loadedRandomProvider .
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 6).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.

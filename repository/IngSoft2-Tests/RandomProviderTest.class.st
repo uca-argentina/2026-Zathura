@@ -27,3 +27,34 @@ RandomProviderTest >> test002WhenAskedForMoonWalkDistanceThenItReturnsAPositiveI
 	self assert: distance isInteger.
 	self assert: (distance between: 1 and: 10).
 ]
+
+{ #category : 'tests' }
+RandomProviderTest >> test003WhenRandomProviderIsCreatedWithHyperJumpThenNextHyperJumpValuesHasThreeElements [
+
+	| randomProvider values  |
+	randomProvider := RandomProvider withMaxMoonWalkDistance: 1.
+
+	values := randomProvider nextHyperJumpValues.
+
+	self assert: values size equals: 3.
+]
+
+{ #category : 'tests' }
+RandomProviderTest >> test004WhenRandomProviderIsCreatedWithHyperJumpThenTheValuesAreAllBetweenOneAndTen [
+
+	| randomProvider values  |
+	randomProvider := RandomProvider withMaxMoonWalkDistance: 1.
+
+	values := randomProvider nextHyperJumpValues.
+	values do: [ :each |self assert: (each >= 1 and: [ each <= 10 ]) ].
+]
+
+{ #category : 'tests' }
+RandomProviderTest >> test005WhenRandomProviderIsCreatedWithHyperJumpThenTheValuesAreInDescendingOrder [
+
+	| randomProvider values  |
+	randomProvider := RandomProvider withMaxMoonWalkDistance: 1.
+
+	values := randomProvider nextHyperJumpValues.
+	self assert: values equals: (values sort: [ :a :b | a > b ]).
+]

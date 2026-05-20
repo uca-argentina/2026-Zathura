@@ -10,24 +10,24 @@ Class {
 
 { #category : 'tests' }
 BoardTest >> boardWithSize: aSize andParsecLength: aLength andWithLoadProbability: aProbability [
-    ^Board withSize: aSize andPasrsecLength: aLength using: (LoadedRandomProvider with: aProbability).
+    ^Board withSize: aSize andParsecLength: aLength using: (LoadedRandomProvider with: aProbability).
 ]
 
 { #category : 'tests' }
 BoardTest >> test001WhenBoardIsCreatedWithASizeThenBoardSizeShouldBeThatSize [
-    board := Board withSize: 5 andPasrsecLength: 1 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4}).
+    board := Board withSize: 5 andParsecLength: 1 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4}).
     self assert: (board numSquares) equals: 5.
 ]
 
 { #category : 'tests' }
 BoardTest >> test002WhenBoardIsCreatedWithSizeLessOrEqualToZeroThenShouldThrowError [
-    self should: [ Board withSize: 0 andPasrsecLength: 4 using: (LoadedRandomProvider with: 0.4)] raise: Error.
-    self should: [ Board withSize: -1 andPasrsecLength: 4 using: (LoadedRandomProvider with: 0.4) ] raise: Error.
+    self should: [ Board withSize: 0 andParsecLength: 4 using: (LoadedRandomProvider with: 0.4)] raise: Error.
+    self should: [ Board withSize: -1 andParsecLength: 4 using: (LoadedRandomProvider with: 0.4) ] raise: Error.
 ]
 
 { #category : 'tests' }
 BoardTest >> test003WhenBoardIsCreatedWithFloatSizeThenShouldThrowError [
-    self should: [ Board withSize: 5.5 andPasrsecLength: 4 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4 . 0.4}) ] raise: Error.
+    self should: [ Board withSize: 5.5 andParsecLength: 4 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4 . 0.4}) ] raise: Error.
 ]
 
 { #category : 'tests' }
@@ -36,25 +36,25 @@ BoardTest >> test004WhenBoardIsCreatedWithParsecSizeThenItReturndTheParsecLength
 	|  randomProvider |
 	randomProvider := RandomProvider withMaxMoonWalkDistance: 10.
 
-	board := Board withSize: 20 andPasrsecLength: 4  using: randomProvider.
+	board := Board withSize: 20 andParsecLength: 4  using: randomProvider.
 
 	self assert: board parsecPerSquare equals: 4/20.
 ]
 
 { #category : 'tests' }
 BoardTest >> test005WhenBoardIsCreatedWithParsecLengthLessOrEqualToZeroThenShouldThrowError [
-    self should: [ Board withSize: 20 andPasrsecLength: 0 using: (LoadedRandomProvider with: 0.4)] raise: Error.
-    self should: [ Board withSize: 20 andPasrsecLength: -1 using: (LoadedRandomProvider with: 0.4) ] raise: Error.
+    self should: [ Board withSize: 20 andParsecLength: 0 using: (LoadedRandomProvider with: 0.4)] raise: Error.
+    self should: [ Board withSize: 20 andParsecLength: -1 using: (LoadedRandomProvider with: 0.4) ] raise: Error.
 ]
 
 { #category : 'tests' }
 BoardTest >> test006WhenBoardIsCreatedWithFloatParsecLEngthThenShouldThrowError [
-    self should: [ Board withSize: 20 andPasrsecLength: 4.5 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4 . 0.4}) ] raise: Error.
+    self should: [ Board withSize: 20 andParsecLength: 4.5 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4 . 0.4}) ] raise: Error.
 ]
 
 { #category : 'tests' }
 BoardTest >> test007WhenBoardIsCreatedThenEachPositionHasASquare [
-    board := Board withSize: 5 andPasrsecLength: 1 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4}).
+    board := Board withSize: 5 andParsecLength: 1 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4}).
     1 to: 5 do: [:i | self assert: (board squareAt: i) class equals: Square].
 ]
 
@@ -66,7 +66,7 @@ BoardTest >> test008WhenProbabilityFallsInMoonWalkRangeThenMoonWalkUsesGenerated
 		with: 0.85
 		andMoonWalkDistance: 2.
 
-	board := Board withSize: 1  andPasrsecLength: 1 using: loadedProbability.
+	board := Board withSize: 1  andParsecLength: 1 using: loadedProbability.
 	effect := board effectAt: 1.
 
 	shipThatLands := Ship named: 'Walter'.
@@ -87,7 +87,7 @@ BoardTest >> test009WhenTwoMoonWalkSquaresAreGeneratedThenEachUsesADifferentGene
 		withProbabilities: #(0.85 0.85)
 		andMoonWalkDistances: #(2 5).
 
-	board := Board withSize: 2 andPasrsecLength: 1 using: loadedRandomProvider.
+	board := Board withSize: 2 andParsecLength: 1 using: loadedRandomProvider.
 
 	firstEffect := board effectAt: 1.
 	secondEffect := board effectAt: 2.
@@ -112,7 +112,7 @@ BoardTest >> test010WhenProbabilityFallsInHyperJumpRangeThenHyperJumpUsesGenerat
 		with: 0.95
 		andHyperJumpValues: #(5 10 2). "los tiene que ordenar"
 
-	board := Board withSize: 1 andPasrsecLength: 1 using: loadedRandomProvider.
+	board := Board withSize: 1 andParsecLength: 1 using: loadedRandomProvider.
 	effect := board effectAt: 1.
 
 	ship := Ship named: 'Walter'.
@@ -130,7 +130,7 @@ BoardTest >> test011WhenBoardHasManySquaresThenEachSquareUsesNextGeneratedProbab
 		withProbabilities: #(0.10 0.50 0.70 0.99)
 		andMoonWalkDistances: #().
 
-	board := Board withSize: 4 andPasrsecLength: 1 using: loadedRandomProvider.
+	board := Board withSize: 4 andParsecLength: 1 using: loadedRandomProvider.
 
 	self assert: (board effectAt: 1) class equals: NoEffect.
 	self assert: (board effectAt: 2) class equals: WormHole.
@@ -147,7 +147,7 @@ BoardTest >> test012WhenBoardGeneratesConfigurableEffectsThenEachUsesItsGenerate
 		andMoonWalkDistances: #(3)
 		andHyperJumpValues: {#(10 5 2)}.
 
-	board := Board withSize: 2 andPasrsecLength: 1 using: loadedRandomProvider.
+	board := Board withSize: 2 andParsecLength: 1 using: loadedRandomProvider.
 
 	moonWalkEffect := board effectAt: 1.
 	hyperJumpEffect := board effectAt: 2.
@@ -172,7 +172,7 @@ BoardTest >> test013WhenTwoHyperJumpSquaresAreGeneratedThenEachUsesDifferentGene
 		withProbabilities: #(0.95 0.95)
 		andHyperJumpValuesLists: { #(10 5 2). #(7 4 1) }.
 
-	board := Board withSize: 2 andPasrsecLength: 1 using: loadedRandomProvider.
+	board := Board withSize: 2 andParsecLength: 1 using: loadedRandomProvider.
 
 	firstHyperJump := board effectAt: 1.
 	secondHyperJump := board effectAt: 2.
@@ -193,7 +193,7 @@ BoardTest >> test014WhenBoardIsCreatedWithRandomProviderThenAllSquaresHaveAnEffe
 	|  randomProvider |
 	randomProvider := RandomProvider withMaxMoonWalkDistance: 10.
 
-	board := Board withSize: 20 andPasrsecLength: 1 using: randomProvider.
+	board := Board withSize: 20 andParsecLength: 1 using: randomProvider.
 
 	1 to: board numSquares do: [ :position |
 		self deny: (board effectAt: position) isNil ].

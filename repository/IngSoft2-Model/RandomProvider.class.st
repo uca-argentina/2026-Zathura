@@ -27,7 +27,13 @@ RandomProvider >> nextEffectProbability [
 
 { #category : 'initialization' }
 RandomProvider >> nextHyperJumpValues [
-	^ #(10 5 2)
+	| values candidate |
+    values := OrderedCollection new.
+    [ values size = 3 ] whileFalse: [
+        candidate := (random next * 10) ceiling .
+        (values includes: candidate) ifFalse: [ values add: candidate ]
+    ].
+    ^ values sort: [ :a :b | a > b ].
 ]
 
 { #category : 'initialization' }
