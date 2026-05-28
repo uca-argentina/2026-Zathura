@@ -76,6 +76,11 @@ Game >> lapsFor: theShip [
 ]
 
 { #category : 'accessing' }
+Game >> playCard [
+	self shouldBeImplemented.
+]
+
+{ #category : 'accessing' }
 Game >> playGame [
 	[ self ended ] whileFalse: [ self playTurn ].
 	

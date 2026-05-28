@@ -672,3 +672,16 @@ GameTest >> test048WhenShipCollectionIsModifiedOutsideGameThenGameStateIsNotAffe
 	self assert: (aGame squares size) equals: 3.
 
 ]
+
+{ #category : 'tests' }
+GameTest >> test049WhenGameIsCreatedThenAllShipsHaveTwoCards [
+	 self assert: (aCollectionOfShips allSatisfy: [ :ship | ship  cardsSize = 2 ]).
+]
+
+{ #category : 'tests' }
+GameTest >> test050WhenAOverloadCardIsPlayedThenReduceTwoSquaresTheThrowOfAShip [
+	 aGame playCard.
+	 aGame playTurn. 
+	 aGame playTurn.
+	self assert: (aGame squareOf:danny) equals: 2.
+]

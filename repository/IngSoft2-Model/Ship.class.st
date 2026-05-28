@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'position',
 		'name',
-		'lap'
+		'lap',
+		'cardsColeccions'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -26,6 +27,11 @@ Ship >> areYou: aName [
 ]
 
 { #category : 'accessing' }
+Ship >> cardsSize [
+	^ cardsColeccions size.
+]
+
+{ #category : 'accessing' }
 Ship >> didYouWin:aNumberofLaps [
 	^lap >= aNumberofLaps.
 ]
@@ -41,6 +47,10 @@ Ship >> initializeAs: aName [
 	name := aName.
 	position := 1.
 	lap:=0.
+	cardsColeccions := OrderedCollection new.
+	cardsColeccions add: Card new.
+	cardsColeccions add: Card new.
+	
 ]
 
 { #category : 'accessing' }
