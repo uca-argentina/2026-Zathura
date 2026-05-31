@@ -731,3 +731,23 @@ GameTest >> test053WhenWalterPlaysCancellationOnOverloadThenDannysNextThrowIsNor
 	aGame playTurn.
 	self assert: (aGame squareOf: danny) equals: 4.
 ]
+
+{ #category : 'tests' }
+GameTest >> test054WhenWalterPlaysACardHeDoesntHaveThenAnErrorIsThrown [
+	| acceleration |
+	acceleration := Acceleration new.
+	
+	self should: [ aGame playCard: acceleration from: walter ]
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'The ship does not have this card' ]
+]
+
+{ #category : 'tests' }
+GameTest >> test055WhenWalterPlaysACardThenThatCardIsRemovedFromHisHand [
+	| overload |
+	overload := Overload new.
+	walter addCard: overload.
+	
+	aGame playCard: overload from: walter targeting: danny.
+	self deny: (walter hasCard: overload)
+]

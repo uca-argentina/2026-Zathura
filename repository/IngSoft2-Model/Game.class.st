@@ -89,16 +89,22 @@ Game >> playCard [
 
 { #category : 'accessing' }
 Game >> playCard: aCard from: aShip [ 
+	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
+	aShip removeCard: aCard.
 	aCard applyTo: nil in: self.
 ]
 
 { #category : 'accessing' }
 Game >> playCard: aCard from: aShip cancelingCard: aCardToCancel [ 
+	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
+	aShip removeCard: aCard.
 	aCard applyTo: aCardToCancel in: self.
 ]
 
 { #category : 'accessing' }
 Game >> playCard: aCard from: aShip targeting: anotherShip [ 
+	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
+	aShip removeCard: aCard.
 	aCard applyTo: anotherShip in: self.
 ]
 

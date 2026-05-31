@@ -47,6 +47,11 @@ Ship >> handleLapsFor: aBoardSize [
    position := ((position - 1) \\ aBoardSize) + 1
 ]
 
+{ #category : 'testing' }
+Ship >> hasCard: aCard [
+	^ cardsColeccions includes: aCard.
+]
+
 { #category : 'initialization' }
 Ship >> initializeAs: aName [
 	name := aName.
@@ -90,6 +95,11 @@ Ship >> position [
 { #category : 'accessing' }
 Ship >> progressIn: aBoardSize [
     ^ (lap * aBoardSize) + position
+]
+
+{ #category : 'removing' }
+Ship >> removeCard: aCard [
+	cardsColeccions remove: aCard.
 ]
 
 { #category : 'accessing' }
