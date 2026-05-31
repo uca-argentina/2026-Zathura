@@ -689,3 +689,15 @@ GameTest >> test050WhenWalterPlaysOverloadOnDannyThenDannysNextThrowIsReducedByT
 	 aGame playTurn.
 	self assert: (aGame squareOf:danny) equals: 2.
 ]
+
+{ #category : 'tests' }
+GameTest >> test051WhenWalterPlaysSpeedOnDannyThenDannysNextThrowIsIncreasedByOne [
+	| speed |
+	speed := Speed new.
+	walter addCard: speed.
+	 
+	aGame playCard: speed from: walter targeting: danny.
+	 aGame playTurn. 
+	 aGame playTurn.
+	self assert: (aGame squareOf:danny) equals: 5.
+]

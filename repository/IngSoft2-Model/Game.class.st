@@ -8,7 +8,8 @@ Class {
 		'state',
 		'turnHandler',
 		'lapsToWin',
-		'overloadedShips'
+		'overloadedShips',
+		'speededShips'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -61,6 +62,7 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection and:
 	turnHandler := TurnHandler for:aCollectionOfShips.
 	lapsToWin:=aNumberOfLaps.
 	overloadedShips := Dictionary new.
+	speededShips := Dictionary new.
 ]
 
 { #category : 'accessing' }
@@ -115,6 +117,7 @@ Game >> playTurnAsOngoing [
     ship := turnHandler whoseTurnIsIt.
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
 	 totalRoll := totalRoll - (overloadedShips at: ship name ifAbsent: [0]).
+	totalRoll := totalRoll + (speededShips at: ship name ifAbsent: [0]).
     board move: ship thatRolled: totalRoll.
 	board applyEffect: (board effectAt: ship position) to: ship withShips: ships.
 	(self hasWon: ship) ifTrue: [ self end ].
@@ -142,6 +145,11 @@ Game >> ranking [
 Game >> rankingFor: theShip [ 
 	self validateShipIsPlaying: theShip.
 	^ self ranking keyAtValue: theShip name.
+]
+
+{ #category : 'accessing' }
+Game >> speed: aShip by: anAmount [ 
+	speededShips at: aShip name put: anAmount.
 ]
 
 { #category : 'accessing' }
