@@ -701,3 +701,18 @@ GameTest >> test051WhenWalterPlaysSpeedOnDannyThenDannysNextThrowIsIncreasedByOn
 	 aGame playTurn.
 	self assert: (aGame squareOf:danny) equals: 5.
 ]
+
+{ #category : 'tests' }
+GameTest >> test052WhenWalterPlaysAccelerationThenAllShipsNextThrowIsIncreasedByOne [
+	| acceleration |
+	acceleration := Acceleration new.
+	walter addCard: acceleration.
+	 
+	aGame playCard: acceleration from: walter.
+	 aGame playTurn. 
+	 aGame playTurn.
+	aGame playTurn.
+	self assert: (aGame squareOf:danny) equals: 5.
+	self assert: (aGame squareOf:walter) equals: 5.
+	self assert: (aGame squareOf:lisa) equals: 5.
+]

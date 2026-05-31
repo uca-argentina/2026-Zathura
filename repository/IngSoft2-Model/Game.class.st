@@ -9,7 +9,8 @@ Class {
 		'turnHandler',
 		'lapsToWin',
 		'overloadedShips',
-		'speededShips'
+		'speededShips',
+		'acceleratedShips'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -38,6 +39,11 @@ Game class >> playedOn: aBoard by: aShipsCollection throwing: aDiceCollection wi
 	
 ]
 
+{ #category : 'accessing' }
+Game >> accelerate: anAmount [
+	ships do: [ :aShip | acceleratedShips at: aShip name put: anAmount].
+]
+
 { #category : 'playingLogic' }
 Game >> end [
 	state:= EndedState new.
@@ -63,6 +69,7 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection and:
 	lapsToWin:=aNumberOfLaps.
 	overloadedShips := Dictionary new.
 	speededShips := Dictionary new.
+	acceleratedShips := Dictionary new.
 ]
 
 { #category : 'accessing' }
@@ -87,6 +94,11 @@ Game >> overload: aShip by: anAmount [
 { #category : 'accessing' }
 Game >> playCard [
 	self shouldBeImplemented.
+]
+
+{ #category : 'accessing' }
+Game >> playCard: aCard from: aShip [ 
+	aCard applyTo: nil in: self.
 ]
 
 { #category : 'accessing' }
@@ -118,6 +130,7 @@ Game >> playTurnAsOngoing [
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
 	 totalRoll := totalRoll - (overloadedShips at: ship name ifAbsent: [0]).
 	totalRoll := totalRoll + (speededShips at: ship name ifAbsent: [0]).
+	totalRoll := totalRoll + (acceleratedShips at: ship name ifAbsent: [0]).
     board move: ship thatRolled: totalRoll.
 	board applyEffect: (board effectAt: ship position) to: ship withShips: ships.
 	(self hasWon: ship) ifTrue: [ self end ].
