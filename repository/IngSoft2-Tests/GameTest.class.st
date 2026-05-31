@@ -716,3 +716,18 @@ GameTest >> test052WhenWalterPlaysAccelerationThenAllShipsNextThrowIsIncreasedBy
 	self assert: (aGame squareOf:walter) equals: 5.
 	self assert: (aGame squareOf:lisa) equals: 5.
 ]
+
+{ #category : 'tests' }
+GameTest >> test053WhenWalterPlaysCancellationOnOverloadThenDannysNextThrowIsNormal [
+	| overload cancellation |
+	overload := Overload new.
+	cancellation := Cancellation new.
+	walter addCard: overload.
+	walter addCard: cancellation.
+	
+	aGame playCard: overload from: walter targeting: danny.
+	aGame playCard: cancellation from: walter cancelingCard: overload.
+	aGame playTurn.
+	aGame playTurn.
+	self assert: (aGame squareOf: danny) equals: 4.
+]

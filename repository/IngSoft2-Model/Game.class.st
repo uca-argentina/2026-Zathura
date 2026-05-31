@@ -93,6 +93,11 @@ Game >> playCard: aCard from: aShip [
 ]
 
 { #category : 'accessing' }
+Game >> playCard: aCard from: aShip cancelingCard: aCardToCancel [ 
+	aCard applyTo: aCardToCancel in: self.
+]
+
+{ #category : 'accessing' }
 Game >> playCard: aCard from: aShip targeting: anotherShip [ 
 	aCard applyTo: anotherShip in: self.
 ]
@@ -147,6 +152,11 @@ Game >> ranking [
 Game >> rankingFor: theShip [ 
 	self validateShipIsPlaying: theShip.
 	^ self ranking keyAtValue: theShip name.
+]
+
+{ #category : 'accessing' }
+Game >> removeActiveCard: aCard [ 
+	activeCards remove: aCard.
 ]
 
 { #category : 'accessing' }
