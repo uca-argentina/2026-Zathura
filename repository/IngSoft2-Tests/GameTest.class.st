@@ -751,3 +751,28 @@ GameTest >> test055WhenWalterPlaysACardThenThatCardIsRemovedFromHisHand [
 	aGame playCard: overload from: walter targeting: danny.
 	self deny: (walter hasCard: overload)
 ]
+
+{ #category : 'tests' }
+GameTest >> test056WhenWalterPlaysCancellationWithNoActiveCardsThenAnErrorIsThrown [
+	| cancellation overload |
+	overload := Overload new.
+	cancellation := Cancellation new.
+	walter addCard: cancellation.
+	
+	self should: [ aGame playCard: cancellation from: walter cancelingCard: overload ]
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'There are no active cards to cancel' ]
+]
+
+{ #category : 'tests' }
+GameTest >> test057WhenACardIsPlayedAfterGameEndedThenAnErrorIsThrown [ 
+    | overload |
+    overload := Overload new.
+    walter addCard: overload.
+    aGame playGame.
+    
+    self should: [aGame playCard: overload from: walter targeting: danny]
+    raise: Error
+    withExceptionDo: [ :anError | self assert: anError messageText equals: 'The Game ended, cards CANNOT be played' ]
+
+]

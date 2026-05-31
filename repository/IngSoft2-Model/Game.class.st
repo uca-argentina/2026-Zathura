@@ -89,6 +89,7 @@ Game >> playCard [
 
 { #category : 'accessing' }
 Game >> playCard: aCard from: aShip [ 
+	self ended ifTrue: [ Error signal: 'The Game ended, cards CANNOT be played' ].
 	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
 	aShip removeCard: aCard.
 	aCard applyTo: nil in: self.
@@ -96,6 +97,7 @@ Game >> playCard: aCard from: aShip [
 
 { #category : 'accessing' }
 Game >> playCard: aCard from: aShip cancelingCard: aCardToCancel [ 
+	self ended ifTrue: [ Error signal: 'The Game ended, cards CANNOT be played' ].
 	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
 	aShip removeCard: aCard.
 	aCard applyTo: aCardToCancel in: self.
@@ -103,6 +105,7 @@ Game >> playCard: aCard from: aShip cancelingCard: aCardToCancel [
 
 { #category : 'accessing' }
 Game >> playCard: aCard from: aShip targeting: anotherShip [ 
+	self ended ifTrue: [ Error signal: 'The Game ended, cards CANNOT be played' ].
 	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
 	aShip removeCard: aCard.
 	aCard applyTo: anotherShip in: self.
@@ -162,6 +165,7 @@ Game >> rankingFor: theShip [
 
 { #category : 'accessing' }
 Game >> removeActiveCard: aCard [ 
+	(activeCards includes: aCard) ifFalse: [ Error signal: 'There are no active cards to cancel' ].
 	activeCards remove: aCard.
 ]
 
