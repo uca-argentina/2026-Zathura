@@ -8,7 +8,8 @@ Class {
 		'state',
 		'turnHandler',
 		'lapsToWin',
-		'activeCards'
+		'activeCards',
+		'usedCards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -66,6 +67,7 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection and:
 	turnHandler := TurnHandler for:aCollectionOfShips.
 	lapsToWin:=aNumberOfLaps.
 	activeCards := OrderedCollection new.
+	usedCards:= OrderedCollection new.
 ]
 
 { #category : 'accessing' }
@@ -83,16 +85,12 @@ Game >> lapsFor: theShip [
 ]
 
 { #category : 'accessing' }
-Game >> playCard [
-	self shouldBeImplemented.
-]
-
-{ #category : 'accessing' }
 Game >> playCard: aCard from: aShip [ 
 	self ended ifTrue: [ Error signal: 'The Game ended, cards CANNOT be played' ].
 	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
 	aShip removeCard: aCard.
 	aCard applyTo: nil in: self.
+	usedCards add: aCard
 ]
 
 { #category : 'accessing' }
@@ -101,6 +99,7 @@ Game >> playCard: aCard from: aShip cancelingCard: aCardToCancel [
 	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
 	aShip removeCard: aCard.
 	aCard applyTo: aCardToCancel in: self.
+	usedCards add: aCard
 ]
 
 { #category : 'accessing' }
@@ -109,6 +108,7 @@ Game >> playCard: aCard from: aShip targeting: anotherShip [
 	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
 	aShip removeCard: aCard.
 	aCard applyTo: anotherShip in: self.
+	usedCards add: aCard
 ]
 
 { #category : 'accessing' }
@@ -182,6 +182,11 @@ Game >> squares [
 	dict:=Dictionary new.
 	ships do:[:aShip| dict at: aShip name put: aShip position ].
 	^ dict.
+]
+
+{ #category : 'accessing' }
+Game >> usedCardsList [
+	^usedCards
 ]
 
 { #category : 'accessing' }

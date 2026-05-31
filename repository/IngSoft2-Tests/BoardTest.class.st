@@ -198,3 +198,14 @@ BoardTest >> test014WhenBoardIsCreatedWithRandomProviderThenAllSquaresHaveAnEffe
 	1 to: board numSquares do: [ :position |
 		self deny: (board effectAt: position) isNil ].
 ]
+
+{ #category : 'tests' }
+BoardTest >> test015WhenBoardIsAskLengthInLightYearsThenParsecConversionIsCorrect [
+	|loadedRandomProvider|
+	loadedRandomProvider := LoadedRandomProvider
+		with: 0.95
+		andHyperJumpValues: #(5 10 2). "los tiene que ordenar"
+
+	board := Board withSize: 1 andParsecLength: 12 using: loadedRandomProvider.
+	self assert: board lightSize equals: 4.
+]

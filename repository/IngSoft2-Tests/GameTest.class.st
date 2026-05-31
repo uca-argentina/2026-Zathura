@@ -776,3 +776,13 @@ GameTest >> test057WhenACardIsPlayedAfterGameEndedThenAnErrorIsThrown [
     withExceptionDo: [ :anError | self assert: anError messageText equals: 'The Game ended, cards CANNOT be played' ]
 
 ]
+
+{ #category : 'tests' }
+GameTest >> test058WhenACardIsUsedThenItGoesToUsedCardsList [
+	| speed |
+	speed := Speed new.
+	walter addCard: speed.
+	 
+	aGame playCard: speed from: walter targeting: danny.
+	self assert: (aGame usedCardsList size) equals: 1.
+]

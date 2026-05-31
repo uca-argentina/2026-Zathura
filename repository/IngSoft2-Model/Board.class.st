@@ -5,7 +5,8 @@ Class {
 		'numSquares',
 		'effects',
 		'parsecLength',
-		'squares'
+		'squares',
+		'lightSize'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -51,7 +52,12 @@ Board >> initializeWithSize: aSize andParsecLength: aLength andRandomProvider: a
    numSquares := aSize.
 	parsecLength := aLength.
 	squares := self class squaresOfSize: aSize using: aRandomProvider andParsecPerSquare: self parsecPerSquare.
+	lightSize := aLength /3
+]
 
+{ #category : 'accessing' }
+Board >> lightSize [
+	^lightSize
 ]
 
 { #category : 'accessing' }
