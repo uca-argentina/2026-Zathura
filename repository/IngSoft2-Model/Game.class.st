@@ -8,9 +8,7 @@ Class {
 		'state',
 		'turnHandler',
 		'lapsToWin',
-		'overloadedShips',
-		'speededShips',
-		'acceleratedShips'
+		'activeCards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -39,9 +37,9 @@ Game class >> playedOn: aBoard by: aShipsCollection throwing: aDiceCollection wi
 	
 ]
 
-{ #category : 'accessing' }
-Game >> accelerate: anAmount [
-	ships do: [ :aShip | acceleratedShips at: aShip name put: anAmount].
+{ #category : 'adding' }
+Game >> addActiveCard: aCard [
+	activeCards add: aCard.
 ]
 
 { #category : 'playingLogic' }
@@ -67,9 +65,7 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection and:
 	ships := aCollectionOfShips .
 	turnHandler := TurnHandler for:aCollectionOfShips.
 	lapsToWin:=aNumberOfLaps.
-	overloadedShips := Dictionary new.
-	speededShips := Dictionary new.
-	acceleratedShips := Dictionary new.
+	activeCards := OrderedCollection new.
 ]
 
 { #category : 'accessing' }
@@ -84,11 +80,6 @@ Game >> laps [
 Game >> lapsFor: theShip [ 
 	self validateShipIsPlaying: theShip.
 	^ (self laps) at: theShip name.
-]
-
-{ #category : 'accessing' }
-Game >> overload: aShip by: anAmount [ 
-	overloadedShips at: aShip name put: anAmount.
 ]
 
 { #category : 'accessing' }
@@ -128,9 +119,7 @@ Game >> playTurnAsOngoing [
     | ship totalRoll  |
     ship := turnHandler whoseTurnIsIt.
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
-	 totalRoll := totalRoll - (overloadedShips at: ship name ifAbsent: [0]).
-	totalRoll := totalRoll + (speededShips at: ship name ifAbsent: [0]).
-	totalRoll := totalRoll + (acceleratedShips at: ship name ifAbsent: [0]).
+	 totalRoll := activeCards inject: totalRoll into: [ :roll :card | card modifyRoll: roll forShip: ship ].
     board move: ship thatRolled: totalRoll.
 	board applyEffect: (board effectAt: ship position) to: ship withShips: ships.
 	(self hasWon: ship) ifTrue: [ self end ].
@@ -158,11 +147,6 @@ Game >> ranking [
 Game >> rankingFor: theShip [ 
 	self validateShipIsPlaying: theShip.
 	^ self ranking keyAtValue: theShip name.
-]
-
-{ #category : 'accessing' }
-Game >> speed: aShip by: anAmount [ 
-	speededShips at: aShip name put: anAmount.
 ]
 
 { #category : 'accessing' }

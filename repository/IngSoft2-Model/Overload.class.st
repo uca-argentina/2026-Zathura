@@ -1,11 +1,23 @@
 Class {
 	#name : 'Overload',
 	#superclass : 'Card',
+	#instVars : [
+		'ship',
+		'amount'
+	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'method' }
+{ #category : 'actions' }
 Overload >> applyTo: aShip in: aGame [ 
-	aGame overload: aShip by: 2.
+	ship := aShip.
+	amount := 2.
+	aGame addActiveCard: self.
+]
+
+{ #category : 'actions' }
+Overload >> modifyRoll: aRoll forShip: aShip [
+	aShip = ship ifTrue: [ ^aRoll - amount ].
+	^ aRoll
 ]
