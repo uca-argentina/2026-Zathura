@@ -21,6 +21,11 @@ Ship >> = aShip [
 	^ aShip areYou:name.
 ]
 
+{ #category : 'adding' }
+Ship >> addCard: aCard [
+	cardsColeccions add: aCard
+]
+
 { #category : 'accessing' }
 Ship >> areYou: aName [
 	^ name = aName.

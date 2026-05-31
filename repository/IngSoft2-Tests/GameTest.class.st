@@ -679,8 +679,12 @@ GameTest >> test049WhenGameIsCreatedThenAllShipsHaveTwoCards [
 ]
 
 { #category : 'tests' }
-GameTest >> test050WhenAOverloadCardIsPlayedThenReduceTwoSquaresTheThrowOfAShip [
-	 aGame playCard.
+GameTest >> test050WhenWalterPlaysOverloadOnDannyThenDannysNextThrowIsReducedByTwo [
+	| overload |
+	overload := Overload new.
+	walter addCard: overload.
+	 
+	aGame playCard: overload from: walter targeting: danny.
 	 aGame playTurn. 
 	 aGame playTurn.
 	self assert: (aGame squareOf:danny) equals: 2.
