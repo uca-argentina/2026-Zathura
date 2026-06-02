@@ -31,11 +31,12 @@ GameTest >> boardWithSize: aSize AndParsecLength: aLength AndWithProbability: aP
 { #category : 'running' }
 GameTest >> setUp [
 
-	|probabilities |
+	|probabilities  |
 	super setUp.
-	walter := Ship named: 'Walter'.
-	danny := Ship named: 'Danny'.
-	lisa := Ship named: 'Lisa'.
+	
+	walter := Ship named: 'Walter' using: (LoadedCardProvider with: #(0.2 0.4)).
+	danny := Ship named: 'Danny' using: (LoadedCardProvider with: #(0.6 0.8)).
+	lisa := Ship named: 'Lisa' using: (LoadedCardProvider with: #(0.9 0.6)).
 	aDice := LoadedDice with: 3.
 	probabilities := OrderedCollection new.
 	probabilities addAll: ((1 to: 20) collect: [ :i | 0.3 ]).
@@ -239,7 +240,7 @@ GameTest >> test018WhenAGameIsEndedThenTheStandingsReflectTheWinnerAndTheOthersE
 { #category : 'tests' }
 GameTest >> test019WhenAGameIsCreatedWithOneShipOrLessThenShouldThrowError [
 	
-	self should: [Game playedOn:aBoard by: {Ship named: 'Walter'} throwing: aCollectionOfDices ] 
+	self should: [Game playedOn:aBoard by: {Ship named: 'Walter' using: CardProvider new} throwing: aCollectionOfDices ] 
 	raise: Error
 	withExceptionDo: [ :anError | self assert: anError messageText equals: 'There must be at least two ships' ]
 	
@@ -387,7 +388,7 @@ GameTest >> test028WhenAShipsTriesToPlayInAnotherShipsTurnThenTheShipCannotPlay 
 { #category : 'tests' }
 GameTest >> test029WhenTwoShipsAreNameTheSameThenTheGameCannotBeCreated [
 	| walter2 aColl2 |
-	walter2:= Ship named: 'Walter'.
+	walter2:= Ship named: 'Walter' using: CardProvider new.
 	aColl2:= OrderedCollection with:walter with:danny with:walter2. 
 	self should: [Game playedOn: aBoard by: aColl2 throwing:aCollectionOfDices.]
 	raise: Error
@@ -470,7 +471,7 @@ GameTest >> test032WhenAShipsPositionIsRequestedThenThatShipsPositionIsRevealed 
 GameTest >> test033WhenAnUnknownShipsPositionIsRequestedThenThatRequestIsDenied [
 	
 	| darthVadersTieFighter |
-	darthVadersTieFighter:= Ship named: 'darthVadersTieFighter'.
+	darthVadersTieFighter:= Ship named: 'darthVadersTieFighter'using: CardProvider new.
 	
 	self should: [aGame squareOf:darthVadersTieFighter]
 	raise: Error
@@ -514,7 +515,7 @@ GameTest >> test035WhenARequestForAShipsRankingIsMadeThenThatShipsRankingIsTheRe
 GameTest >> test036WhenARequestForAnUnknownShipsRankingIsMadeThenThatRequestIsDenied [
 
 	| darthVadersTieFighter |
-	darthVadersTieFighter:= Ship named: 'darthVadersTieFighter'.
+	darthVadersTieFighter:= Ship named: 'darthVadersTieFighter'using: CardProvider new.
 	
 	self should: [aGame rankingFor:darthVadersTieFighter]
 	raise: Error
@@ -573,7 +574,7 @@ GameTest >> test039WhenRequestForAShipsLapIsMadeThenTheAnswerIsThatShipsCurrentL
 GameTest >> test040WhenARequestForAnUnknownShipsLapIsMadeThenThatRequestIsDenied [
 
 	| darthVadersTieFighter |
-	darthVadersTieFighter:= Ship named: 'darthVadersTieFighter'.
+	darthVadersTieFighter:= Ship named: 'darthVadersTieFighter' using: CardProvider new.
 	
 	self should: [aGame lapsFor:darthVadersTieFighter]
 	raise: Error
@@ -666,7 +667,7 @@ GameTest >> test047WhenADiceCollectionsIsModifiedOutsideGameThenGameStateIsNotAf
 { #category : 'tests' }
 GameTest >> test048WhenShipCollectionIsModifiedOutsideGameThenGameStateIsNotAffected [
 	|extraShip modifiableCollection|
-	extraShip := Ship named:'darthVadersTieFighter'. 
+	extraShip := Ship named:'darthVadersTieFighter' using: CardProvider new. 
 	modifiableCollection := aCollectionOfShips asOrderedCollection.
     modifiableCollection add: extraShip.
 	self assert: (aGame squares size) equals: 3.
@@ -679,12 +680,8 @@ GameTest >> test049WhenGameIsCreatedThenAllShipsHaveTwoCards [
 ]
 
 { #category : 'tests' }
-GameTest >> test050WhenWalterPlaysOverloadOnDannyThenDannysNextThrowIsReducedByTwo [
-	| overload |
-	overload := Overload new.
-	walter addCard: overload.
-	 
-	aGame playCard: overload from: walter targeting: danny.
+GameTest >> test050WhenWalterPlaysOverloadOnDannyThenDannysNextThrowIsReducedByTwo [ 
+	aGame playCard: Overload from: walter targeting: danny.
 	 aGame playTurn. 
 	 aGame playTurn.
 	self assert: (aGame squareOf:danny) equals: 2.
@@ -692,41 +689,28 @@ GameTest >> test050WhenWalterPlaysOverloadOnDannyThenDannysNextThrowIsReducedByT
 
 { #category : 'tests' }
 GameTest >> test051WhenWalterPlaysSpeedOnDannyThenDannysNextThrowIsIncreasedByOne [
-	| speed |
-	speed := Speed new.
-	walter addCard: speed.
-	 
-	aGame playCard: speed from: walter targeting: danny.
+	aGame playCard: Speed from: walter targeting: danny.
 	 aGame playTurn. 
 	 aGame playTurn.
 	self assert: (aGame squareOf:danny) equals: 5.
 ]
 
 { #category : 'tests' }
-GameTest >> test052WhenWalterPlaysAccelerationThenAllShipsNextThrowIsIncreasedByOne [
-	| acceleration |
-	acceleration := Acceleration new.
-	walter addCard: acceleration.
-	 
-	aGame playCard: acceleration from: walter.
-	 aGame playTurn. 
-	 aGame playTurn.
+GameTest >> test052WhenDannyPlaysAccelerationThenAllShipsNextThrowIsIncreasedByOne [
+	aGame playTurn.
+	aGame playCard: Acceleration from: danny.
+	aGame playTurn.
 	aGame playTurn.
 	self assert: (aGame squareOf:danny) equals: 5.
-	self assert: (aGame squareOf:walter) equals: 5.
+	self assert: (aGame squareOf:walter) equals: 4.
 	self assert: (aGame squareOf:lisa) equals: 5.
 ]
 
 { #category : 'tests' }
-GameTest >> test053WhenWalterPlaysCancellationOnOverloadThenDannysNextThrowIsNormal [
-	| overload cancellation |
-	overload := Overload new.
-	cancellation := Cancellation new.
-	walter addCard: overload.
-	walter addCard: cancellation.
+GameTest >> test053WhenDannyPlaysCancellationOnOverloadThenDannysNextThrowIsNormal [
 	
-	aGame playCard: overload from: walter targeting: danny.
-	aGame playCard: cancellation from: walter cancelingCard: overload.
+	aGame playCard: Overload from: walter targeting: danny.
+	aGame playCard: Cancellation from: danny cancelingCard: Overload.
 	aGame playTurn.
 	aGame playTurn.
 	self assert: (aGame squareOf: danny) equals: 4.
@@ -744,34 +728,24 @@ GameTest >> test054WhenWalterPlaysACardHeDoesntHaveThenAnErrorIsThrown [
 
 { #category : 'tests' }
 GameTest >> test055WhenWalterPlaysACardThenThatCardIsRemovedFromHisHand [
-	| overload |
-	overload := Overload new.
-	walter addCard: overload.
 	
-	aGame playCard: overload from: walter targeting: danny.
-	self deny: (walter hasCard: overload)
+	aGame playCard: Overload from: walter targeting: danny.
+	self deny: (walter hasCard: Overload)
 ]
 
 { #category : 'tests' }
-GameTest >> test056WhenWalterPlaysCancellationWithNoActiveCardsThenAnErrorIsThrown [
-	| cancellation overload |
-	overload := Overload new.
-	cancellation := Cancellation new.
-	walter addCard: cancellation.
+GameTest >> test056WhenShipPlaysCancellationWithNoActiveCardsThenAnErrorIsThrown [
 	
-	self should: [ aGame playCard: cancellation from: walter cancelingCard: overload ]
+	self should: [ aGame playCard: Cancellation from: danny cancelingCard: Overload ]
 	raise: Error
 	withExceptionDo: [ :anError | self assert: anError messageText equals: 'There are no active cards to cancel' ]
 ]
 
 { #category : 'tests' }
 GameTest >> test057WhenACardIsPlayedAfterGameEndedThenAnErrorIsThrown [ 
-    | overload |
-    overload := Overload new.
-    walter addCard: overload.
     aGame playGame.
     
-    self should: [aGame playCard: overload from: walter targeting: danny]
+    self should: [aGame playCard: Overload from: walter targeting: danny]
     raise: Error
     withExceptionDo: [ :anError | self assert: anError messageText equals: 'The Game ended, cards CANNOT be played' ]
 
@@ -779,10 +753,25 @@ GameTest >> test057WhenACardIsPlayedAfterGameEndedThenAnErrorIsThrown [
 
 { #category : 'tests' }
 GameTest >> test058WhenACardIsUsedThenItGoesToUsedCardsList [
-	| speed |
-	speed := Speed new.
-	walter addCard: speed.
 	 
-	aGame playCard: speed from: walter targeting: danny.
+	aGame playCard: Overload from: walter targeting: danny.
 	self assert: (aGame usedCardsList size) equals: 1.
+]
+
+{ #category : 'tests' }
+GameTest >> test059WhenAPlayerPlaysRedoThenTheLastTypeOfCardUsedIsPlayed [
+	aGame playCard: Overload from: walter  targeting: danny.
+	aGame playTurn.
+	aGame playTurn.
+	aGame playCard: Redo from: lisa targeting: walter.
+	aGame playTurn.
+	aGame playTurn.
+	self assert: ( aGame squareOf: walter) equals: 5.
+]
+
+{ #category : 'tests' }
+GameTest >> test060WhenAPlayerPlaysACardButItIsntHisTurnThenThenHeCantPlayIT [
+	self should: [aGame playCard: Acceleration from: danny ]
+    raise: Error
+    withExceptionDo: [ :anError | self assert: anError messageText equals: 'It isn´t players turn, it can´t play it' ]
 ]

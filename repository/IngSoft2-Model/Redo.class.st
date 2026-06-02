@@ -1,16 +1,16 @@
 Class {
-	#name : 'Cancellation',
+	#name : 'Redo',
 	#superclass : 'Card',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'actions' }
-Cancellation >> applyTo: aCard in: aGame [ 
-	aGame removeActiveCard: aCard.
+Redo >> applyTo: aShip in: aGame [ 
+	aGame replayLastCardTargeting: aShip.
 ]
 
 { #category : 'actions' }
-Cancellation >> initialize [ 
+Redo >> initialize [ 
 	isPermanent := false.
 ]

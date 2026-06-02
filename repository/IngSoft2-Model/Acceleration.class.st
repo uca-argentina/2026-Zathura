@@ -14,6 +14,11 @@ Acceleration >> applyTo: aShip in: aGame [
 	aGame addActiveCard: self.
 ]
 
+{ #category : 'initialization' }
+Acceleration >> initialize [ 
+	isPermanent := true.
+]
+
 { #category : 'actions' }
 Acceleration >> modifyRoll: aRoll forShip: aShip [
 	^ aRoll + amount.

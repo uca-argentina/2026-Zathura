@@ -17,6 +17,11 @@ Speed >> applyTo: aShip in: aGame [
 ]
 
 { #category : 'actions' }
+Speed >> initialize [ 
+	isPermanent := true.
+]
+
+{ #category : 'actions' }
 Speed >> modifyRoll: aRoll forShip: aShip [
 	aShip = ship ifTrue: [ ^ aRoll + amount ].
 	^ aRoll

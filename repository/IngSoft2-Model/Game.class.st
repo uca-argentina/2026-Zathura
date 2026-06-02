@@ -9,7 +9,8 @@ Class {
 		'turnHandler',
 		'lapsToWin',
 		'activeCards',
-		'usedCards'
+		'usedCards',
+		'lastPlayedCard'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -86,29 +87,46 @@ Game >> lapsFor: theShip [
 
 { #category : 'accessing' }
 Game >> playCard: aCard from: aShip [ 
+	|card|
 	self ended ifTrue: [ Error signal: 'The Game ended, cards CANNOT be played' ].
-	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
-	aShip removeCard: aCard.
-	aCard applyTo: nil in: self.
-	usedCards add: aCard
+	card:= aShip cardOfClass: aCard.
+	card ifNil: [ Error signal: 'The ship does not have this card' ].
+	(card isPermanent and: [ (turnHandler whoseTurnIsIt) ~= aShip ])
+        ifTrue: [ Error signal: 'It isn´t players turn, it can´t play it' ].
+	aShip removeCard: card.
+	card applyTo: nil in: self.
+	lastPlayedCard := card.
+	usedCards add: card.
 ]
 
 { #category : 'accessing' }
 Game >> playCard: aCard from: aShip cancelingCard: aCardToCancel [ 
+
+	|card|
 	self ended ifTrue: [ Error signal: 'The Game ended, cards CANNOT be played' ].
-	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
-	aShip removeCard: aCard.
-	aCard applyTo: aCardToCancel in: self.
-	usedCards add: aCard
+	card:= aShip cardOfClass: aCard.
+	card  ifNil: [ Error signal: 'The ship does not have this card' ].
+	(card isPermanent and: [ (turnHandler whoseTurnIsIt) ~= aShip ])
+        ifTrue: [ Error signal: 'It isn´t players turn, it can´t play it' ].
+	aShip removeCard: card.
+	card applyTo: aCardToCancel in: self.
+	lastPlayedCard := card.
+	usedCards add: card
 ]
 
 { #category : 'accessing' }
-Game >> playCard: aCard from: aShip targeting: anotherShip [ 
+Game >> playCard: aCardClass from: aShip targeting: anotherShip [ 
+	
+	|card|
 	self ended ifTrue: [ Error signal: 'The Game ended, cards CANNOT be played' ].
-	(aShip hasCard: aCard) ifFalse: [ Error signal: 'The ship does not have this card' ].
-	aShip removeCard: aCard.
-	aCard applyTo: anotherShip in: self.
-	usedCards add: aCard
+	card:= aShip cardOfClass: aCardClass.
+	card  ifNil: [ Error signal: 'The ship does not have this card' ].
+	(card isPermanent and: [ (turnHandler whoseTurnIsIt) ~= aShip ])
+        ifTrue: [ Error signal: 'It isn´t players turn, it can´t play it' ].
+	aShip removeCard: card.
+	card applyTo: anotherShip in: self.
+	lastPlayedCard := card.
+	usedCards add: card.
 ]
 
 { #category : 'accessing' }
@@ -164,9 +182,22 @@ Game >> rankingFor: theShip [
 ]
 
 { #category : 'accessing' }
-Game >> removeActiveCard: aCard [ 
-	(activeCards includes: aCard) ifFalse: [ Error signal: 'There are no active cards to cancel' ].
+Game >> removeActiveCard: aCardClass [ 
+	|aCard |
+	aCard:=activeCards detect: [ :card | card class = aCardClass ] ifNone: [ nil ].
+	aCard ifNil: [ Error signal: 'There are no active cards to cancel' ].
 	activeCards remove: aCard.
+]
+
+{ #category : 'accessing' }
+Game >> replayLastCardTargeting: aShip [
+	
+	|card|
+	self ended ifTrue: [ Error signal: 'The Game ended, cards CANNOT be played' ].
+	card:= lastPlayedCard class new.
+	card  ifNil: [ Error signal: 'The ship does not have this card' ].
+	card applyTo: aShip in: self.
+	usedCards add: card.
 ]
 
 { #category : 'accessing' }

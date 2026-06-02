@@ -61,16 +61,19 @@ BoardTest >> test007WhenBoardIsCreatedThenEachPositionHasASquare [
 { #category : 'tests' }
 BoardTest >> test008WhenProbabilityFallsInMoonWalkRangeThenMoonWalkUsesGeneratedDistance [
 
-	| loadedProbability effect shipThatLands otherShip |
+	| loadedProbability effect shipThatLands otherShip cardProvider |
 	loadedProbability := LoadedRandomProvider
+	
 		with: 0.85
 		andMoonWalkDistance: 2.
 
 	board := Board withSize: 1  andParsecLength: 1 using: loadedProbability.
 	effect := board effectAt: 1.
-
-	shipThatLands := Ship named: 'Walter'.
-	otherShip := Ship named: 'Danny'.
+	
+	cardProvider := CardProvider new.
+	
+	shipThatLands := Ship named: 'Walter' using: cardProvider.
+	otherShip := Ship named: 'Danny'using: cardProvider.
 	otherShip moveBy: 4.
 
 	effect applyTo: shipThatLands withShips: { shipThatLands. otherShip }.
@@ -92,8 +95,8 @@ BoardTest >> test009WhenTwoMoonWalkSquaresAreGeneratedThenEachUsesADifferentGene
 	firstEffect := board effectAt: 1.
 	secondEffect := board effectAt: 2.
 
-	shipThatLands := Ship named: 'Walter'.
-	otherShip := Ship named: 'Danny'.
+	shipThatLands := Ship named: 'Walter' using: CardProvider new.
+	otherShip := Ship named: 'Danny' using: CardProvider new.
 	otherShip moveBy: 10.
 
 	firstEffect applyTo: shipThatLands withShips: { shipThatLands. otherShip }.
@@ -115,7 +118,7 @@ BoardTest >> test010WhenProbabilityFallsInHyperJumpRangeThenHyperJumpUsesGenerat
 	board := Board withSize: 1 andParsecLength: 1 using: loadedRandomProvider.
 	effect := board effectAt: 1.
 
-	ship := Ship named: 'Walter'.
+	ship := Ship named: 'Walter' using: CardProvider new.
 
 	effect applyTo: ship withShips: { ship }.
 
@@ -152,14 +155,14 @@ BoardTest >> test012WhenBoardGeneratesConfigurableEffectsThenEachUsesItsGenerate
 	moonWalkEffect := board effectAt: 1.
 	hyperJumpEffect := board effectAt: 2.
 
-	shipThatLands := Ship named: 'Walter'.
-	otherShip := Ship named: 'Danny'.
+	shipThatLands := Ship named: 'Walter' using: CardProvider new.
+	otherShip := Ship named: 'Danny' using: CardProvider new.
 	otherShip moveBy: 5.
 
 	moonWalkEffect applyTo: shipThatLands withShips: { shipThatLands. otherShip }.
 	self assert: otherShip position equals: 3.
 
-	jumpingShip := Ship named: 'Lisa'.
+	jumpingShip := Ship named: 'Lisa' using: CardProvider new.
 	hyperJumpEffect applyTo: jumpingShip withShips: { jumpingShip }.
 	self assert: jumpingShip position equals: 21.
 ]
@@ -177,8 +180,8 @@ BoardTest >> test013WhenTwoHyperJumpSquaresAreGeneratedThenEachUsesDifferentGene
 	firstHyperJump := board effectAt: 1.
 	secondHyperJump := board effectAt: 2.
 
-	firstShip := Ship named: 'Walter'.
-	secondShip := Ship named: 'Danny'.
+	firstShip := Ship named: 'Walter' using: CardProvider new.
+	secondShip := Ship named: 'Danny' using: CardProvider new.
 
 	firstHyperJump applyTo: firstShip withShips: { firstShip }.
 	secondHyperJump applyTo: secondShip withShips: { secondShip }.

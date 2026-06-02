@@ -12,8 +12,8 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-Ship class >> named: aName [
-	^ self new initializeAs: aName.
+Ship class >> named: aName using: aProvider [
+	^ self new initializeAs: aName using: aProvider.
 ]
 
 { #category : 'accessing' }
@@ -29,6 +29,11 @@ Ship >> addCard: aCard [
 { #category : 'accessing' }
 Ship >> areYou: aName [
 	^ name = aName.
+]
+
+{ #category : 'adding' }
+Ship >> cardOfClass: aCardClass [
+	^ cardsColeccions  detect: [ :card | card class = aCardClass ] ifNone: [ nil ].
 ]
 
 { #category : 'accessing' }
@@ -53,13 +58,12 @@ Ship >> hasCard: aCard [
 ]
 
 { #category : 'initialization' }
-Ship >> initializeAs: aName [
+Ship >> initializeAs: aName using: aProvider [
 	name := aName.
 	position := 1.
 	lap:=0.
 	cardsColeccions := OrderedCollection new.
-	cardsColeccions add: Card new.
-	cardsColeccions add: Card new.
+	2 timesRepeat: [ cardsColeccions add: (Card fromProbability: aProvider nextCardProbability) ].
 	
 ]
 

@@ -17,6 +17,11 @@ Overload >> applyTo: aShip in: aGame [
 ]
 
 { #category : 'actions' }
+Overload >> initialize [ 
+	isPermanent := true.
+]
+
+{ #category : 'actions' }
 Overload >> modifyRoll: aRoll forShip: aShip [
 	aShip = ship ifTrue: [ ^aRoll - amount ].
 	^ aRoll
