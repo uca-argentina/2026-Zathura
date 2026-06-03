@@ -10,7 +10,8 @@ Class {
 		'lapsToWin',
 		'activeCards',
 		'usedCards',
-		'lastPlayedCard'
+		'lastPlayedCard',
+		'lastEffect'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -44,6 +45,12 @@ Game >> addActiveCard: aCard [
 	activeCards add: aCard.
 ]
 
+{ #category : 'accessing' }
+Game >> applyLastEffectTo: aShip [
+	board applyEffect: lastEffect to: aShip withShips: ships.
+	(self hasWon: aShip) ifTrue: [ self end ].
+]
+
 { #category : 'playingLogic' }
 Game >> end [
 	state:= EndedState new.
@@ -69,6 +76,7 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection and:
 	lapsToWin:=aNumberOfLaps.
 	activeCards := OrderedCollection new.
 	usedCards:= OrderedCollection new.
+	lastEffect := nil.
 ]
 
 { #category : 'accessing' }
@@ -154,6 +162,7 @@ Game >> playTurnAsOngoing [
 	 totalRoll := activeCards inject: totalRoll into: [ :roll :card | card modifyRoll: roll forShip: ship ].
     board move: ship thatRolled: totalRoll.
 	board applyEffect: (board effectAt: ship position) to: ship withShips: ships.
+	lastEffect := board effectAt: ship position.
 	(self hasWon: ship) ifTrue: [ self end ].
 	turnHandler prepareNextTurn.
 ]

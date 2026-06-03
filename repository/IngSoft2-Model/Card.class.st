@@ -10,11 +10,12 @@ Class {
 
 { #category : 'testing' }
 Card class >> fromProbability: aProbability [
-	aProbability < (0.21) ifTrue: [ ^ Overload new ].
-    aProbability < (0.41) ifTrue: [ ^ Speed new ].
-    aProbability < (0.61) ifTrue: [ ^ Acceleration new ].
-	aProbability < (0.81) ifTrue: [ ^ Cancellation new ].
-    ^ Redo new.
+	aProbability < (0.1667) ifTrue: [ ^ Overload new ].
+    aProbability < (0.3333) ifTrue: [ ^ Speed new ].
+    aProbability < (0.5000) ifTrue: [ ^ Acceleration new ].
+    aProbability < (0.6667) ifTrue: [ ^ Cancellation new ].
+    aProbability < (0.8333) ifTrue: [ ^ Redo new ].
+    aProbability < (1.1) ifTrue: [ ^ Repeat new ].
 ]
 
 { #category : 'testing' }

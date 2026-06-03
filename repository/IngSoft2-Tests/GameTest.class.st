@@ -34,9 +34,11 @@ GameTest >> setUp [
 	|probabilities  |
 	super setUp.
 	
-	walter := Ship named: 'Walter' using: (LoadedCardProvider with: #(0.2 0.4)).
-	danny := Ship named: 'Danny' using: (LoadedCardProvider with: #(0.6 0.8)).
-	lisa := Ship named: 'Lisa' using: (LoadedCardProvider with: #(0.9 0.6)).
+	walter := Ship named: 'Walter' using: (LoadedCardProvider with: #(0.08 0.25)).
+	danny := Ship named: 'Danny' using: (LoadedCardProvider with: #(0.42 0.58)).
+	lisa := Ship named: 'Lisa' using: (LoadedCardProvider with: #(0.75 0.90)).
+	
+	
 	aDice := LoadedDice with: 3.
 	probabilities := OrderedCollection new.
 	probabilities addAll: ((1 to: 20) collect: [ :i | 0.3 ]).
@@ -774,4 +776,16 @@ GameTest >> test060WhenAPlayerPlaysACardButItIsntHisTurnThenThenHeCantPlayIT [
 	self should: [aGame playCard: Acceleration from: danny ]
     raise: Error
     withExceptionDo: [ :anError | self assert: anError messageText equals: 'It isn´t players turn, it can´t play it' ]
+]
+
+{ #category : 'tests' }
+GameTest >> test061WhenAPlayerPlaysRepeatThenTheLastEffectIsReaplayed [
+	aBoard := self boardWithSize: 20 AndParsecLength: 5 AndWithProbability: 0.50.
+	aCollectionOfDices:= (OrderedCollection with: (LoadedDice with: 6)).
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
+	
+	aGame playTurn.
+
+	aGame playCard: Repeat from: lisa targeting: walter.
+	self assert: ( aGame squareOf: walter) equals: 1.
 ]
