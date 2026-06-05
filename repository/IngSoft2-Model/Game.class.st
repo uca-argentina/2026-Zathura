@@ -47,6 +47,7 @@ Game >> addActiveCard: aCard [
 
 { #category : 'accessing' }
 Game >> applyLastEffectTo: aShip [
+	Transcript show: 'aplaying last effect applied'.
 	board applyEffect: lastEffect to: aShip withShips: ships.
 	(self hasWon: aShip) ifTrue: [ self end ].
 ]
@@ -76,7 +77,6 @@ Game >> initializeWith: aBoard and: aCollectionOfShips and: aDiceCollection and:
 	lapsToWin:=aNumberOfLaps.
 	activeCards := OrderedCollection new.
 	usedCards:= OrderedCollection new.
-	lastEffect := nil.
 ]
 
 { #category : 'accessing' }
@@ -133,6 +133,7 @@ Game >> playCard: aCardClass from: aShip targeting: anotherShip [
         ifTrue: [ Error signal: 'It isn´t players turn, it can´t play it' ].
 	aShip removeCard: card.
 	card applyTo: anotherShip in: self.
+	Transcript show: 'Card aplied'.
 	lastPlayedCard := card.
 	usedCards add: card.
 ]
@@ -156,13 +157,14 @@ Game >> playTurnAsEnded [
 
 { #category : 'accessing' }
 Game >> playTurnAsOngoing [
-    | ship totalRoll  |
+    | ship totalRoll effect |
     ship := turnHandler whoseTurnIsIt.
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
 	 totalRoll := activeCards inject: totalRoll into: [ :roll :card | card modifyRoll: roll forShip: ship ].
     board move: ship thatRolled: totalRoll.
-	board applyEffect: (board effectAt: ship position) to: ship withShips: ships.
-	lastEffect := board effectAt: ship position.
+	effect:=board effectAt: ship position.
+	lastEffect := effect.
+	board applyEffect: effect to: ship withShips: ships.
 	(self hasWon: ship) ifTrue: [ self end ].
 	turnHandler prepareNextTurn.
 ]

@@ -789,3 +789,16 @@ GameTest >> test061WhenAPlayerPlaysRepeatThenTheLastEffectIsReaplayed [
 	aGame playCard: Repeat from: lisa targeting: walter.
 	self assert: ( aGame squareOf: walter) equals: 1.
 ]
+
+{ #category : 'tests' }
+GameTest >> test062WhenASquareIsCardGiverThenTheShipGetsACard [
+	
+	aBoard := self boardWithSize: 20 AndParsecLength: 5 AndWithProbability: 0.35.
+	aCollectionOfDices:= (OrderedCollection with: (LoadedDice with: 6)).
+	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
+	aGame playTurn.
+	
+	self assert: (walter cardsSize ) equals: 3.
+	
+
+]

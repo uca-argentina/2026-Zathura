@@ -24,7 +24,8 @@ Square class >> effectForProbability: aProbability using: aRandomProvider andPar
 Square class >> effectRangesUsing: aRandomProvider andParsecPerSquare: aParsecPerSquare [
 
 	^ {
-		EffectProbabilityRange from: -1 to: 0.40 effectFactory: [ NoEffect new ].
+		EffectProbabilityRange from: -1 to: 0.30 effectFactory: [ NoEffect new ].
+		EffectProbabilityRange from: 0.30 to: 0.40 effectFactory: [ CardGiver new ].
 		EffectProbabilityRange from: 0.40 to: 0.60 effectFactory: [ WormHole new ].
 		EffectProbabilityRange from: 0.60 to: 0.80 effectFactory: [ SpeedUp new ].
 		EffectProbabilityRange from: 0.80 to: 0.90 effectFactory: [ MoonWalk with: aRandomProvider nextMoonWalkDistance ].
