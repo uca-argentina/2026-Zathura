@@ -16,3 +16,9 @@ DistanceConverterTest >> test002WhenConvertingLightYearsToSquaresThenResultIsCor
     self assert: (DistanceConverter convert: 3 from: LightYear toSquaresWithParsecPerSquare: 1)
          equals: 1.
 ]
+
+{ #category : 'tests' }
+DistanceConverterTest >> test003WhenConvertingLightYearsWithSmallerSquaresThenResultScalesCorrectly [
+    self assert: (DistanceConverter convert: 6 from: LightYear toSquaresWithParsecPerSquare: 2)
+         equals: 1.
+]

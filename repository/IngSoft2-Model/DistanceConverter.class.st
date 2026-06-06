@@ -11,6 +11,13 @@ DistanceConverter class >> convert: aValue from: aUnit toSquaresWithParsecPerSqu
 ]
 
 { #category : 'as yet unclassified' }
+DistanceConverter class >> lightYearRatioFor: aUnit [
+    aUnit = Parsec ifTrue: [ ^ 3 ].
+    aUnit = LightYear ifTrue: [ ^ 1 ].
+    Error signal: 'Unknown unit'.
+]
+
+{ #category : 'as yet unclassified' }
 DistanceConverter class >> parsecRatioFor: aUnit [
     aUnit = Parsec ifTrue: [ ^ 1 ].
     aUnit = LightYear ifTrue: [ ^ 1/3 ].

@@ -210,7 +210,7 @@ BoardTest >> test015WhenBoardIsAskLengthInLightYearsThenParsecConversionIsCorrec
 		andHyperJumpValues: #(5 10 2). "los tiene que ordenar"
 
 	board := Board withSize: 1 andParsecLength: 12 using: loadedRandomProvider.
-	self assert: board lightSize equals: 4.
+	self assert: board lightSize equals: 36.
 ]
 
 { #category : 'tests' }
@@ -226,4 +226,14 @@ BoardTest >> test017WhenBoardIsCreatedWithLightYearUnitThenParsecPerSquareAndLig
         (LoadedRandomProvider withProbabilities: #(0.1 0.1 0.1 0.1 0.1 0.1)).
     self assert: board parsecPerSquare equals: 1/2.
     self assert: board lightSize equals: 9.
+]
+
+{ #category : 'tests' }
+BoardTest >> test018WhenHyperJumpValuesAreInParsecsWithUnitThenShipMovesCorrectly [
+    | provider board ship |
+    provider := LoadedRandomProvider with: 0.95 andHyperJumpValues: #(5 10 2) unit: Parsec.
+    board := Board withSize: 20 length: 20 unit: Parsec using: provider.
+    ship := Ship named: 'Walter' using: CardProvider new.
+    (board effectAt: 1) applyTo: ship withShips: { ship }.
+    self assert: ship position equals: 11.
 ]
