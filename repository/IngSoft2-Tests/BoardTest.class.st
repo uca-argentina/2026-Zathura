@@ -9,11 +9,6 @@ Class {
 }
 
 { #category : 'tests' }
-BoardTest >> boardWithSize: aSize andParsecLength: aLength andWithLoadProbability: aProbability [
-    ^Board withSize: aSize andParsecLength: aLength using: (LoadedRandomProvider with: aProbability).
-]
-
-{ #category : 'tests' }
 BoardTest >> test001WhenBoardIsCreatedWithASizeThenBoardSizeShouldBeThatSize [
     board := Board withSize: 5 andParsecLength: 1 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4}).
     self assert: (board numSquares) equals: 5.
@@ -230,10 +225,20 @@ BoardTest >> test017WhenBoardIsCreatedWithLightYearUnitThenParsecPerSquareAndLig
 
 { #category : 'tests' }
 BoardTest >> test018WhenHyperJumpValuesAreInParsecsWithUnitThenShipMovesCorrectly [
-    | provider board ship |
+    | provider ship |
     provider := LoadedRandomProvider with: 0.95 andHyperJumpValues: #(5 10 2) unit: Parsec.
-    board := Board withSize: 20 length: 20 unit: Parsec using: provider.
+    board := Board withSize: 1 length: 1 unit: Parsec using: provider.
     ship := Ship named: 'Walter' using: CardProvider new.
     (board effectAt: 1) applyTo: ship withShips: { ship }.
     self assert: ship position equals: 11.
+]
+
+{ #category : 'tests' }
+BoardTest >> test019WhenHyperJumpValuesAreInLightYearsThenConversionIsCorrect [
+    | provider  ship |
+    provider := LoadedRandomProvider with: 0.95 andHyperJumpValues: #(9 6 3) unit: LightYear.
+    board := Board withSize: 1 length: 1 unit: Parsec using: provider.
+    ship := Ship named: 'Walter' using: CardProvider new.
+    (board effectAt: 1) applyTo: ship withShips: { ship }.
+    self assert: ship position equals: 4.
 ]

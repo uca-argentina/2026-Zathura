@@ -29,7 +29,12 @@ Square class >> effectRangesUsing: aRandomProvider andParsecPerSquare: aParsecPe
 		EffectProbabilityRange from: 0.40 to: 0.60 effectFactory: [ WormHole new ].
 		EffectProbabilityRange from: 0.60 to: 0.80 effectFactory: [ SpeedUp new ].
 		EffectProbabilityRange from: 0.80 to: 0.90 effectFactory: [ MoonWalk with: aRandomProvider nextMoonWalkDistance ].
-		EffectProbabilityRange from: 0.90 to: 0.98 effectFactory: [ HyperJump with: (aRandomProvider nextHyperJumpValues collect: [:v | v / aParsecPerSquare]) ].
+		EffectProbabilityRange from: 0.90 to: 0.98 effectFactory: [
+    | unit values |
+    unit := aRandomProvider nextHyperJumpUnit.
+    values := aRandomProvider nextHyperJumpValues.
+    HyperJump with: (values collect: [:v |
+        DistanceConverter convert: v from: unit toSquaresWithParsecPerSquare: aParsecPerSquare]) ].
 		EffectProbabilityRange from: 0.98 to: 1 effectFactory: [ AtomicBomb new ]
 	}
 ]

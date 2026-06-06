@@ -26,6 +26,11 @@ RandomProvider >> nextEffectProbability [
 ]
 
 { #category : 'initialization' }
+RandomProvider >> nextHyperJumpUnit [
+    ^ Parsec.
+]
+
+{ #category : 'initialization' }
 RandomProvider >> nextHyperJumpValues [
 	| values candidate |
     values := OrderedCollection new.

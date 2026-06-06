@@ -105,6 +105,11 @@ LoadedRandomProvider >> nextEffectProbability [
 ]
 
 { #category : 'accessing' }
+LoadedRandomProvider >> nextHyperJumpUnit [
+    ^ hyperJumpUnit.
+]
+
+{ #category : 'accessing' }
 LoadedRandomProvider >> nextHyperJumpValues [
 	| values |
 	values := hyperJumpValuesLists at: hyperJumpValuesIndex.
