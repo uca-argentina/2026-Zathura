@@ -798,7 +798,7 @@ GameTest >> test062WhenASquareIsCardGiverThenTheShipGetsACard [
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
 	aGame playTurn.
 	
-	self assert: (walter cardsSize ) equals: 3.
+	self assert: (aGame cardsOf: walter) size equals: 3
 	
 
 ]

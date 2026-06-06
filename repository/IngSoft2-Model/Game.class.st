@@ -47,9 +47,16 @@ Game >> addActiveCard: aCard [
 
 { #category : 'accessing' }
 Game >> applyLastEffectTo: aShip [
-	Transcript show: 'aplaying last effect applied'.
-	board applyEffect: lastEffect to: aShip withShips: ships.
+	| internalShip |
+	internalShip := ships detect: [:each | each = aShip].
+	board applyEffect: lastEffect to: internalShip withShips: ships.
 	(self hasWon: aShip) ifTrue: [ self end ].
+]
+
+{ #category : 'accessing' }
+Game >> cardsOf: theShip [ 
+	self validateShipIsPlaying: theShip.
+	^ (ships detect: [:each | each = theShip]) cards deepCopy.
 ]
 
 { #category : 'playingLogic' }
