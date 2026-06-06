@@ -212,3 +212,18 @@ BoardTest >> test015WhenBoardIsAskLengthInLightYearsThenParsecConversionIsCorrec
 	board := Board withSize: 1 andParsecLength: 12 using: loadedRandomProvider.
 	self assert: board lightSize equals: 4.
 ]
+
+{ #category : 'tests' }
+BoardTest >> test016WhenBoardIsCreatedWithParsecsUnitThenParsecPerSquareIsCorrect [
+    board := Board withSize: 6 length: 3 unit: Parsec using:
+        (LoadedRandomProvider withProbabilities: #(0.1 0.1 0.1 0.1 0.1 0.1)).
+    self assert: board parsecPerSquare equals: 1/2.
+]
+
+{ #category : 'tests' }
+BoardTest >> test017WhenBoardIsCreatedWithLightYearUnitThenParsecPerSquareAndLightSizeAreCorrect [
+    board := Board withSize: 6 length: 9 unit: LightYear using:
+        (LoadedRandomProvider withProbabilities: #(0.1 0.1 0.1 0.1 0.1 0.1)).
+    self assert: board parsecPerSquare equals: 1/2.
+    self assert: board lightSize equals: 9.
+]

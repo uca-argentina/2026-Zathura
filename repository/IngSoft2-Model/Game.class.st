@@ -50,7 +50,7 @@ Game >> applyLastEffectTo: aShip [
 	| internalShip |
 	internalShip := ships detect: [:each | each = aShip].
 	board applyEffect: lastEffect to: internalShip withShips: ships.
-	(self hasWon: aShip) ifTrue: [ self end ].
+	(self hasWon: internalShip) ifTrue: [ self end ].
 ]
 
 { #category : 'accessing' }
