@@ -26,7 +26,6 @@ Board class >> squaresOfSize: aSize using: aRandomProvider andParsecPerSquare: a
 
 { #category : 'instance creation' }
 Board class >> withSize: aSize andParsecLength: aLength using: aProvider [
-	(aLength isInteger) ifFalse: [ Error signal: 'Parsecs length must be a positive integer' ].
     ^ self withSize: aSize length: aLength unit: Parsec using: aProvider
 	
 
@@ -36,7 +35,7 @@ Board class >> withSize: aSize andParsecLength: aLength using: aProvider [
 Board class >> withSize: aSize length: aValue unit: aUnit using: aRandomProvider [
     (aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].
     aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
-    aValue <= 0 ifTrue: [ Error signal: 'A boards length must be greater than zero' ].aValue <= 0 ifTrue: [ 	Error signal: 'A boards length must be greater than zero' ].
+    aValue <= 0 ifTrue: [ Error signal: 'A boards length must be greater than zero' ].
     ^ self new initializeWithSize: aSize length: aValue unit: aUnit andRandomProvider: aRandomProvider.
 
 ]

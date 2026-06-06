@@ -807,11 +807,11 @@ GameTest >> test063WhenOverloadMakesRollNegativeThenShipMovesBack [
     | aDiceCollection |
 aDiceCollection := OrderedCollection with: (LoadedDice with: 1).
     aGame := Game playedOn: aBoard by: aCollectionOfShips throwing: aDiceCollection.
-    aGame playTurn.  "Walter: pos 2"
-    aGame playTurn.  "Danny"
-    aGame playTurn.  "Lisa"
+    aGame playTurn.  
+    aGame playTurn.  
+    aGame playTurn.  
     aGame playCard: Overload from: walter targeting: walter.
-    aGame playTurn.  "Walter: 1 - 2 = -1 → retrocede 1 → pos 1"
+    aGame playTurn.  
     self assert: (aGame squareOf: walter) equals: 1.
 	
 
