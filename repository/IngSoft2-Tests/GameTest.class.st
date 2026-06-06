@@ -761,7 +761,7 @@ GameTest >> test058WhenACardIsUsedThenItGoesToUsedCardsList [
 ]
 
 { #category : 'tests' }
-GameTest >> test059WhenAPlayerPlaysRedoThenTheLastTypeOfCardUsedIsPlayed [
+GameTest >> test059WhenAShipPlaysRedoThenTheLastTypeOfCardUsedIsPlayed [
 	aGame playCard: Overload from: walter  targeting: danny.
 	aGame playTurn.
 	aGame playTurn.
@@ -772,14 +772,14 @@ GameTest >> test059WhenAPlayerPlaysRedoThenTheLastTypeOfCardUsedIsPlayed [
 ]
 
 { #category : 'tests' }
-GameTest >> test060WhenAPlayerPlaysACardButItIsntHisTurnThenThenHeCantPlayIT [
+GameTest >> test060WhenAShipPlaysACardButItIsntHisTurnThenThenHeCantPlayIT [
 	self should: [aGame playCard: Acceleration from: danny ]
     raise: Error
     withExceptionDo: [ :anError | self assert: anError messageText equals: 'It isn´t players turn, it can´t play it' ]
 ]
 
 { #category : 'tests' }
-GameTest >> test061WhenAPlayerPlaysRepeatThenTheLastEffectIsReaplayed [
+GameTest >> test061WhenAShipPlaysRepeatThenTheLastEffectIsReaplayed [
 	aBoard := self boardWithSize: 20 AndParsecLength: 5 AndWithProbability: 0.50.
 	aCollectionOfDices:= (OrderedCollection with: (LoadedDice with: 6)).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
