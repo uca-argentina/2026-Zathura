@@ -8,6 +8,12 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'as yet unclassified' }
+BoardTest >> boardWithSize: aSize length: aLength andWithProbability: aProbability [
+    ^ Board withSize: aSize length: aLength unit: Parsec 
+            using: (LoadedRandomProvider with: aProbability).
+]
+
 { #category : 'tests' }
 BoardTest >> test001WhenBoardIsCreatedWithASizeThenBoardSizeShouldBeThatSize [
     board := Board withSize: 5 andParsecLength: 1 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4}).

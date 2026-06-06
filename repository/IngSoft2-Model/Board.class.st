@@ -70,8 +70,9 @@ Board >> lightSize [
 
 { #category : 'accessing' }
 Board >> move: aShip thatRolled: aDicesResult [
-    aShip moveBy: aDicesResult.
-	aShip handleLapsFor: numSquares.
+    aDicesResult > 0 ifTrue: [ aShip moveBy: aDicesResult ].
+    aDicesResult < 0 ifTrue: [ aShip moveBack: aDicesResult abs ].
+    aShip handleLapsFor: numSquares.
 ]
 
 { #category : 'accessing' }
