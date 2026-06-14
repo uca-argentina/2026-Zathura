@@ -13,10 +13,13 @@ Class {
 }
 
 { #category : 'instance creation' }
-Board class >> squaresOfSize: aSize using: aRandomProvider andParsecPerSquare: aParsecPerSquare [
+Board class >> squaresOfSize: aSize using: aRandomProvider andParsecPerSquare: aParsecPerSquare [ 
 
-	^(1 to: aSize ) collect: [ :i |
-		Square withId: i andRandomProvider: aRandomProvider andParsecPerSquare: aParsecPerSquare  ].
+	^ (1 to: aSize) collect: [ :i |
+		Square
+			withId: i
+			effect: (EffectGenerator nextEffectUsing: aRandomProvider andParsecPerSquare: aParsecPerSquare) ]
+
 
 
 

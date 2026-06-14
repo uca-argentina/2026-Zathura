@@ -10,39 +10,8 @@ Class {
 }
 
 { #category : 'instance creation' }
-Square class >> effectForProbability: aProbability using: aRandomProvider andParsecPerSquare: aParsecPerSquare [
-
-	(aProbability < 0 or: [ aProbability > 1 ])
-		ifTrue: [ Error signal: 'Effect probability must be between 0 and 1' ].
-
-	^ ((self effectRangesUsing: aRandomProvider andParsecPerSquare: aParsecPerSquare)
-		detect: [ :range | range matches: aProbability ]) effect
-		
-]
-
-{ #category : 'instance creation' }
-Square class >> effectRangesUsing: aRandomProvider andParsecPerSquare: aParsecPerSquare [
-
-	^ {
-		EffectProbabilityRange from: -1 to: 0.30 effectFactory: [ NoEffect new ].
-		EffectProbabilityRange from: 0.30 to: 0.40 effectFactory: [ CardGiver new ].
-		EffectProbabilityRange from: 0.40 to: 0.60 effectFactory: [ WormHole new ].
-		EffectProbabilityRange from: 0.60 to: 0.80 effectFactory: [ SpeedUp new ].
-		EffectProbabilityRange from: 0.80 to: 0.90 effectFactory: [ MoonWalk with: aRandomProvider nextMoonWalkDistance ].
-		EffectProbabilityRange from: 0.90 to: 0.98 effectFactory: [
-    | unit values |
-    unit := aRandomProvider nextHyperJumpUnit.
-    values := aRandomProvider nextHyperJumpValues.
-    HyperJump with: (values collect: [:v |
-        DistanceConverter convert: v from: unit toSquaresWithParsecPerSquare: aParsecPerSquare]) ].
-		EffectProbabilityRange from: 0.98 to: 1 effectFactory: [ AtomicBomb new ]
-	}
-]
-
-{ #category : 'instance creation' }
-Square class >> withId: aId andRandomProvider: aProvider andParsecPerSquare: aParsecPerSquare [
-	^ self new initializeWith: aId andRandomProvider: aProvider andParsecPerSquare: aParsecPerSquare.
-
+Square class >> withId: anId effect: anEffect [
+	^ self new initializeWith: anId effect: anEffect.
 ]
 
 { #category : 'initialization' }
@@ -51,8 +20,8 @@ Square >> effect [
 ]
 
 { #category : 'initialization' }
-Square >> initializeWith: aId andRandomProvider: aRandomProvider andParsecPerSquare: aParsecPerSquare [
-	id := aId.
-	effect := self class effectForProbability: aRandomProvider nextEffectProbability using: aRandomProvider andParsecPerSquare: aParsecPerSquare.
+Square >> initializeWith: anId effect: anEffect [ 
+	id := anId.
+	effect := anEffect.
 
 ]

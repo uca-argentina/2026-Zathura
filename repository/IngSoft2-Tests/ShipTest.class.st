@@ -62,3 +62,12 @@ ShipTest >> test006WhenAShipIsCreatedThenItHasTwoRandomCards [
 	self assert: aShip cardsSize equals: 2.
 	
 ]
+
+{ #category : 'tests' }
+ShipTest >> test007WhenTwoShipsHaveTheSameNameThenTheyHaveTheSameHash [ 
+	| ship1 ship2 |
+	ship1 := Ship named: 'Walter' using: CardProvider new.
+	ship2 := Ship named: 'Walter' using: CardProvider new.
+	self assert: ship1 hash equals: ship2 hash.
+
+]

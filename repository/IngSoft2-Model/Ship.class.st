@@ -62,6 +62,12 @@ Ship >> hasCard: aCard [
 	^ cardsCollection includes: aCard.
 ]
 
+{ #category : 'accessing' }
+Ship >> hash [ 
+	^ name hash
+
+]
+
 { #category : 'initialization' }
 Ship >> initializeAs: aName using: aProvider [
 	name := aName.
