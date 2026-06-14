@@ -44,8 +44,8 @@ GameTest >> setUp [
 
 	loadedRandomProvider := LoadedRandomProvider
 		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0
-		                        andHyperJumpValues: 0.
+		                        andMoonWalkDistances: #()
+		                        andHyperJumpValues: #().
 		
 	aBoard := Board withSize: 20 length: 5 unit:Parsec using: loadedRandomProvider.
 	aCollectionOfDices := OrderedCollection with: aDice.
@@ -294,8 +294,8 @@ GameTest >> test024WhenASquareIsSpeedUpThenTheShipMovesFourSquaresMore [
 
 	loadedRandomProvider := LoadedRandomProvider
 		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0
-		                        andHyperJumpValues: 0.	
+		                        andMoonWalkDistances: #()
+		                        andHyperJumpValues: #().	
 		
 	aBoard := Board withSize: 20 andParsecLength: 5 using: loadedRandomProvider .
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
@@ -347,7 +347,7 @@ GameTest >> test027WhenASquareIsMoonWalkThenAllOtherShipsMoveBackNSquares [
 	loadedRandomProvider := LoadedRandomProvider
 		                        withProbabilities: probabilities
 		                        andMoonWalkDistances: moonWalkDistances 
-		                        andHyperJumpValues: 0.	
+		                        andHyperJumpValues: #().	
 		
 	aBoard := Board withSize: 20 andParsecLength: 5 using: loadedRandomProvider .
 	aCollectionOfDices:=OrderedCollection
@@ -406,7 +406,7 @@ GameTest >> test030WhenASquareIsHyperJumpThenShipAdvancesByFirstValueInList [
 
 	loadedRandomProvider := LoadedRandomProvider
 		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0 
+		                        andMoonWalkDistances: #()
 		                        andHyperJumpValues: hyperJumpDistances .	
 		
 	aBoard := Board withSize: 20 andParsecLength: 5 using: loadedRandomProvider .
@@ -432,7 +432,7 @@ GameTest >> test031WhenAllHyperJumpValuesAreUsedThenListResets [
 
 	loadedRandomProvider := LoadedRandomProvider
 		                        withProbabilities: probabilities
-		                        andMoonWalkDistances: 0 
+		                        andMoonWalkDistances: #()
 		                        andHyperJumpValues: hyperJumpDistances .	
 		
 	aBoard := Board withSize: 40 andParsecLength: 20 using: loadedRandomProvider .

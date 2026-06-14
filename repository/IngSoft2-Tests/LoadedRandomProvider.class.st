@@ -21,68 +21,92 @@ Class {
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> with: aProbability [
-     ^ self new initializeWithProbabilities: { aProbability }
-               andMoonWalkDistances: #()
-               andHyperJumpValuesLists: #()
-               andHyperJumpUnit: Parsec.
+
+	^ self
+		withProbabilities: { aProbability }
+		andMoonWalkDistances: #()
+		andHyperJumpValues: #()
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> with: aProbability andHyperJumpValues: someValues [
-	 ^ self new initializeWithProbabilities: { aProbability }
-               andMoonWalkDistances: #()
-               andHyperJumpValuesLists: { someValues }
-               andHyperJumpUnit: Parsec.
-]
 
-{ #category : 'as yet unclassified' }
-LoadedRandomProvider class >> with: aProbability andHyperJumpValues: someValues unit: aUnit [
-    ^ self new
-        initializeWithProbabilities: { aProbability }
-        andMoonWalkDistances: #()
-        andHyperJumpValuesLists: { someValues }
-        andHyperJumpUnit: aUnit.
+	^ self
+		withProbabilities: { aProbability }
+		andMoonWalkDistances: #()
+		andHyperJumpValues: { someValues }
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
-LoadedRandomProvider class >> with: aProbability andMoonWalkDistance: aDistance [ 
-	 ^ self new
-        initializeWithProbabilities: { aProbability }
-        andMoonWalkDistances: { aDistance }
-        andHyperJumpValuesLists: #()
-		  andHyperJumpUnit: Parsec.
+LoadedRandomProvider class >> with: aProbability andHyperJumpValues: someValues unit: aUnit [
+
+	^ self
+		withProbabilities: { aProbability }
+		andMoonWalkDistances: #()
+		andHyperJumpValues: { someValues }
+		unit: aUnit
+]
+
+{ #category : 'instance creation' }
+LoadedRandomProvider class >> with: aProbability andMoonWalkDistance: aDistance [
+
+	^ self
+		withProbabilities: { aProbability }
+		andMoonWalkDistances: { aDistance }
+		andHyperJumpValues: #()
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> withProbabilities: aProbabilityList [
-    ^ (self new) initializeWithProbabilities:  aProbabilityList  andMoonWalkDistances: #() andHyperJumpValuesLists: #() andHyperJumpUnit: Parsec.
+
+	^ self
+		withProbabilities: aProbabilityList
+		andMoonWalkDistances: #()
+		andHyperJumpValues: #()
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> withProbabilities: someProbabilities andHyperJumpValuesLists: someHyperJumpValuesLists [
-	^ self new
-        initializeWithProbabilities: someProbabilities
-        andMoonWalkDistances: #()
-        andHyperJumpValuesLists: someHyperJumpValuesLists
-		andHyperJumpUnit: Parsec.
+
+	^ self
+		withProbabilities: someProbabilities
+		andMoonWalkDistances: #()
+		andHyperJumpValues: someHyperJumpValuesLists
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDistances: someDistances [
- ^ self new
-        initializeWithProbabilities: someProbabilities
-        andMoonWalkDistances: someDistances
-        andHyperJumpValuesLists: #()
-		andHyperJumpUnit: Parsec.
+
+	^ self
+		withProbabilities: someProbabilities
+		andMoonWalkDistances: someDistances
+		andHyperJumpValues: #()
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValues: someHyperJumpValuesLists [
+
+	^ self
+		withProbabilities: someProbabilities
+		andMoonWalkDistances: someDistances
+		andHyperJumpValues: someHyperJumpValuesLists
+		unit: Parsec
+]
+
+{ #category : 'instance creation' }
+LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValues: someHyperJumpValuesLists unit: aUnit [
+
 	^ self new
-        initializeWithProbabilities: someProbabilities
-        andMoonWalkDistances: someDistances
-        andHyperJumpValuesLists: someHyperJumpValuesLists
-			andHyperJumpUnit: Parsec.
+		initializeWithProbabilities: someProbabilities
+		andMoonWalkDistances: someDistances
+		andHyperJumpValuesLists: someHyperJumpValuesLists
+		andHyperJumpUnit: aUnit
 ]
 
 { #category : 'accessing' }
