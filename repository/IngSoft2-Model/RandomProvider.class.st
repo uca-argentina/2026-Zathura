@@ -11,6 +11,7 @@ Class {
 
 { #category : 'instance creation' }
 RandomProvider class >> withMaxMoonWalkDistance: aMaxDistance [
+aMaxDistance <= 0 ifTrue: [ Error signal: 'Max MoonWalk distance must be greater than 0' ].
 	^ self new initializeMaxMoonWalkDistance: aMaxDistance.
 ]
 

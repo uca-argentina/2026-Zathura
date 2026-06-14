@@ -26,17 +26,16 @@ Game class >> playedOn: aBoard by: aShipsCollection  throwing: aDiceCollection [
 { #category : 'as yet unclassified' }
 Game class >> playedOn: aBoard by: aShipsCollection throwing: aDiceCollection winningWith: aNumberofLaps [ 
 	
-	
 	| shipsNames |
 	(aShipsCollection size <2)ifTrue: [ Error signal: 'There must be at least two ships'].
 	shipsNames:=aShipsCollection collect:[:aShip| aShip name].
 	(shipsNames asSet size = aShipsCollection size) ifFalse: [ Error signal: 'There CANNOT be two ships named the same way'].
 	aDiceCollection isEmpty ifTrue: [ Error signal: 'There must be at least one dice'].
 	aBoard ifNil: [ Error signal: 'Board cannot be nil' ].
-	
-	
+	aNumberofLaps <= 0 ifTrue: [ Error signal: 'Number of laps to win must be greater than 0' ].
 	
 	^(self new) initializeWith: aBoard deepCopy and:aShipsCollection deepCopy and:aDiceCollection deepCopy and:aNumberofLaps.
+	
 	
 ]
 

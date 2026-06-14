@@ -816,3 +816,13 @@ aDiceCollection := OrderedCollection with: (LoadedDice with: 1).
 	
 
 ]
+
+{ #category : 'tests' }
+GameTest >> test064WhenAGameIsCreatedWithNonPositiveLapsToWinThenShouldThrowError [ 
+	self should: [ Game playedOn: aBoard by: aCollectionOfShips throwing: aCollectionOfDices winningWith: 0 ]
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'Number of laps to win must be greater than 0' ]
+
+	
+
+]

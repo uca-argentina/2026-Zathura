@@ -35,6 +35,7 @@ Board class >> withSize: aSize andParsecLength: aLength using: aProvider [
 Board class >> withSize: aSize length: aValue unit: aUnit using: aRandomProvider [
     (aSize isInteger) ifFalse: [ Error signal: 'Board size must be a positive integer' ].
     aSize <= 0 ifTrue: [ Error signal: 'Board size must be greater than 0' ].
+    (aValue isInteger) ifFalse: [ Error signal: 'A boards length must be a positive integer' ].
     aValue <= 0 ifTrue: [ Error signal: 'A boards length must be greater than zero' ].
     ^ self new initializeWithSize: aSize length: aValue unit: aUnit andRandomProvider: aRandomProvider.
 
