@@ -626,7 +626,7 @@ GameTest >> test043WhenASquareIsAtomicBombThenAllShipsKeepTheirLaps [
 ]
 
 { #category : 'tests' }
-GameTest >> test044WhenAShipRecivesEffectThatWouldMoveItBeforeLapZeroSquareOneThenItStaysAtLapZeroSquareOne [
+GameTest >> test044WhenAShipReceivesEffectThatWouldMoveItBeforeLapZeroSquareOneThenItStaysAtLapZeroSquareOne [
 	
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 2).

@@ -49,7 +49,7 @@ BoardTest >> test005WhenBoardIsCreatedWithParsecLengthLessOrEqualToZeroThenShoul
 ]
 
 { #category : 'tests' }
-BoardTest >> test006WhenBoardIsCreatedWithFloatParsecLEngthThenShouldThrowError [
+BoardTest >> test006WhenBoardIsCreatedWithFloatParsecLengthThenShouldThrowError [
     self should: [ Board withSize: 20 andParsecLength: 4.5 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4 . 0.4}) ] raise: Error.
 ]
 
