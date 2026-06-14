@@ -26,11 +26,11 @@ EffectGenerator class >> effectRangesUsing: aRandomProvider andParsecPerSquare: 
 		EffectProbabilityRange from: 0.60 to: 0.80 effectFactory: [ SpeedUp new ].
 		EffectProbabilityRange from: 0.80 to: 0.90 effectFactory: [ MoonWalk with: aRandomProvider nextMoonWalkDistance ].
 		EffectProbabilityRange from: 0.90 to: 0.98 effectFactory: [
-			| unit values |
-			unit := aRandomProvider nextHyperJumpUnit.
-			values := aRandomProvider nextHyperJumpValues.
-			HyperJump with: (values collect: [ :v |
-				DistanceConverter convert: v from: unit toSquaresWithParsecPerSquare: aParsecPerSquare ]) ].
+	| unit values |
+	unit := aRandomProvider nextHyperJumpUnit.
+	values := aRandomProvider nextHyperJumpValues.
+	HyperJump with: (values collect: [ :v |
+		(DistanceConverter convert: v from: unit toSquaresWithParsecPerSquare: aParsecPerSquare) rounded ]) ].
 		EffectProbabilityRange from: 0.98 to: 1 effectFactory: [ AtomicBomb new ]
 	}
 

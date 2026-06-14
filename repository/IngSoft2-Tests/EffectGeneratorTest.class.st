@@ -72,3 +72,14 @@ EffectGeneratorTest >> test008WhenProbabilityIsGreaterThanOneThenGenerationFails
 			self assert: anError messageText equals: 'Effect probability must be between 0 and 1' ].
 
 ]
+
+{ #category : 'tests' }
+EffectGeneratorTest >> test009WhenParsecPerSquareIsFractionalThenHyperJumpValuesAreRoundedToIntegerSquares [ 
+	| provider effect ship |
+	provider := LoadedRandomProvider with: 0.95 andHyperJumpValues: #(1).
+	effect := EffectGenerator nextEffectUsing: provider andParsecPerSquare: (2/3).
+	ship := Ship named: 'Nave' using: (LoadedCardProvider with: #(0 0)).
+	effect applyTo: ship withShips: { ship }.
+	self assert: ship position equals: 3.
+
+]
