@@ -67,6 +67,14 @@ Board >> initializeWithSize: aSize length: aValue unit: aUnit andRandomProvider:
 ]
 
 { #category : 'accessing' }
+Board >> land: aShip withShips: allShips [
+| effect |
+    effect := self effectAt: aShip position.
+    self applyEffect: effect to: aShip withShips: allShips.
+    ^ effect
+]
+
+{ #category : 'accessing' }
 Board >> lightSize [
 	^lightSize
 ]

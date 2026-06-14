@@ -163,23 +163,14 @@ Game >> playTurnAsEnded [
 
 { #category : 'accessing' }
 Game >> playTurnAsOngoing [
-    | ship totalRoll effect |
+| ship totalRoll |
     ship := turnHandler whoseTurnIsIt.
     totalRoll := dices inject: 0 into: [ :sum :aDice | sum + aDice roll ].
-	 totalRoll := activeCards inject: totalRoll into: [ :roll :card | card modifyRoll: roll forShip: ship ].
+    totalRoll := activeCards inject: totalRoll into: [ :roll :card | card modifyRoll: roll forShip: ship ].
     board move: ship thatRolled: totalRoll.
-	effect:=board effectAt: ship position.
-	lastEffect := effect.
-	board applyEffect: effect to: ship withShips: ships.
-	(self hasWon: ship) ifTrue: [ self end ].
-	turnHandler prepareNextTurn.
-]
-
-{ #category : 'accessing' }
-Game >> playTurnFor: aShip [
-	turnHandler playTurnFor:aShip.
-	self playTurn.
-	
+    lastEffect := board land: ship withShips: ships.
+    (self hasWon: ship) ifTrue: [ self end ].
+    turnHandler prepareNextTurn.
 ]
 
 { #category : 'accessing' }
@@ -240,6 +231,13 @@ Game >> usedCardsList [
 { #category : 'accessing' }
 Game >> validateShipIsPlaying: theShip [ 
 	(ships anySatisfy: [:aShip| aShip = theShip ]) ifFalse: [ Error signal: 'This ship is not playing this game' ].
+]
+
+{ #category : 'accessing' }
+Game >> validateTurnOf: aShip [
+	turnHandler validateTurnOf:aShip.
+	self playTurn.
+	
 ]
 
 { #category : 'accessing' }

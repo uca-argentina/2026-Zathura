@@ -21,15 +21,15 @@ TurnHandler >> initializeFor: aCollectionOfShips [
 ]
 
 { #category : 'accessing' }
-TurnHandler >> playTurnFor: aShip [
-	| currentShip |
-	currentShip := ships at:currentShipIndex.
-	(aShip = currentShip) ifFalse: [ Error signal: 'It is not this ships turn'].
+TurnHandler >> prepareNextTurn [
+	currentShipIndex := (currentShipIndex \\ ships size) + 1.
 ]
 
 { #category : 'accessing' }
-TurnHandler >> prepareNextTurn [
-	currentShipIndex := (currentShipIndex \\ ships size) + 1.
+TurnHandler >> validateTurnOf: aShip [
+	| currentShip |
+	currentShip := ships at:currentShipIndex.
+	(aShip = currentShip) ifFalse: [ Error signal: 'It is not this ships turn'].
 ]
 
 { #category : 'accessing' }

@@ -102,18 +102,14 @@ GameTest >> test006WhenTheShipRollsFourThenHisShipMovesForwardFourSquares [
 { #category : 'tests' }
 GameTest >> test007WhenGameIsCreatedWithMultipleShipsThenAllShipsStartAtPositionOne [
 	
-	self assert: ((aGame squares select:[:shipPosition| shipPosition ~=1]) isEmpty)
+	self assert: (aCollectionOfShips allSatisfy: [ :ship | (aGame squareOf: ship) = 1 ])
 ]
 
 { #category : 'tests' }
 GameTest >> test008WhenGameIsCreatedWithMultipleShipsAndPlayTurnThenOnlyFirstShipMovesAccordingly [
-	
-	| standings |
 	aGame playTurn.
-	standings:=aGame squares.
-	self assert: (standings at:'Walter') equals: 4 .
-	self assert: (standings keys select:[:aShipsName| (standings at:aShipsName) ~=1] )size equals: 1.
-	
+	self assert: (aGame squareOf: walter) equals: 4.
+	self assert: (aCollectionOfShips select: [ :ship | (aGame squareOf: ship) ~= 1 ]) size equals: 1.
 ]
 
 { #category : 'tests' }
@@ -169,7 +165,7 @@ GameTest >> test013WhenTheGameIsPlayedWithMultipleDicesAndShipsThenAShipRollAllO
 	aGame playTurn.
 	aGame playTurn.
 	aGame playTurn.
-	self assert: (aGame squares select:[:aShipPosition| aShipPosition ~=14]) isEmpty.
+	self assert: (aCollectionOfShips allSatisfy: [ :ship | (aGame squareOf: ship) = 14 ]).
 
 ]
 
@@ -179,7 +175,7 @@ GameTest >> test014WhenAShipReachesTheEndThenTheGameEnds [
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 19).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
-	aGame playGame.
+	4 timesRepeat: [ aGame playTurn ].
 	self assert: (aGame ended).
 
 ]
@@ -203,7 +199,7 @@ GameTest >> test016WhenAnyShipReachesTheEndThenTheGameEnds [
 	aCollectionOfDices:=OrderedCollection
 	with: (LoadedDice with: 20).
 	aGame:= Game playedOn:aBoard by: aCollectionOfShips throwing: aCollectionOfDices.
-	aGame playGame.
+	aGame playTurn.
 	
 	self assert: aGame ended.
 	
@@ -228,7 +224,7 @@ GameTest >> test017WhenAShipSurpassesTheEndOfTheBoardThenItWrapsAroundAndContinu
 { #category : 'tests' }
 GameTest >> test018WhenAGameIsEndedThenTheStandingsReflectTheWinnerAndTheOthersEndPosition [
 
-	aGame playGame.
+	19 timesRepeat: [ aGame playTurn ].
 
 	self assert: (aGame squares at: 'Walter') equals: 2.
 	self assert: (aGame squares at: 'Danny') equals: 19.
@@ -271,7 +267,7 @@ GameTest >> test021WhenAGameIsCreatedWithNullBoardThenShouldThrowError [
 { #category : 'tests' }
 GameTest >> test022WhenAGameEndsTheWinnerCanBeKnown [
 	
-	aGame playGame.
+	19 timesRepeat: [ aGame playTurn ].
 		
 	self assert: aGame whoWon equals: 'Walter'.
 
@@ -377,8 +373,8 @@ GameTest >> test027WhenASquareIsMoonWalkThenAllOtherShipsMoveBackNSquares [
 
 { #category : 'tests' }
 GameTest >> test028WhenAShipsTriesToPlayInAnotherShipsTurnThenTheShipCannotPlay [
-	aGame playTurnFor: walter.
-	self should: [aGame playTurnFor:walter ]
+	aGame validateTurnOf: walter.
+	self should: [aGame validateTurnOf:walter ]
 	raise: Error
 	withExceptionDo: [ :anError| self assert: anError messageText equals: 'It is not this ships turn' ]
 	
@@ -458,10 +454,10 @@ GameTest >> test031WhenAllHyperJumpValuesAreUsedThenListResets [
 { #category : 'tests' }
 GameTest >> test032WhenAShipsPositionIsRequestedThenThatShipsPositionIsRevealed [
 	
-	aGame playTurnFor: walter.
+	aGame validateTurnOf: walter.
 	aGame playTurn.
 	aGame playTurn.
-	aGame playTurnFor: walter.
+	aGame validateTurnOf: walter.
 	
 	self assert: (aGame squareOf:walter) equals: 7.
 	
@@ -483,7 +479,7 @@ GameTest >> test033WhenAnUnknownShipsPositionIsRequestedThenThatRequestIsDenied 
 { #category : 'tests' }
 GameTest >> test034WhenRankingsIsCalledThenItReturnsShipsOrderedByPosition [
 
-	| ranking secondAndThird |
+	| secondAndThird |
 	aGame := Game 
         playedOn: aBoard 
         by: aCollectionOfShips 
@@ -491,10 +487,9 @@ GameTest >> test034WhenRankingsIsCalledThenItReturnsShipsOrderedByPosition [
         winningWith: 3.
     7 timesRepeat: [ aGame playTurn ].
 	
-	ranking:=aGame ranking.
-	self assert: (ranking at: 1) equals: 'Walter'.
-	secondAndThird := (Array with: (ranking at: 2) with: (ranking at: 3)) asSet.
-	self assert: secondAndThird equals: (Set with: 'Danny' with: 'Lisa')
+	self assert: (aGame rankingFor: walter) equals: 1.
+	secondAndThird := Set with: (aGame rankingFor: danny) with: (aGame rankingFor: lisa).
+	self assert: secondAndThird equals: (Set with: 2 with: 3).
 ]
 
 { #category : 'tests' }
@@ -671,7 +666,9 @@ GameTest >> test048WhenShipCollectionIsModifiedOutsideGameThenGameStateIsNotAffe
 	extraShip := Ship named:'darthVadersTieFighter' using: CardProvider new. 
 	modifiableCollection := aCollectionOfShips asOrderedCollection.
     modifiableCollection add: extraShip.
-	self assert: (aGame squares size) equals: 3.
+	self should: [ aGame squareOf: extraShip ]
+    raise: Error
+    withExceptionDo: [ :anError | self assert: anError messageText equals: 'This ship is not playing this game' ].
 
 ]
 
@@ -744,7 +741,7 @@ GameTest >> test056WhenShipPlaysCancellationWithNoActiveCardsThenAnErrorIsThrown
 
 { #category : 'tests' }
 GameTest >> test057WhenACardIsPlayedAfterGameEndedThenAnErrorIsThrown [ 
-    aGame playGame.
+    19 timesRepeat: [ aGame playTurn ].
     
     self should: [aGame playCard: Overload from: walter targeting: danny]
     raise: Error
