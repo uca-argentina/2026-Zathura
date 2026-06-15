@@ -83,3 +83,11 @@ EffectGeneratorTest >> test009WhenParsecPerSquareIsFractionalThenHyperJumpValues
 	self assert: ship position equals: 3.
 
 ]
+
+{ #category : 'tests' }
+EffectGeneratorTest >> test010WhenAskedIfEffectIsAbstractThenOnlyEffectClassAnswersTrue [
+
+	self assert: Effect isAbstract.
+	self deny: AtomicBomb isAbstract.
+
+]
