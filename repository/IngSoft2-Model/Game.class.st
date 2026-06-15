@@ -139,7 +139,6 @@ Game >> playCard: aCardClass from: aShip targeting: anotherShip [
         ifTrue: [ Error signal: 'It isn´t players turn, it can´t play it' ].
 	aShip removeCard: card.
 	card applyTo: anotherShip in: self.
-	Transcript show: 'Card aplied'.
 	lastPlayedCard := card.
 	usedCards add: card.
 ]

@@ -3,7 +3,6 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'numSquares',
-		'effects',
 		'parsecLength',
 		'squares',
 		'lightSize'

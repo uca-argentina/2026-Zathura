@@ -2,7 +2,6 @@ Class {
 	#name : 'LoadedCardProvider',
 	#superclass : 'Object',
 	#instVars : [
-		'random',
 		'probabilities',
 		'index'
 	],
@@ -28,9 +27,4 @@ LoadedCardProvider >> nextCardProbability [
 	value := probabilities at: index.
 	index := index +1.
 	^ value 
-]
-
-{ #category : 'as yet unclassified' }
-LoadedCardProvider >> nextCardProbability: aProbability [
-	^aProbability
 ]
