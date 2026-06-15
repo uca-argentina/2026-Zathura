@@ -823,3 +823,19 @@ GameTest >> test064WhenAGameIsCreatedWithNonPositiveLapsToWinThenShouldThrowErro
 	
 
 ]
+
+{ #category : 'tests' }
+GameTest >> test065WhenGameIsPlayedThenItEnds [
+
+	aCollectionOfDices := OrderedCollection with: (LoadedDice with: 20).
+	aGame := Game
+		playedOn: aBoard
+		by: aCollectionOfShips
+		throwing: aCollectionOfDices.
+
+	aGame playGame.
+
+	self assert: aGame ended.
+	
+
+]
