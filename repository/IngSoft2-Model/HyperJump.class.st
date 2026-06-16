@@ -1,6 +1,6 @@
 Class {
 	#name : 'HyperJump',
-	#superclass : 'Object',
+	#superclass : 'Effect',
 	#instVars : [
 		'values',
 		'index'
@@ -11,6 +11,7 @@ Class {
 
 { #category : 'instance creation' }
 HyperJump class >> with: aValuesArray [
+	aValuesArray isEmpty ifTrue: [ Error signal: 'HyperJump must have at least one value' ].
 	^ self new initializeWith: aValuesArray
 	
 ]
