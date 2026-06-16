@@ -8,9 +8,10 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
-{ #category : 'tests' }
-BoardTest >> boardWithSize: aSize andParsecLength: aLength andWithLoadProbability: aProbability [
-    ^Board withSize: aSize andParsecLength: aLength using: (LoadedRandomProvider with: aProbability).
+{ #category : 'as yet unclassified' }
+BoardTest >> boardWithSize: aSize length: aLength andWithProbability: aProbability [
+    ^ Board withSize: aSize length: aLength unit: Parsec 
+            using: (LoadedRandomProvider with: aProbability).
 ]
 
 { #category : 'tests' }
@@ -48,8 +49,8 @@ BoardTest >> test005WhenBoardIsCreatedWithParsecLengthLessOrEqualToZeroThenShoul
 ]
 
 { #category : 'tests' }
-BoardTest >> test006WhenBoardIsCreatedWithFloatParsecLEngthThenShouldThrowError [
-    self should: [ Board withSize: 20 andParsecLength: 4.5 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4 . 0.4}) ] raise: Error.
+BoardTest >> test006WhenBoardIsCreatedWithFloatParsecLengthThenShouldThrowError [
+    self should: [ Board withSize: 6 andParsecLength: 4.5 using: (LoadedRandomProvider withProbabilities: {0.4 . 0.4 . 0.4 . 0.4 . 0.4 . 0.4}) ] raise: Error.
 ]
 
 { #category : 'tests' }
@@ -61,16 +62,19 @@ BoardTest >> test007WhenBoardIsCreatedThenEachPositionHasASquare [
 { #category : 'tests' }
 BoardTest >> test008WhenProbabilityFallsInMoonWalkRangeThenMoonWalkUsesGeneratedDistance [
 
-	| loadedProbability effect shipThatLands otherShip |
+	| loadedProbability effect shipThatLands otherShip cardProvider |
 	loadedProbability := LoadedRandomProvider
+	
 		with: 0.85
 		andMoonWalkDistance: 2.
 
 	board := Board withSize: 1  andParsecLength: 1 using: loadedProbability.
 	effect := board effectAt: 1.
-
-	shipThatLands := Ship named: 'Walter'.
-	otherShip := Ship named: 'Danny'.
+	
+	cardProvider := CardProvider new.
+	
+	shipThatLands := Ship named: 'Walter' using: cardProvider.
+	otherShip := Ship named: 'Danny'using: cardProvider.
 	otherShip moveBy: 4.
 
 	effect applyTo: shipThatLands withShips: { shipThatLands. otherShip }.
@@ -92,8 +96,8 @@ BoardTest >> test009WhenTwoMoonWalkSquaresAreGeneratedThenEachUsesADifferentGene
 	firstEffect := board effectAt: 1.
 	secondEffect := board effectAt: 2.
 
-	shipThatLands := Ship named: 'Walter'.
-	otherShip := Ship named: 'Danny'.
+	shipThatLands := Ship named: 'Walter' using: CardProvider new.
+	otherShip := Ship named: 'Danny' using: CardProvider new.
 	otherShip moveBy: 10.
 
 	firstEffect applyTo: shipThatLands withShips: { shipThatLands. otherShip }.
@@ -115,7 +119,7 @@ BoardTest >> test010WhenProbabilityFallsInHyperJumpRangeThenHyperJumpUsesGenerat
 	board := Board withSize: 1 andParsecLength: 1 using: loadedRandomProvider.
 	effect := board effectAt: 1.
 
-	ship := Ship named: 'Walter'.
+	ship := Ship named: 'Walter' using: CardProvider new.
 
 	effect applyTo: ship withShips: { ship }.
 
@@ -152,14 +156,14 @@ BoardTest >> test012WhenBoardGeneratesConfigurableEffectsThenEachUsesItsGenerate
 	moonWalkEffect := board effectAt: 1.
 	hyperJumpEffect := board effectAt: 2.
 
-	shipThatLands := Ship named: 'Walter'.
-	otherShip := Ship named: 'Danny'.
+	shipThatLands := Ship named: 'Walter' using: CardProvider new.
+	otherShip := Ship named: 'Danny' using: CardProvider new.
 	otherShip moveBy: 5.
 
 	moonWalkEffect applyTo: shipThatLands withShips: { shipThatLands. otherShip }.
 	self assert: otherShip position equals: 3.
 
-	jumpingShip := Ship named: 'Lisa'.
+	jumpingShip := Ship named: 'Lisa' using: CardProvider new.
 	hyperJumpEffect applyTo: jumpingShip withShips: { jumpingShip }.
 	self assert: jumpingShip position equals: 21.
 ]
@@ -177,8 +181,8 @@ BoardTest >> test013WhenTwoHyperJumpSquaresAreGeneratedThenEachUsesDifferentGene
 	firstHyperJump := board effectAt: 1.
 	secondHyperJump := board effectAt: 2.
 
-	firstShip := Ship named: 'Walter'.
-	secondShip := Ship named: 'Danny'.
+	firstShip := Ship named: 'Walter' using: CardProvider new.
+	secondShip := Ship named: 'Danny' using: CardProvider new.
 
 	firstHyperJump applyTo: firstShip withShips: { firstShip }.
 	secondHyperJump applyTo: secondShip withShips: { secondShip }.
@@ -197,4 +201,50 @@ BoardTest >> test014WhenBoardIsCreatedWithRandomProviderThenAllSquaresHaveAnEffe
 
 	1 to: board numSquares do: [ :position |
 		self deny: (board effectAt: position) isNil ].
+]
+
+{ #category : 'tests' }
+BoardTest >> test015WhenBoardIsAskLengthInLightYearsThenParsecConversionIsCorrect [
+	|loadedRandomProvider|
+	loadedRandomProvider := LoadedRandomProvider
+		with: 0.95
+		andHyperJumpValues: #(5 10 2). "los tiene que ordenar"
+
+	board := Board withSize: 1 andParsecLength: 12 using: loadedRandomProvider.
+	self assert: board lightSize equals: 36.
+]
+
+{ #category : 'tests' }
+BoardTest >> test016WhenBoardIsCreatedWithParsecsUnitThenParsecPerSquareIsCorrect [
+    board := Board withSize: 6 length: 3 unit: Parsec using:
+        (LoadedRandomProvider withProbabilities: #(0.1 0.1 0.1 0.1 0.1 0.1)).
+    self assert: board parsecPerSquare equals: 1/2.
+]
+
+{ #category : 'tests' }
+BoardTest >> test017WhenBoardIsCreatedWithLightYearUnitThenParsecPerSquareAndLightSizeAreCorrect [
+    board := Board withSize: 6 length: 9 unit: LightYear using:
+        (LoadedRandomProvider withProbabilities: #(0.1 0.1 0.1 0.1 0.1 0.1)).
+    self assert: board parsecPerSquare equals: 1/2.
+    self assert: board lightSize equals: 9.
+]
+
+{ #category : 'tests' }
+BoardTest >> test018WhenHyperJumpValuesAreInParsecsWithUnitThenShipMovesCorrectly [
+    | provider ship |
+    provider := LoadedRandomProvider with: 0.95 andHyperJumpValues: #(5 10 2) unit: Parsec.
+    board := Board withSize: 1 length: 1 unit: Parsec using: provider.
+    ship := Ship named: 'Walter' using: CardProvider new.
+    (board effectAt: 1) applyTo: ship withShips: { ship }.
+    self assert: ship position equals: 11.
+]
+
+{ #category : 'tests' }
+BoardTest >> test019WhenHyperJumpValuesAreInLightYearsThenConversionIsCorrect [
+    | provider  ship |
+    provider := LoadedRandomProvider with: 0.95 andHyperJumpValues: #(9 6 3) unit: LightYear.
+    board := Board withSize: 1 length: 1 unit: Parsec using: provider.
+    ship := Ship named: 'Walter' using: CardProvider new.
+    (board effectAt: 1) applyTo: ship withShips: { ship }.
+    self assert: ship position equals: 4.
 ]

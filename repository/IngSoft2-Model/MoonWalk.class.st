@@ -1,6 +1,6 @@
 Class {
 	#name : 'MoonWalk',
-	#superclass : 'Object',
+	#superclass : 'Effect',
 	#instVars : [
 		'numSquares'
 	],
@@ -10,6 +10,7 @@ Class {
 
 { #category : 'as yet unclassified' }
 MoonWalk class >> with: aNumber [
+aNumber <= 0 ifTrue: [ Error signal: 'MoonWalk distance must be greater than 0' ].
 	^self new initializeWith: aNumber.
 ]
 

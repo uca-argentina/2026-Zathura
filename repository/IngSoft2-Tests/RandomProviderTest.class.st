@@ -58,3 +58,11 @@ RandomProviderTest >> test005WhenRandomProviderIsCreatedWithHyperJumpThenTheValu
 	values := randomProvider nextHyperJumpValues.
 	self assert: values equals: (values sort: [ :a :b | a > b ]).
 ]
+
+{ #category : 'tests' }
+RandomProviderTest >> test006WhenCreatedWithNonPositiveMaxMoonWalkDistanceThenShouldThrowError [
+	self should: [ RandomProvider withMaxMoonWalkDistance: 0 ]
+	raise: Error
+	withExceptionDo: [ :anError | self assert: anError messageText equals: 'Max MoonWalk distance must be greater than 0' ]
+
+]

@@ -11,6 +11,7 @@ Class {
 
 { #category : 'instance creation' }
 RandomProvider class >> withMaxMoonWalkDistance: aMaxDistance [
+aMaxDistance <= 0 ifTrue: [ Error signal: 'Max MoonWalk distance must be greater than 0' ].
 	^ self new initializeMaxMoonWalkDistance: aMaxDistance.
 ]
 
@@ -23,6 +24,11 @@ RandomProvider >> initializeMaxMoonWalkDistance: aMaxDistance [
 { #category : 'initialization' }
 RandomProvider >> nextEffectProbability [
 	^ random next.
+]
+
+{ #category : 'initialization' }
+RandomProvider >> nextHyperJumpUnit [
+    ^ Parsec.
 ]
 
 { #category : 'initialization' }

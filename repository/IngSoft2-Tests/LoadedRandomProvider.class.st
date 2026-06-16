@@ -7,7 +7,8 @@ Class {
 		'moonWalkDistances',
 		'moonWalkDistanceIndex',
 		'hyperJumpValuesLists',
-		'hyperJumpValuesIndex'
+		'hyperJumpValuesIndex',
+		'hyperJumpUnit'
 	],
 	#classInstVars : [
 		'probabilities',
@@ -20,66 +21,103 @@ Class {
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> with: aProbability [
-    ^ (self new) initializeWithProbabilities: { aProbability } andMoonWalkDistances: #() andHyperJumpValuesLists: #().
+
+	^ self
+		withProbabilities: { aProbability }
+		andMoonWalkDistances: #()
+		andHyperJumpValues: #()
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> with: aProbability andHyperJumpValues: someValues [
-	^ self new
-        initializeWithProbabilities: { aProbability }
-        andMoonWalkDistances: #()
-        andHyperJumpValuesLists: { someValues }
+
+	^ self
+		withProbabilities: { aProbability }
+		andMoonWalkDistances: #()
+		andHyperJumpValues: { someValues }
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
-LoadedRandomProvider class >> with: aProbability andMoonWalkDistance: aDistance [ 
-	 ^ self new
-        initializeWithProbabilities: { aProbability }
-        andMoonWalkDistances: { aDistance }
-        andHyperJumpValuesLists: #()
+LoadedRandomProvider class >> with: aProbability andHyperJumpValues: someValues unit: aUnit [
+
+	^ self
+		withProbabilities: { aProbability }
+		andMoonWalkDistances: #()
+		andHyperJumpValues: { someValues }
+		unit: aUnit
+]
+
+{ #category : 'instance creation' }
+LoadedRandomProvider class >> with: aProbability andMoonWalkDistance: aDistance [
+
+	^ self
+		withProbabilities: { aProbability }
+		andMoonWalkDistances: { aDistance }
+		andHyperJumpValues: #()
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> withProbabilities: aProbabilityList [
-    ^ (self new) initializeWithProbabilities:  aProbabilityList  andMoonWalkDistances: #() andHyperJumpValuesLists: #().
+
+	^ self
+		withProbabilities: aProbabilityList
+		andMoonWalkDistances: #()
+		andHyperJumpValues: #()
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> withProbabilities: someProbabilities andHyperJumpValuesLists: someHyperJumpValuesLists [
-	^ self new
-        initializeWithProbabilities: someProbabilities
-        andMoonWalkDistances: #()
-        andHyperJumpValuesLists: someHyperJumpValuesLists
+
+	^ self
+		withProbabilities: someProbabilities
+		andMoonWalkDistances: #()
+		andHyperJumpValues: someHyperJumpValuesLists
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDistances: someDistances [
- ^ self new
-        initializeWithProbabilities: someProbabilities
-        andMoonWalkDistances: someDistances
-        andHyperJumpValuesLists: #()
+
+	^ self
+		withProbabilities: someProbabilities
+		andMoonWalkDistances: someDistances
+		andHyperJumpValues: #()
+		unit: Parsec
 ]
 
 { #category : 'instance creation' }
 LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValues: someHyperJumpValuesLists [
-	^ self new
-        initializeWithProbabilities: someProbabilities
-        andMoonWalkDistances: someDistances
-        andHyperJumpValuesLists: someHyperJumpValuesLists
+
+	^ self
+		withProbabilities: someProbabilities
+		andMoonWalkDistances: someDistances
+		andHyperJumpValues: someHyperJumpValuesLists
+		unit: Parsec
 ]
 
-{ #category : 'initialization' }
-LoadedRandomProvider >> initializeWithProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValuesLists: someValues [
-	
-	probabilities := someProbabilities.
-	probabilityIndex := 1.
-	moonWalkDistances := someDistances.
-	moonWalkDistanceIndex := 1.
-	hyperJumpValuesLists :=  someValues .
-	hyperJumpValuesIndex := 1.
-	
-	
-	
+{ #category : 'instance creation' }
+LoadedRandomProvider class >> withProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValues: someHyperJumpValuesLists unit: aUnit [
+
+	^ self new
+		initializeWithProbabilities: someProbabilities
+		andMoonWalkDistances: someDistances
+		andHyperJumpValuesLists: someHyperJumpValuesLists
+		andHyperJumpUnit: aUnit
+]
+
+{ #category : 'accessing' }
+LoadedRandomProvider >> initializeWithProbabilities: someProbabilities andMoonWalkDistances: someDistances andHyperJumpValuesLists: someValues andHyperJumpUnit: aUnit [
+    probabilities := someProbabilities.
+    probabilityIndex := 1.
+    moonWalkDistances := someDistances.
+    moonWalkDistanceIndex := 1.
+    hyperJumpValuesLists := someValues.
+    hyperJumpValuesIndex := 1.
+    hyperJumpUnit := aUnit.
 ]
 
 { #category : 'accessing' }
@@ -88,6 +126,11 @@ LoadedRandomProvider >> nextEffectProbability [
 	value := probabilities at: probabilityIndex.
 	probabilityIndex := probabilityIndex + 1.
 	^ value
+]
+
+{ #category : 'accessing' }
+LoadedRandomProvider >> nextHyperJumpUnit [
+    ^ hyperJumpUnit.
 ]
 
 { #category : 'accessing' }

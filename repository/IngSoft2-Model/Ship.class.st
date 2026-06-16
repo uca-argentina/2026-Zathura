@@ -4,15 +4,16 @@ Class {
 	#instVars : [
 		'position',
 		'name',
-		'lap'
+		'lap',
+		'cardsCollection'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-Ship class >> named: aName [
-	^ self new initializeAs: aName.
+Ship class >> named: aName using: aProvider [
+	^ self new initializeAs: aName using: aProvider.
 ]
 
 { #category : 'accessing' }
@@ -20,9 +21,29 @@ Ship >> = aShip [
 	^ aShip areYou:name.
 ]
 
+{ #category : 'adding' }
+Ship >> addCard: aCard [
+	cardsCollection add: aCard
+]
+
 { #category : 'accessing' }
 Ship >> areYou: aName [
 	^ name = aName.
+]
+
+{ #category : 'adding' }
+Ship >> cardOfClass: aCardClass [
+	^ cardsCollection  detect: [ :card | card class = aCardClass ] ifNone: [ nil ].
+]
+
+{ #category : 'accessing' }
+Ship >> cards [
+	^cardsCollection 
+]
+
+{ #category : 'accessing' }
+Ship >> cardsSize [
+	^ cardsCollection size.
 ]
 
 { #category : 'accessing' }
@@ -36,11 +57,25 @@ Ship >> handleLapsFor: aBoardSize [
    position := ((position - 1) \\ aBoardSize) + 1
 ]
 
+{ #category : 'testing' }
+Ship >> hasCard: aCard [
+	^ cardsCollection includes: aCard.
+]
+
+{ #category : 'accessing' }
+Ship >> hash [ 
+	^ name hash
+
+]
+
 { #category : 'initialization' }
-Ship >> initializeAs: aName [
+Ship >> initializeAs: aName using: aProvider [
 	name := aName.
 	position := 1.
 	lap:=0.
+	cardsCollection := OrderedCollection new.
+	2 timesRepeat: [ cardsCollection add: (Card fromProbability: aProvider nextCardProbability) ].
+	
 ]
 
 { #category : 'accessing' }
@@ -75,6 +110,11 @@ Ship >> position [
 { #category : 'accessing' }
 Ship >> progressIn: aBoardSize [
     ^ (lap * aBoardSize) + position
+]
+
+{ #category : 'removing' }
+Ship >> removeCard: aCard [
+	cardsCollection remove: aCard.
 ]
 
 { #category : 'accessing' }
